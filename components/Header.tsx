@@ -10,48 +10,51 @@ export function Header() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-200/70 bg-white/90 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/80">
       <nav className="container-custom" aria-label="Main navigation">
-        <div className="flex h-20 items-center justify-between">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center space-x-2 rounded-md focus-visible:outline-offset-4">
-              <span className="text-2xl font-bold tracking-tight text-primary-700">{siteConfig.name}</span>
+        <div className="flex h-14 items-center justify-between gap-3 sm:h-16 sm:gap-4">
+          <div className="min-w-0 shrink">
+            <Link
+              href="/"
+              className="block rounded-md focus-visible:outline-offset-4"
+            >
+              <span className="block text-sm font-bold leading-snug tracking-tight text-primary-700 sm:text-base lg:text-lg">
+                {siteConfig.name}
+              </span>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-2">
-            {siteConfig.navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                aria-current={pathname === item.href ? 'page' : undefined}
-                className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-offset-4 ${
-                  pathname === item.href
-                    ? 'bg-primary-50 text-primary-700'
-                    : 'text-neutral-700 hover:bg-neutral-50 hover:text-primary-700'
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-
-          {/* CTA Buttons - Desktop */}
-          <div className="hidden lg:flex lg:items-center">
-            <Link href="/appointments" className="btn-primary">
-              Schedule Now
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="hidden min-w-0 flex-1 items-center justify-end gap-1 lg:flex xl:gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-0.5 xl:flex-nowrap xl:gap-1">
+              {siteConfig.navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  aria-current={pathname === item.href ? 'page' : undefined}
+                  className={`whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-offset-4 xl:px-2.5 xl:text-sm ${
+                    pathname === item.href
+                      ? 'bg-primary-50 text-primary-700'
+                      : 'text-neutral-600 hover:bg-neutral-50 hover:text-primary-700'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+            <Link
+              href="/appointments"
+              className="ml-1 inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg bg-primary-600 px-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 xl:px-4 xl:text-sm"
+            >
+              Schedule
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
           </div>
 
-          {/* Mobile menu button */}
           <button
             type="button"
-            className="rounded-md p-2 text-neutral-700 hover:text-primary-700 lg:hidden"
+            className="-mr-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-neutral-700 hover:bg-neutral-100 hover:text-primary-700 lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
             aria-label="Toggle navigation menu"
@@ -68,28 +71,31 @@ export function Header() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="border-t border-neutral-200 py-4 lg:hidden">
-            <div className="flex flex-col space-y-4">
+          <div className="max-h-[min(70vh,28rem)] overflow-y-auto border-t border-neutral-200 py-3 lg:hidden">
+            <div className="flex flex-col gap-0.5">
               {siteConfig.navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`rounded-lg px-3 py-2 text-base font-medium ${
+                  className={`rounded-lg px-3 py-2.5 text-sm font-medium ${
                     pathname === item.href
                       ? 'bg-primary-50 text-primary-700'
-                      : 'text-neutral-700 hover:bg-neutral-50 hover:text-primary-700'
+                      : 'text-neutral-700 hover:bg-neutral-50'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="border-t border-neutral-200 pt-4">
-                <Link href="/appointments" className="btn-primary w-full">
+              <div className="mt-3 border-t border-neutral-100 pt-3">
+                <Link
+                  href="/appointments"
+                  className="btn-primary w-full justify-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Schedule Now
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>

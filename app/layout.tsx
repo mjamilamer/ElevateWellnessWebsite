@@ -17,7 +17,13 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: ['orthopedic', 'medical practice', 'healthcare', 'appointments', 'physicians'],
+  keywords: [
+    'health and wellness',
+    'wellness clinic',
+    'healthcare',
+    'appointments',
+    'Elevate Health & Wellness',
+  ],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   alternates: {
@@ -58,18 +64,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} h-full`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex min-h-dvh flex-col">
         <GoogleAnalytics />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 btn-primary">
           Skip to main content
         </a>
         <Header />
-        <main id="main-content" className="flex-1">
+        <main id="main-content" className="min-h-0 flex-1">
           {children}
         </main>
         <Footer />

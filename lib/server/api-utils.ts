@@ -31,35 +31,6 @@ export function containsPotentialPHI(text: string): boolean {
   return phiKeywords.some((keyword) => lowerText.includes(keyword))
 }
 
-export async function verifyCalSignature(
-  body: string,
-  signature: string | null,
-  secret: string
-): Promise<boolean> {
-  if (!signature || !secret) return false
-  const encoder = new TextEncoder()
-  const key = await crypto.subtle.importKey(
-    'raw',
-    encoder.encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign']
-  )
-  const mac = await crypto.subtle.sign('HMAC', key, encoder.encode(body))
-  const expectedHex = Array.from(new Uint8Array(mac))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('')
-  const normalized = signature.replace(/^sha256=/i, '').trim().toLowerCase()
-  if (!/^[0-9a-f]{64}$/.test(normalized) || !/^[0-9a-f]{64}$/.test(expectedHex)) {
-    return false
-  }
-  try {
-    return timingSafeEqual(Buffer.from(expectedHex, 'hex'), Buffer.from(normalized, 'hex'))
-  } catch {
-    return false
-  }
-}
-
 /**
  * Admin API: set ADMIN_API_TOKEN to a long random string; send Authorization: Bearer <token>.
  */

@@ -1,7 +1,10 @@
 export const siteConfig = {
-  name: 'AmerMed Orthopedics',
-  description: 'Personalized orthopedic care that gets you moving again. Book a convenient appointment—no referral required.',
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://amermed.com',
+  name: 'Elevate Health & Wellness',
+  /** Use for copyright, legal footers, and structured data where the legal entity is required. */
+  legalName: 'Elevate Health & Wellness, LLC',
+  description:
+    'Personalized health and wellness care to help you feel your best. Schedule a convenient visit—no referral required.',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://elevatedhealthwellness.com',
   
   contact: {
     phone: '+1 (000) 000-0000',
@@ -26,10 +29,10 @@ export const siteConfig = {
   },
 
   social: {
-    facebook: 'https://facebook.com/amermed',
-    twitter: 'https://twitter.com/amermed',
-    linkedin: 'https://linkedin.com/company/amermed',
-    instagram: 'https://instagram.com/amermed',
+    facebook: 'https://facebook.com/elevatedhealthwellness',
+    twitter: 'https://twitter.com/elevatedhealthwellness',
+    linkedin: 'https://linkedin.com/company/elevatedhealthwellness',
+    instagram: 'https://instagram.com/elevatedhealthwellness',
   },
 
   /** Set real coordinates for LocalBusiness JSON-LD (better local SEO). */

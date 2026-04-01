@@ -111,7 +111,7 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-neutral-700">
           <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
             <p className="text-sm text-neutral-400">
-              &copy; {currentYear} {siteConfig.name}. All rights reserved.
+              &copy; {currentYear} {siteConfig.legalName}. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <Link href="/privacy" className="text-neutral-400 hover:text-white transition-colors">

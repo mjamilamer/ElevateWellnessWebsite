@@ -1,6 +1,6 @@
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
-import { CalEmbed } from '@/components/CalEmbed'
+import { SchedulingPlaceholder } from '@/components/SchedulingPlaceholder'
 import { ContactForm } from '@/components/ContactForm'
 import { pageMetadata } from '@/lib/seo'
 
@@ -18,20 +18,20 @@ export default function AppointmentsPage() {
         title="Schedule Your Appointment"
         description="Choose a convenient time that works for you. We'll confirm your appointment within 24 hours."
         highlights={[
-          'Online booking with real-time availability',
-          'Manual request option if preferred slots are unavailable',
+          'Online scheduling coming soon—call or use the form today',
+          'Manual request for your preferred day and time',
           'Non-PHI intake design for safer scheduling',
         ]}
       />
 
-      {/* Cal.com Embed Section */}
+      {/* Online scheduling region (embed integration planned) */}
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="max-w-5xl mx-auto">
             <SectionHeader
               title="Book Online"
-              subtitle="Instant Scheduling"
-              description="Select your preferred provider and available time slot. Your appointment will be confirmed immediately."
+              subtitle="Scheduling"
+              description="Self-service booking will be available here soon. Until then, request an appointment using the form below or call our office."
               centered
             />
 
@@ -42,12 +42,8 @@ export default function AppointmentsPage() {
               </p>
             </div>
 
-            {/* Cal.com Embed */}
             <div className="mt-12">
-              <CalEmbed 
-                calLink="your-practice/consultation" 
-                className="w-full"
-              />
+              <SchedulingPlaceholder className="w-full" />
             </div>
           </div>
         </div>

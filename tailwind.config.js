@@ -49,7 +49,7 @@ module.exports = {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       fontSize: {
-        base: ['1.125rem', { lineHeight: '1.75rem' }], // 18px base
+        base: ['1rem', { lineHeight: '1.6rem' }],
       },
       spacing: {
         '128': '32rem',

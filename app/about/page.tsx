@@ -6,7 +6,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/about', {
   title: 'About Us',
   description:
-    'Learn about our practice, our mission, and our commitment to providing exceptional orthopedic care.',
+    'Learn about Elevate Health & Wellness, our mission, and our commitment to exceptional health and wellness care.',
 })
 
 export default function AboutPage() {
@@ -35,9 +35,9 @@ export default function AboutPage() {
 
             <div className="surface-card mt-8 p-6 md:p-8 prose prose-lg max-w-none">
               <p>
-                Founded in 2005, AmerMed Orthopedics has been serving our community with 
-                state-of-the-art orthopedic care for nearly two decades. What started as a 
-                single-physician practice has grown into a comprehensive orthopedic center 
+                Founded in 2005, Elevate Health & Wellness, LLC has been serving our community with 
+                state-of-the-art care for nearly two decades. What started as a 
+                single-provider practice has grown into a comprehensive health and wellness center 
                 with multiple specialists, all committed to one goal: helping you get back 
                 to the activities you love.
               </p>
@@ -195,7 +195,7 @@ export default function AboutPage() {
 
       {/* CTA */}
       <CTASection
-        title="Experience the AmerMed Difference"
+        title="Experience the Elevate Health & Wellness Difference"
         description="Join thousands of patients who have trusted us with their orthopedic care."
         primaryCTA={{
           text: 'Schedule Consultation',

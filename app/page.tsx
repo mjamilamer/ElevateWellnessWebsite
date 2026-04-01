@@ -12,7 +12,13 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata: Metadata = pageMetadata('/', {
   title: siteConfig.name,
   description: siteConfig.description,
-  keywords: ['orthopedic', 'medical practice', 'healthcare', 'appointments', 'physicians'],
+  keywords: [
+    'health and wellness',
+    'wellness clinic',
+    'healthcare',
+    'appointments',
+    'Elevate Health & Wellness',
+  ],
 })
 
 export default function HomePage() {
@@ -20,12 +26,12 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <Hero
-        subtitle="Orthopedic Excellence"
-        title="Personalized orthopedic care that gets you moving again"
-        description="Board-certified specialists, evidence-based treatment plans, and a streamlined appointment experience for busy patients."
+        subtitle="Health & Wellness"
+        title="Personalized care that helps you feel your best"
+        description="Experienced providers, evidence-based plans, and a streamlined appointment experience for busy patients."
         highlights={[
-          'Board-certified specialists with outcomes-focused care plans',
-          'Same-week availability for most non-emergency appointments',
+          'Providers focused on your goals and long-term wellness',
+          'Same-week availability for many non-emergency visits',
           'Most major insurance accepted with pre-visit verification support',
         ]}
         primaryCTA={{
@@ -44,7 +50,7 @@ export default function HomePage() {
           <div className="surface-card grid grid-cols-1 gap-4 p-6 text-center md:grid-cols-3 md:p-8">
             <div>
               <p className="text-3xl font-bold tracking-tight text-primary-700">20+ years</p>
-              <p className="text-sm leading-relaxed text-neutral-600">Orthopedic clinical leadership</p>
+              <p className="text-sm leading-relaxed text-neutral-600">Clinical leadership in health & wellness</p>
             </div>
             <div>
               <p className="text-3xl font-bold tracking-tight text-primary-700">Same-week</p>
@@ -63,7 +69,7 @@ export default function HomePage() {
         <div className="container-custom">
           <SectionHeader
             subtitle="Specialty Programs"
-            title="High-precision care across core orthopedic conditions"
+            title="High-quality care across core health and wellness needs"
             description="Targeted programs built around outcomes, recovery time, and long-term mobility."
             centered
           />
@@ -177,7 +183,7 @@ export default function HomePage() {
         <div className="container-custom">
           <SectionHeader
             subtitle="Clinical Team"
-            title="Specialists trusted for complex orthopedic care"
+            title="Providers trusted for thoughtful, comprehensive care"
             description="Experienced physicians focused on precision, communication, and long-term mobility outcomes."
             centered
           />
