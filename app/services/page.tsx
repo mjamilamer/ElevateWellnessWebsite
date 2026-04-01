@@ -7,7 +7,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/services', {
   title: 'Our Services',
   description:
-    'Comprehensive orthopedic services including joint replacement, sports medicine, spine care, and more.',
+    'Elevate Wellness & Health offers joint replacement, sports medicine, spine care, therapy, pain management, and more.',
 })
 
 export default function ServicesPage() {
@@ -15,12 +15,12 @@ export default function ServicesPage() {
     <>
       <Hero
         subtitle="Clinical Programs"
-        title="Comprehensive Orthopedic Services"
-        description="From diagnosis to recovery, we provide expert treatment for all musculoskeletal conditions."
+        title="Comprehensive Wellness & Clinical Services"
+        description="From evaluation to recovery, Elevate Wellness & Health offers expert care for musculoskeletal and related conditions."
         highlights={[
           'Non-operative and surgical options based on evidence and goals',
           'Recovery-first planning with clear milestones',
-          'Specialists aligned to complex orthopedic conditions',
+          'Specialists aligned to complex musculoskeletal needs',
         ]}
         primaryCTA={{
           text: 'Schedule Consultation',
@@ -34,7 +34,7 @@ export default function ServicesPage() {
           <SectionHeader
             title="Our Specialties"
             subtitle="Expert Care"
-            description="We offer a full range of orthopedic services using the latest techniques and technology."
+            description="We offer a full range of services using modern techniques and technology—all under Elevate Wellness & Health."
             centered
           />
 

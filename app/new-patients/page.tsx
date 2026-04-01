@@ -8,7 +8,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/new-patients', {
   title: 'New Patients',
   description:
-    'Information for new patients including what to expect, insurance, billing, and frequently asked questions.',
+    'New patient information for Elevate Wellness & Health—what to expect, insurance, billing, and FAQs.',
 })
 
 export default function NewPatientsPage() {
@@ -214,7 +214,7 @@ export default function NewPatientsPage() {
             <div className="surface-card mt-12 divide-y divide-neutral-200 p-6">
               <FAQItem
                 question="Do I need a referral to schedule an appointment?"
-                answer="In most cases, you do not need a referral to see our orthopedic specialists. However, some insurance plans require referrals for specialist visits. Please check with your insurance provider to confirm their requirements."
+                answer="In most cases, you do not need a referral to see our specialists at Elevate Wellness & Health. However, some insurance plans require referrals for specialist visits. Please check with your insurance provider to confirm their requirements."
               />
               <FAQItem
                 question="How long will my first appointment take?"
@@ -234,7 +234,7 @@ export default function NewPatientsPage() {
               />
               <FAQItem
                 question="Do you offer same-day appointments for urgent issues?"
-                answer="Yes, we reserve appointment slots for urgent orthopedic issues. Call our office, and we'll do our best to accommodate you the same day or next day."
+                answer="Yes, we reserve appointment slots for urgent musculoskeletal issues. Call our office, and we'll do our best to accommodate you the same day or next day."
               />
               <FAQItem
                 question="What if I need to cancel or reschedule?"

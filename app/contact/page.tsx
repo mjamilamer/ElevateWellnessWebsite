@@ -8,7 +8,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/contact', {
   title: 'Contact Us',
   description:
-    "Get in touch with our team. Call, email, or send us a message and we'll respond promptly.",
+    "Contact Elevate Wellness & Health—call, email, or message us and we'll respond promptly.",
 })
 
 export default function ContactPage() {

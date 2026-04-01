@@ -14,7 +14,7 @@ export const servicePages: ServicePage[] = [
     slug: 'joint-replacement',
     title: 'Joint Replacement',
     metaDescription:
-      'Hip, knee, and shoulder replacement with modern techniques and recovery-focused care at Elevated Health & Wellness.',
+      'Hip, knee, and shoulder replacement with modern techniques and recovery-focused care at Elevate Wellness & Health.',
     summary:
       'Restore mobility with advanced joint replacement options tailored to your goals and lifestyle.',
     intro:
@@ -36,7 +36,7 @@ export const servicePages: ServicePage[] = [
       'hip replacement',
       'knee replacement',
       'shoulder replacement',
-      'orthopedics',
+      'Elevate Wellness & Health',
     ],
   },
   {

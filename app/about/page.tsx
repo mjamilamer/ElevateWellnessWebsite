@@ -6,7 +6,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/about', {
   title: 'About Us',
   description:
-    'Learn about Elevate Health & Wellness, our mission, and our commitment to exceptional health and wellness care.',
+    'Learn about Elevate Wellness & Health, our mission, and our commitment to exceptional wellness & health care.',
 })
 
 export default function AboutPage() {
@@ -14,8 +14,8 @@ export default function AboutPage() {
     <>
       <Hero
         subtitle="Who We Are"
-        title="About Our Practice"
-        description="Dedicated to providing compassionate, expert orthopedic care that helps you live your best life."
+        title="About Elevate Wellness & Health"
+        description="Dedicated to compassionate, expert wellness & health care that helps you live your best life."
         highlights={[
           'Evidence-based recommendations tailored to your goals',
           'Collaborative care plans with clear next steps',
@@ -30,14 +30,14 @@ export default function AboutPage() {
             <SectionHeader
               title="Our Story"
               subtitle="Since 2005"
-              description="Building a legacy of excellence in orthopedic care."
+              description="Building a legacy of excellence in wellness & health."
             />
 
             <div className="surface-card mt-8 p-6 md:p-8 prose prose-lg max-w-none">
               <p>
-                Founded in 2005, Elevate Health & Wellness, LLC has been serving our community with 
+                Founded in 2005, Elevate Wellness & Health, LLC has been serving our community with 
                 state-of-the-art care for nearly two decades. What started as a 
-                single-provider practice has grown into a comprehensive health and wellness center 
+                single-provider practice has grown into a comprehensive wellness & health center 
                 with multiple specialists, all committed to one goal: helping you get back 
                 to the activities you love.
               </p>
@@ -195,8 +195,8 @@ export default function AboutPage() {
 
       {/* CTA */}
       <CTASection
-        title="Experience the Elevate Health & Wellness Difference"
-        description="Join thousands of patients who have trusted us with their orthopedic care."
+        title="Experience the Elevate Wellness & Health Difference"
+        description="Join thousands of patients who have trusted us with their wellness & health care."
         primaryCTA={{
           text: 'Schedule Consultation',
           href: '/appointments',

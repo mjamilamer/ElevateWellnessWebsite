@@ -7,7 +7,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/providers', {
   title: 'Our Providers',
   description:
-    'Meet our board-certified orthopedic specialists dedicated to providing expert, compassionate care.',
+    'Meet the Elevate Wellness & Health care team—board-certified specialists dedicated to expert, compassionate care.',
 })
 
 export default function ProvidersPage() {
@@ -16,9 +16,9 @@ export default function ProvidersPage() {
       <Hero
         subtitle="Specialist Physicians"
         title="Meet Our Expert Team"
-        description="Board-certified orthopedic specialists with decades of combined experience dedicated to your care."
+        description="Board-certified specialists with decades of combined experience—here to support your wellness & health goals."
         highlights={[
-          'Subspecialty-focused physicians across major orthopedic domains',
+          'Subspecialty-focused physicians across major clinical domains',
           'Shared treatment planning and coordinated follow-up',
           'Patient-centered communication at each decision point',
         ]}
@@ -60,7 +60,7 @@ export default function ProvidersPage() {
             <ProviderCard
               name="Dr. David Kim"
               title="MD, FAAOS"
-              specialty="Pediatric Orthopedics"
+              specialty="Pediatric musculoskeletal care"
               slug="dr-david-kim"
             />
             <ProviderCard
@@ -120,7 +120,7 @@ export default function ProvidersPage() {
                 </div>
                 <p className="text-neutral-600">
                   Our providers regularly attend conferences and training to stay current with 
-                  the latest advances in orthopedic medicine and surgical techniques.
+                  the latest advances in musculoskeletal care and surgical techniques.
                 </p>
               </div>
 
@@ -137,7 +137,7 @@ export default function ProvidersPage() {
                 </div>
                 <p className="text-neutral-600">
                   Our team includes faculty members and published researchers who contribute 
-                  to advancing the field of orthopedic medicine.
+                  to advancing the field of musculoskeletal and wellness medicine.
                 </p>
               </div>
 
@@ -165,7 +165,7 @@ export default function ProvidersPage() {
       {/* CTA */}
       <CTASection
         title="Ready to Meet Your Provider?"
-        description="Schedule a consultation with one of our expert orthopedic specialists today."
+        description="Schedule a consultation with an Elevate Wellness & Health specialist today."
         primaryCTA={{
           text: 'Schedule Appointment',
           href: '/appointments',

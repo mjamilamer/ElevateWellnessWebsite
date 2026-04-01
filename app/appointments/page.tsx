@@ -7,7 +7,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/appointments', {
   title: 'Schedule Appointment',
   description:
-    'Book your appointment online or request a preferred time. Fast, convenient scheduling with no referral required.',
+    'Request an appointment with Elevate Wellness & Health online or by phone—convenient scheduling with no referral required.',
 })
 
 export default function AppointmentsPage() {

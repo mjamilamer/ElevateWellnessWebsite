@@ -18,11 +18,11 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    'health and wellness',
+    'Elevate Wellness & Health',
+    'wellness & health',
     'wellness clinic',
     'healthcare',
     'appointments',
-    'Elevate Health & Wellness',
   ],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,

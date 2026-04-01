@@ -6,14 +6,15 @@ import { pageMetadata } from '@/lib/seo'
 
 export const metadata = pageMetadata('/locations', {
   title: 'Locations',
-  description: 'Find our office locations, hours of operation, and parking information.',
+  description:
+    'Find Elevate Wellness & Health office locations, hours of operation, and parking information.',
 })
 
 export default function LocationsPage() {
   return (
     <>
       <Hero
-        subtitle="Visit Our Clinic"
+        subtitle="Elevate Wellness & Health"
         title="Our Locations"
         description="Convenient locations to serve you better. Find the office nearest to you."
         highlights={[

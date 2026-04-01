@@ -13,11 +13,11 @@ export const metadata: Metadata = pageMetadata('/', {
   title: siteConfig.name,
   description: siteConfig.description,
   keywords: [
-    'health and wellness',
+    'Elevate Wellness & Health',
+    'wellness & health',
     'wellness clinic',
     'healthcare',
     'appointments',
-    'Elevate Health & Wellness',
   ],
 })
 
@@ -26,7 +26,7 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <Hero
-        subtitle="Health & Wellness"
+        subtitle="Wellness & Health"
         title="Personalized care that helps you feel your best"
         description="Experienced providers, evidence-based plans, and a streamlined appointment experience for busy patients."
         highlights={[
@@ -50,7 +50,7 @@ export default function HomePage() {
           <div className="surface-card grid grid-cols-1 gap-4 p-6 text-center md:grid-cols-3 md:p-8">
             <div>
               <p className="text-3xl font-bold tracking-tight text-primary-700">20+ years</p>
-              <p className="text-sm leading-relaxed text-neutral-600">Clinical leadership in health & wellness</p>
+              <p className="text-sm leading-relaxed text-neutral-600">Clinical leadership in wellness & health</p>
             </div>
             <div>
               <p className="text-3xl font-bold tracking-tight text-primary-700">Same-week</p>

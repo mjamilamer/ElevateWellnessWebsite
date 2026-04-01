@@ -1,10 +1,10 @@
 export const siteConfig = {
-  name: 'Elevate Health & Wellness',
+  name: 'Elevate Wellness & Health',
   /** Use for copyright, legal footers, and structured data where the legal entity is required. */
-  legalName: 'Elevate Health & Wellness, LLC',
+  legalName: 'Elevate Wellness & Health, LLC',
   description:
-    'Personalized health and wellness care to help you feel your best. Schedule a convenient visit—no referral required.',
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://elevatedhealthwellness.com',
+    'Personalized wellness & health care to help you feel your best. Schedule a convenient visit—no referral required.',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://elevatewellnessandhealth.com',
   
   contact: {
     phone: '+1 (000) 000-0000',
@@ -29,10 +29,10 @@ export const siteConfig = {
   },
 
   social: {
-    facebook: 'https://facebook.com/elevatedhealthwellness',
-    twitter: 'https://twitter.com/elevatedhealthwellness',
-    linkedin: 'https://linkedin.com/company/elevatedhealthwellness',
-    instagram: 'https://instagram.com/elevatedhealthwellness',
+    facebook: 'https://facebook.com/elevatewellnessandhealth',
+    twitter: 'https://twitter.com/elevatewellnessandhealth',
+    linkedin: 'https://linkedin.com/company/elevatewellnessandhealth',
+    instagram: 'https://instagram.com/elevatewellnessandhealth',
   },
 
   /** Set real coordinates for LocalBusiness JSON-LD (better local SEO). */
