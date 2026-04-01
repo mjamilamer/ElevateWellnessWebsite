@@ -1,44 +1,71 @@
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
 
-# testing
+# Testing
 /coverage
+*.lcov
 
-# next.js
+# Next.js
 /.next/
 /out/
 
-# production
+# Production
 /build
+/dist
 
-# misc
+# Misc
 .DS_Store
 *.pem
 
-# debug
+# Debug / logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+*.log
 
-# local env files
-.env*.local
+# Environment & secrets (commit templates: env.example and/or .env.example only)
 .env
+.env.*
+!.env.example
+.env*.local
 
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
-next-env.d.ts
 
-# documentation (keep out of git)
+# ESLint / tooling caches
+.eslintcache
+.prettiercache
+.turbo
+
+# IDEs & editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Optional: local SQLite / LibSQL dev files
+*.db
+*.db-shm
+*.db-wal
+
+# Project policy: documentation not committed
 *.md
 
-# common secret file patterns
+# Common secret file patterns
 *.key
 *.p12
 *.pfx
 credentials.json
-
+*.keystore

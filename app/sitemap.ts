@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { siteConfig } from '@/lib/config'
+import { getAllServiceSlugs } from '@/lib/service-content'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.siteUrl
@@ -21,18 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }))
 
-  // Service pages
-  const services = [
-    'joint-replacement',
-    'sports-medicine',
-    'spine-care',
-    'hand-wrist',
-    'foot-ankle',
-    'arthroscopic-surgery',
-    'physical-therapy',
-    'pain-management',
-    'fracture-care',
-  ].map((service) => ({
+  const services = getAllServiceSlugs().map((service) => ({
     url: `${baseUrl}/services/${service}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
