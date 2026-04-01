@@ -1,13 +1,14 @@
-import { Metadata } from 'next'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ProviderCard } from '@/components/ProviderCard'
 import { CTASection } from '@/components/CTASection'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata('/providers', {
   title: 'Our Providers',
-  description: 'Meet our board-certified orthopedic specialists dedicated to providing expert, compassionate care.',
-}
+  description:
+    'Meet our board-certified orthopedic specialists dedicated to providing expert, compassionate care.',
+})
 
 export default function ProvidersPage() {
   return (

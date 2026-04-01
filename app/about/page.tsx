@@ -1,12 +1,13 @@
-import { Metadata } from 'next'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { CTASection } from '@/components/CTASection'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata('/about', {
   title: 'About Us',
-  description: 'Learn about our practice, our mission, and our commitment to providing exceptional orthopedic care.',
-}
+  description:
+    'Learn about our practice, our mission, and our commitment to providing exceptional orthopedic care.',
+})
 
 export default function AboutPage() {
   return (

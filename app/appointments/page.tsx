@@ -1,13 +1,14 @@
-import { Metadata } from 'next'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { CalEmbed } from '@/components/CalEmbed'
 import { ContactForm } from '@/components/ContactForm'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata('/appointments', {
   title: 'Schedule Appointment',
-  description: 'Book your appointment online or request a preferred time. Fast, convenient scheduling with no referral required.',
-}
+  description:
+    'Book your appointment online or request a preferred time. Fast, convenient scheduling with no referral required.',
+})
 
 export default function AppointmentsPage() {
   return (

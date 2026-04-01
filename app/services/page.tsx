@@ -1,13 +1,14 @@
-import { Metadata } from 'next'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ServiceCard } from '@/components/ServiceCard'
 import { CTASection } from '@/components/CTASection'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata('/services', {
   title: 'Our Services',
-  description: 'Comprehensive orthopedic services including joint replacement, sports medicine, spine care, and more.',
-}
+  description:
+    'Comprehensive orthopedic services including joint replacement, sports medicine, spine care, and more.',
+})
 
 export default function ServicesPage() {
   return (

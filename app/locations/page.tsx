@@ -1,13 +1,13 @@
-import { Metadata } from 'next'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { siteConfig } from '@/lib/config'
 import { formatPhone } from '@/lib/utils'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata('/locations', {
   title: 'Locations',
   description: 'Find our office locations, hours of operation, and parking information.',
-}
+})
 
 export default function LocationsPage() {
   return (

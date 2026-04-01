@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
@@ -5,6 +6,14 @@ import { ServiceCard } from '@/components/ServiceCard'
 import { ProviderCard } from '@/components/ProviderCard'
 import { TestimonialCard } from '@/components/TestimonialCard'
 import { CTASection } from '@/components/CTASection'
+import { siteConfig } from '@/lib/config'
+import { pageMetadata } from '@/lib/seo'
+
+export const metadata: Metadata = pageMetadata('/', {
+  title: siteConfig.name,
+  description: siteConfig.description,
+  keywords: ['orthopedic', 'medical practice', 'healthcare', 'appointments', 'physicians'],
+})
 
 export default function HomePage() {
   return (

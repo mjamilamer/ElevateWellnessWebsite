@@ -32,6 +32,12 @@ export const siteConfig = {
     instagram: 'https://instagram.com/amermed',
   },
 
+  /** Set real coordinates for LocalBusiness JSON-LD (better local SEO). */
+  geo: {
+    latitude: '',
+    longitude: '',
+  },
+
   // Insurance providers
   insurance: [
     'Aetna',

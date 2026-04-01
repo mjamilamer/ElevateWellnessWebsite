@@ -3,9 +3,12 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { siteConfig } from '@/lib/config'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
+
+const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -17,6 +20,9 @@ export const metadata: Metadata = {
   keywords: ['orthopedic', 'medical practice', 'healthcare', 'appointments', 'physicians'],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
+  alternates: {
+    canonical: siteConfig.siteUrl.replace(/\/$/, '') || siteConfig.siteUrl,
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -33,7 +39,17 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
 }
 
 export default function RootLayout({
@@ -44,18 +60,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        {/* Preconnect to external resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* Cloudflare Web Analytics */}
-        <script
-          defer
-          src='https://static.cloudflareinsights.com/beacon.min.js'
-          data-cf-beacon='{"token": "YOUR_CF_TOKEN"}'
-        />
       </head>
       <body className="flex flex-col min-h-screen">
+        <GoogleAnalytics />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 btn-primary">
           Skip to main content
         </a>

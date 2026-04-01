@@ -33,13 +33,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# wrangler
-.wrangler/
-.dev.vars
-
-# cloudflare
-.cloudflare/
-
 # documentation (keep out of git)
 *.md
 

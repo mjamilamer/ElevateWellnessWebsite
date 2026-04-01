@@ -1,14 +1,15 @@
-import { Metadata } from 'next'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ContactForm } from '@/components/ContactForm'
 import { siteConfig } from '@/lib/config'
 import { formatPhone } from '@/lib/utils'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata('/contact', {
   title: 'Contact Us',
-  description: 'Get in touch with our team. Call, email, or send us a message and we\'ll respond promptly.',
-}
+  description:
+    "Get in touch with our team. Call, email, or send us a message and we'll respond promptly.",
+})
 
 export default function ContactPage() {
   return (

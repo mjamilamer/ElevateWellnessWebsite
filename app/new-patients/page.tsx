@@ -1,14 +1,15 @@
-import { Metadata } from 'next'
 import Link from 'next/link'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { FAQItem } from '@/components/FAQItem'
 import { siteConfig } from '@/lib/config'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata('/new-patients', {
   title: 'New Patients',
-  description: 'Information for new patients including what to expect, insurance, billing, and frequently asked questions.',
-}
+  description:
+    'Information for new patients including what to expect, insurance, billing, and frequently asked questions.',
+})
 
 export default function NewPatientsPage() {
   return (

@@ -109,7 +109,7 @@ export function generateBreadcrumbSchema(items: Array<{ name: string; url: strin
  * Generate LocalBusiness structured data
  */
 export function generateLocalBusinessSchema() {
-  return {
+  const base = {
     '@context': 'https://schema.org',
     '@type': 'MedicalClinic',
     '@id': `${siteConfig.siteUrl}/#localbusiness`,
@@ -126,11 +126,6 @@ export function generateLocalBusinessSchema() {
       postalCode: siteConfig.contact.address.zip,
       addressCountry: 'US',
     },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '42.3601', // Replace with actual coordinates
-      longitude: '-71.0589', // Replace with actual coordinates
-    },
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -145,5 +140,15 @@ export function generateLocalBusinessSchema() {
         closes: '16:00',
       },
     ],
+  } as Record<string, unknown>
+
+  if (siteConfig.geo.latitude && siteConfig.geo.longitude) {
+    base.geo = {
+      '@type': 'GeoCoordinates',
+      latitude: siteConfig.geo.latitude,
+      longitude: siteConfig.geo.longitude,
+    }
   }
+
+  return base
 }
