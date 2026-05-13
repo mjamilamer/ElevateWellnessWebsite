@@ -33,12 +33,21 @@ export function Hero({
   return (
     <section
       className={cn(
-        'relative overflow-hidden bg-gradient-to-br from-primary-50/90 via-white to-secondary-50/80',
+        'relative overflow-hidden bg-gradient-to-br from-primary-100 via-primary-50/60 to-primary-200/70',
         className
       )}
     >
-      <div className="pointer-events-none absolute -top-24 -right-16 h-64 w-64 rounded-full bg-primary-100/60 blur-3xl sm:h-72 sm:w-72" />
-      <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-secondary-100/50 blur-3xl sm:h-64 sm:w-64" />
+      <div className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-primary-300/45 blur-3xl sm:h-96 sm:w-96" />
+      <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-primary-400/30 blur-3xl sm:h-80 sm:w-80" />
+      {/* Subtle brushed-metal vertical streaks echoing the logo backplate. */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.06] mix-blend-multiply"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(78,50,22,0.6) 2px, rgba(78,50,22,0.6) 3px)',
+        }}
+      />
       {backgroundImage && (
         <div
           className="absolute inset-0 z-0 opacity-10"
@@ -59,9 +68,12 @@ export function Hero({
         >
           <div className="max-w-4xl">
             {subtitle && (
-              <p className="mb-3 inline-flex items-center rounded-full border border-primary-200 bg-white/90 px-3 py-1 text-xs font-semibold tracking-wide text-primary-700 shadow-sm sm:mb-4 sm:px-4 sm:text-sm">
-                {subtitle}
-              </p>
+              <div className="mb-3 flex items-center gap-3 sm:mb-4">
+                <span aria-hidden="true" className="h-px w-10 bg-gradient-to-r from-primary-600 to-transparent" />
+                <p className="inline-flex items-center rounded-full border border-primary-300/70 bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-primary-700 shadow-sm sm:px-4 sm:text-sm">
+                  {subtitle}
+                </p>
+              </div>
             )}
 
             <h1 className="heading-1 mb-4 text-balance sm:mb-5">
@@ -94,14 +106,14 @@ export function Hero({
           </div>
 
           {hasHighlights && (
-            <aside className="surface-card p-5 lg:p-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-700">
+            <aside className="surface-card border-t-2 border-t-primary-600 p-5 lg:p-7">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">
                 Why patients choose us
               </p>
               <ul className="mt-4 space-y-3">
                 {highlights?.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-neutral-700">
-                    <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-secondary-500" />
+                  <li key={item} className="flex items-start gap-3 text-neutral-700">
+                    <span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" />
                     <span className="text-sm leading-relaxed sm:text-base">{item}</span>
                   </li>
                 ))}

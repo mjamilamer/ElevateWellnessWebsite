@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ProviderCard } from '@/components/ProviderCard'
@@ -38,44 +39,40 @@ export default function ProvidersPage() {
             centered
           />
 
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-8 sm:grid-cols-[minmax(0,18rem)_1fr] sm:items-start">
             <ProviderCard
-              name="Dr. Sarah Johnson"
-              title="MD, FAAOS"
-              specialty="Joint Replacement & Sports Medicine"
-              slug="dr-sarah-johnson"
-            />
-            <ProviderCard
-              name="Dr. Michael Chen"
-              title="MD, PhD"
-              specialty="Spine Surgery & Pain Management"
-              slug="dr-michael-chen"
-            />
-            <ProviderCard
-              name="Dr. Emily Rodriguez"
-              title="DO, FAOA"
+              name="Dr. Kamil M. Amer"
+              title="MD — Orthopedic Surgery"
               specialty="Hand & Upper Extremity"
-              slug="dr-emily-rodriguez"
+              slug="dr-kamil-amer"
             />
-            <ProviderCard
-              name="Dr. David Kim"
-              title="MD, FAAOS"
-              specialty="Pediatric musculoskeletal care"
-              slug="dr-david-kim"
-            />
-            <ProviderCard
-              name="Dr. Jennifer Lee"
-              title="MD"
-              specialty="Sports Medicine & Arthroscopy"
-              slug="dr-jennifer-lee"
-            />
-            <ProviderCard
-              name="Dr. Robert Thompson"
-              title="DO"
-              specialty="Trauma & Reconstructive Surgery"
-              slug="dr-robert-thompson"
-            />
+            <div>
+              <h3 className="text-2xl font-bold tracking-tight text-neutral-900">Dr. Kamil M. Amer, MD</h3>
+              <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-primary-700">
+                Orthopedic Surgery · Hand &amp; Upper Extremity
+              </p>
+              <p className="mt-4 text-neutral-600">
+                Board-certified orthopedic surgeon and fellowship-trained hand and upper-extremity specialist. Dr.
+                Amer earned his MD from the Lewis Katz School of Medicine at Temple University, completed his
+                orthopedic surgery residency at Rutgers New Jersey Medical School, and a hand and upper extremity
+                fellowship at Thomas Jefferson University Hospital.
+              </p>
+              <p className="mt-3 text-neutral-600">
+                He treats patients across northern New Jersey with affiliations including Saint Michael&apos;s
+                Medical Center (Newark), Chilton Medical Center / Atlantic Health (Clifton), Saint Clare&apos;s
+                Denville Hospital, and St. Mary&apos;s General Hospital.
+              </p>
+              <div className="mt-6">
+                <Link href={`/providers/dr-kamil-amer`} className="btn-secondary">
+                  Read Full Bio
+                </Link>
+              </div>
+            </div>
           </div>
+
+          <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-neutral-500">
+            Our clinical team is growing. Additional providers will be listed here as they join the practice.
+          </p>
         </div>
       </section>
 

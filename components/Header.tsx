@@ -1,25 +1,134 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useId, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { siteConfig } from '@/lib/config'
 
+/** Matches Tailwind default `lg` breakpoint (see tailwind.config.js). */
+const LG_MIN_PX = 1024
+
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const menuId = useId()
   const pathname = usePathname()
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(min-width: ${LG_MIN_PX}px)`)
+    const onChange = () => {
+      if (mq.matches) setMobileMenuOpen(false)
+    }
+    mq.addEventListener('change', onChange)
+    onChange()
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [mobileMenuOpen])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previous
+    }
+  }, [mobileMenuOpen])
+
+  const mobileNav = (
+    <>
+      <div
+        className="fixed left-0 right-0 top-16 z-[90] bg-neutral-900/25 sm:top-[4.5rem] lg:hidden"
+        aria-hidden
+        onClick={() => setMobileMenuOpen(false)}
+      />
+      <div
+        id={menuId}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site navigation"
+        className="fixed left-0 right-0 top-16 z-[100] max-h-[min(85dvh,calc(100dvh-4rem))] overflow-y-auto border-b border-neutral-200 bg-white px-4 py-4 shadow-lg sm:top-[4.5rem] sm:max-h-[min(85dvh,calc(100dvh-4.5rem))] sm:px-6 lg:hidden"
+      >
+        <div className="mx-auto flex max-w-7xl flex-col gap-0.5">
+          {siteConfig.navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`rounded-lg px-3 py-2.5 text-sm font-medium ${
+                pathname === item.href
+                  ? 'bg-primary-50 text-primary-700'
+                  : 'text-neutral-700 hover:bg-neutral-50'
+              }`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {item.name}
+            </Link>
+          ))}
+          <div className="mt-3 border-t border-neutral-100 pt-3">
+            <Link
+              href="/appointments"
+              className="btn-primary w-full justify-center"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Schedule Now
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-[120] border-b border-neutral-200/80 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/80">
       <nav className="container-custom" aria-label="Main navigation">
-        <div className="flex h-14 items-center justify-between gap-3 sm:h-16 sm:gap-4">
+        <div className="flex h-16 items-center justify-between gap-3 sm:h-[4.5rem] sm:gap-4">
           <div className="min-w-0 shrink">
             <Link
               href="/"
-              className="block rounded-md focus-visible:outline-offset-4"
+              className="flex items-center gap-2 rounded-md text-neutral-900 focus-visible:outline-offset-4 sm:gap-2.5"
+              aria-label={`${siteConfig.name} — Home`}
             >
-              <span className="block text-sm font-bold leading-snug tracking-tight text-primary-700 sm:text-base lg:text-lg">
-                {siteConfig.name}
+              <span
+                aria-hidden="true"
+                className="block h-9 w-11 shrink-0 bg-gradient-to-b from-primary-400 via-primary-600 to-primary-700 sm:h-10 sm:w-12 lg:h-11 lg:w-[3.25rem]"
+                style={{
+                  WebkitMaskImage: 'url(/images/elevate_logo_icon.svg)',
+                  WebkitMaskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  WebkitMaskSize: 'contain',
+                  maskImage: 'url(/images/elevate_logo_icon.svg)',
+                  maskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                  maskSize: 'contain',
+                }}
+              />
+              <span className="block font-display text-base font-semibold leading-snug tracking-tight sm:text-lg lg:text-xl">
+                {siteConfig.name.split(/(\s&\s)/).map((part, i) =>
+                  /\s&\s/.test(part) ? (
+                    <span key={i} className="text-primary-600">{part}</span>
+                  ) : (
+                    <span key={i}>{part}</span>
+                  )
+                )}
               </span>
             </Link>
           </div>
@@ -57,6 +166,7 @@ export function Header() {
             className="-mr-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-neutral-700 hover:bg-neutral-100 hover:text-primary-700 lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
+            aria-controls={menuId}
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? (
@@ -70,40 +180,8 @@ export function Header() {
             )}
           </button>
         </div>
-
-        {mobileMenuOpen && (
-          <div className="max-h-[min(70vh,28rem)] overflow-y-auto border-t border-neutral-200 py-3 lg:hidden">
-            <div className="flex flex-col gap-0.5">
-              {siteConfig.navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`rounded-lg px-3 py-2.5 text-sm font-medium ${
-                    pathname === item.href
-                      ? 'bg-primary-50 text-primary-700'
-                      : 'text-neutral-700 hover:bg-neutral-50'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <div className="mt-3 border-t border-neutral-100 pt-3">
-                <Link
-                  href="/appointments"
-                  className="btn-primary w-full justify-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Schedule Now
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
       </nav>
+      {mounted && mobileMenuOpen && createPortal(mobileNav, document.body)}
     </header>
   )
 }

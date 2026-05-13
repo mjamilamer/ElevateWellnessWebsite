@@ -6,20 +6,24 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-neutral-200 bg-neutral-900 text-neutral-200">
-      <div className="container-custom py-14 md:py-16">
+    <footer className="relative overflow-hidden bg-[#1a1108] text-primary-100/85">
+      {/* Thin bronze hairline separates the footer from the CTA banner above */}
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-500/40 to-transparent" />
+      <div className="pointer-events-none absolute -top-32 -right-24 h-72 w-72 rounded-full bg-primary-700/15 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-primary-600/10 blur-3xl" />
+      <div className="container-custom relative py-14 md:py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Practice Info */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">{siteConfig.name}</h3>
-            <p className="mb-4 text-sm leading-relaxed text-neutral-300">
+            <h3 className="mb-4 font-display text-lg font-semibold tracking-tight text-white">{siteConfig.name}</h3>
+            <p className="mb-4 text-sm leading-relaxed text-primary-100/75">
               {siteConfig.description}
             </p>
             <div className="flex space-x-4">
               {siteConfig.social.facebook && (
                 <a
                   href={siteConfig.social.facebook}
-                  className="text-neutral-300 hover:text-white transition-colors"
+                  className="text-primary-100/80 transition-colors hover:text-primary-200"
                   aria-label="Facebook"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -33,7 +37,7 @@ export function Footer() {
               {siteConfig.social.twitter && (
                 <a
                   href={siteConfig.social.twitter}
-                  className="text-neutral-300 hover:text-white transition-colors"
+                  className="text-primary-100/80 transition-colors hover:text-primary-200"
                   aria-label="Twitter"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -47,7 +51,7 @@ export function Footer() {
               {siteConfig.social.linkedin && (
                 <a
                   href={siteConfig.social.linkedin}
-                  className="text-neutral-300 hover:text-white transition-colors"
+                  className="text-primary-100/80 transition-colors hover:text-primary-200"
                   aria-label="LinkedIn"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -63,7 +67,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Quick Links</h3>
+            <h3 className="mb-4 font-display text-lg font-semibold tracking-tight text-white">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
               <li><Link href="/providers" className="hover:text-white transition-colors">Our Providers</Link></li>
@@ -74,7 +78,7 @@ export function Footer() {
 
           {/* Patient Resources */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Patient Resources</h3>
+            <h3 className="mb-4 font-display text-lg font-semibold tracking-tight text-white">Patient Resources</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/new-patients" className="hover:text-white transition-colors">New Patients</Link></li>
               <li><Link href="/new-patients#insurance" className="hover:text-white transition-colors">Insurance & Billing</Link></li>
@@ -85,7 +89,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Contact</h3>
+            <h3 className="mb-4 font-display text-lg font-semibold tracking-tight text-white">Contact</h3>
             <address className="not-italic text-sm space-y-2">
               <p>{siteConfig.contact.address.street}</p>
               <p>{siteConfig.contact.address.suite}</p>
@@ -108,19 +112,19 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-neutral-700">
+        <div className="mt-12 border-t border-primary-700/40 pt-8">
           <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
-            <p className="text-sm text-neutral-400">
+            <p className="text-sm text-primary-200/70">
               &copy; {currentYear} {siteConfig.legalName}. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
-              <Link href="/privacy" className="text-neutral-400 hover:text-white transition-colors">
+              <Link href="/privacy" className="text-primary-200/70 transition-colors hover:text-primary-100">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-neutral-400 hover:text-white transition-colors">
+              <Link href="/terms" className="text-primary-200/70 transition-colors hover:text-primary-100">
                 Terms of Service
               </Link>
-              <Link href="/hipaa" className="text-neutral-400 hover:text-white transition-colors">
+              <Link href="/hipaa" className="text-primary-200/70 transition-colors hover:text-primary-100">
                 HIPAA Notice
               </Link>
             </div>

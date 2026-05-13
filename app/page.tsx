@@ -27,15 +27,17 @@ export default function HomePage() {
       {/* Hero Section */}
       <Hero
         subtitle="Wellness & Health"
-        title="Personalized care that helps you feel your best"
-        description="Experienced providers, evidence-based plans, and a streamlined appointment experience for busy patients."
+        title="Where wellness, recovery, and modern medicine come together"
+        description="Advanced specialty care and wellness services designed to help you recover, restore, and feel your best."
         highlights={[
-          'Providers focused on your goals and long-term wellness',
-          'Same-week availability for many non-emergency visits',
-          'Most major insurance accepted with pre-visit verification support',
+          'Personalized treatment plans tailored to your lifestyle and wellness goals',
+          'Integrated specialty and wellness services under one roof',
+          'Advanced therapies focused on recovery, performance, and prevention',
+          'Compassionate providers committed to long-term health',
+          'Convenient access to diagnostics, rehabilitation, and wellness care',
         ]}
         primaryCTA={{
-          text: 'Schedule Now',
+          text: 'Schedule Visit',
           href: '/appointments',
         }}
         secondaryCTA={{
@@ -47,18 +49,21 @@ export default function HomePage() {
       {/* Trust Signals */}
       <section className="bg-white pb-10">
         <div className="container-custom">
-          <div className="surface-card grid grid-cols-1 gap-4 p-6 text-center md:grid-cols-3 md:p-8">
-            <div>
-              <p className="text-3xl font-bold tracking-tight text-primary-700">20+ years</p>
-              <p className="text-sm leading-relaxed text-neutral-600">Clinical leadership in wellness & health</p>
+          <div className="surface-card grid grid-cols-1 divide-y divide-primary-200/60 p-2 text-center md:grid-cols-3 md:divide-x md:divide-y-0 md:p-3">
+            <div className="px-4 py-6 md:px-6 md:py-8">
+              <p className="font-display text-3xl font-semibold tracking-tight text-primary-700 sm:text-4xl">20+ Years</p>
+              <span aria-hidden="true" className="mx-auto mt-3 block h-px w-10 bg-primary-500/70" />
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">Trusted experience in modern medicine and wellness care</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold tracking-tight text-primary-700">Same-week</p>
-              <p className="text-sm leading-relaxed text-neutral-600">Appointments for most new patients</p>
+            <div className="px-4 py-6 md:px-6 md:py-8">
+              <p className="font-display text-3xl font-semibold tracking-tight text-primary-700 sm:text-4xl">Same-Week Access</p>
+              <span aria-hidden="true" className="mx-auto mt-3 block h-px w-10 bg-primary-500/70" />
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">Convenient appointments designed around your schedule</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold tracking-tight text-primary-700">Patient-first</p>
-              <p className="text-sm leading-relaxed text-neutral-600">Clear treatment plans and outcomes focus</p>
+            <div className="px-4 py-6 md:px-6 md:py-8">
+              <p className="font-display text-3xl font-semibold tracking-tight text-primary-700 sm:text-4xl">Personalized Care</p>
+              <span aria-hidden="true" className="mx-auto mt-3 block h-px w-10 bg-primary-500/70" />
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">Thoughtfully tailored treatment plans focused on long-term wellness</p>
             </div>
           </div>
         </div>
@@ -69,8 +74,8 @@ export default function HomePage() {
         <div className="container-custom">
           <SectionHeader
             subtitle="Specialty Programs"
-            title="High-quality care across core health and wellness needs"
-            description="Targeted programs built around outcomes, recovery time, and long-term mobility."
+            title="Comprehensive care for wellness, recovery, and long-term health"
+            description="Integrated specialty and wellness services designed to support how you feel, move, and live every day."
             centered
           />
 
@@ -159,19 +164,19 @@ export default function HomePage() {
             centered
           />
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-            <div className="surface-card p-6">
-              <p className="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">1</p>
-              <h3 className="text-xl font-semibold text-neutral-900">Comprehensive Assessment</h3>
+            <div className="surface-card border-t-2 border-t-primary-600 p-6">
+              <p className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-display text-base font-semibold text-primary-700">1</p>
+              <h3 className="font-display text-xl font-semibold text-neutral-900">Comprehensive Assessment</h3>
               <p className="mt-3 text-neutral-600">Your provider evaluates symptoms, imaging, and functional goals to define the right plan early.</p>
             </div>
-            <div className="surface-card p-6">
-              <p className="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">2</p>
-              <h3 className="text-xl font-semibold text-neutral-900">Personalized Plan</h3>
+            <div className="surface-card border-t-2 border-t-primary-600 p-6">
+              <p className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-display text-base font-semibold text-primary-700">2</p>
+              <h3 className="font-display text-xl font-semibold text-neutral-900">Personalized Plan</h3>
               <p className="mt-3 text-neutral-600">We align non-operative and surgical options to your lifestyle, timeline, and outcomes priorities.</p>
             </div>
-            <div className="surface-card p-6">
-              <p className="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">3</p>
-              <h3 className="text-xl font-semibold text-neutral-900">Measured Recovery</h3>
+            <div className="surface-card border-t-2 border-t-primary-600 p-6">
+              <p className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-display text-base font-semibold text-primary-700">3</p>
+              <h3 className="font-display text-xl font-semibold text-neutral-900">Measured Recovery</h3>
               <p className="mt-3 text-neutral-600">Follow-ups and progress checkpoints keep your recovery on track and clinically guided.</p>
             </div>
           </div>
@@ -183,30 +188,61 @@ export default function HomePage() {
         <div className="container-custom">
           <SectionHeader
             subtitle="Clinical Team"
-            title="Providers trusted for thoughtful, comprehensive care"
-            description="Experienced physicians focused on precision, communication, and long-term mobility outcomes."
+            title="Led by a board-certified orthopedic surgeon"
+            description="Fellowship-trained expertise in hand and upper-extremity care, paired with personalized treatment planning and clear communication."
             centered
           />
 
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <ProviderCard
-              name="Dr. Sarah Johnson"
-              title="MD, FAAOS"
-              specialty="Joint Replacement & Sports Medicine"
-              slug="dr-sarah-johnson"
-            />
-            <ProviderCard
-              name="Dr. Michael Chen"
-              title="MD, PhD"
-              specialty="Spine Surgery & Pain Management"
-              slug="dr-michael-chen"
-            />
-            <ProviderCard
-              name="Dr. Emily Rodriguez"
-              title="DO, FAOA"
-              specialty="Hand & Upper Extremity"
-              slug="dr-emily-rodriguez"
-            />
+          <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-10 md:grid-cols-[minmax(0,18rem)_1fr] md:items-center">
+            <div>
+              <ProviderCard
+                name="Dr. Kamil M. Amer"
+                title="MD — Orthopedic Surgery"
+                specialty="Hand & Upper Extremity"
+                slug="dr-kamil-amer"
+              />
+            </div>
+            <div className="space-y-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">Featured Physician</p>
+                <h3 className="mt-2 text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
+                  Dr. Kamil M. Amer, MD
+                </h3>
+                <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-primary-700">
+                  Orthopedic Surgery · Hand &amp; Upper Extremity
+                </p>
+              </div>
+              <p className="text-neutral-600">
+                Board certified by the American Board of Orthopaedic Surgery, Dr. Amer earned his MD from the
+                Lewis Katz School of Medicine at Temple University, completed his orthopedic surgery residency at
+                Rutgers New Jersey Medical School, and a hand and upper extremity surgery fellowship at Thomas
+                Jefferson University Hospital. He cares for patients across northern New Jersey at affiliated
+                locations in Clifton, Paramus, and Newark.
+              </p>
+              <ul className="grid grid-cols-1 gap-2 text-sm text-neutral-700 sm:grid-cols-2">
+                <li className="flex items-start gap-2">
+                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
+                  Board certified — American Board of Orthopaedic Surgery
+                </li>
+                <li className="flex items-start gap-2">
+                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
+                  Fellowship-trained, Hand &amp; Upper Extremity
+                </li>
+                <li className="flex items-start gap-2">
+                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
+                  Residency, Rutgers NJ Medical School
+                </li>
+                <li className="flex items-start gap-2">
+                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
+                  Saint Michael&apos;s, Chilton (Atlantic Health) affiliations
+                </li>
+              </ul>
+              <div className="pt-2">
+                <Link href="/providers/dr-kamil-amer" className="btn-secondary">
+                  Read Full Bio
+                </Link>
+              </div>
+            </div>
           </div>
 
           <div className="mt-12 text-center">
@@ -240,13 +276,13 @@ export default function HomePage() {
               role="Sports Injury Patient"
               rating={5}
             />
-            <div className="surface-card p-6">
-              <p className="text-sm font-semibold uppercase tracking-wide text-primary-700">Why patients choose us</p>
+            <div className="surface-card border-t-2 border-t-primary-600 p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-700">Why patients choose us</p>
               <ul className="mt-4 space-y-3 text-neutral-700">
-                <li className="flex items-start gap-2"><span className="mt-1 h-2 w-2 rounded-full bg-secondary-500" /> Clear expectations from day one</li>
-                <li className="flex items-start gap-2"><span className="mt-1 h-2 w-2 rounded-full bg-secondary-500" /> Efficient scheduling and follow-up communication</li>
-                <li className="flex items-start gap-2"><span className="mt-1 h-2 w-2 rounded-full bg-secondary-500" /> Evidence-based treatment recommendations</li>
-                <li className="flex items-start gap-2"><span className="mt-1 h-2 w-2 rounded-full bg-secondary-500" /> Recovery plans designed around real life</li>
+                <li className="flex items-start gap-3"><span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" /> Clear expectations from day one</li>
+                <li className="flex items-start gap-3"><span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" /> Efficient scheduling and follow-up communication</li>
+                <li className="flex items-start gap-3"><span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" /> Evidence-based treatment recommendations</li>
+                <li className="flex items-start gap-3"><span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" /> Recovery plans designed around real life</li>
               </ul>
             </div>
           </div>
