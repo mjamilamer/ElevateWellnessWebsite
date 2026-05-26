@@ -2,9 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
-import { ServiceCard } from '@/components/ServiceCard'
+import { ServicesGrid } from '@/components/ServicesGrid'
 import { ProviderCard } from '@/components/ProviderCard'
-import { TestimonialCard } from '@/components/TestimonialCard'
 import { CTASection } from '@/components/CTASection'
 import { siteConfig } from '@/lib/config'
 import { pageMetadata } from '@/lib/seo'
@@ -79,47 +78,8 @@ export default function HomePage() {
             centered
           />
 
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <ServiceCard
-              title="Joint Replacement"
-              description="Advanced hip, knee, and shoulder replacement pathways with optimized recovery protocols."
-              href="/services/joint-replacement"
-              icon={
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              }
-            />
-            <ServiceCard
-              title="Sports Medicine"
-              description="Return-to-performance care for acute injuries and overuse conditions."
-              href="/services/sports-medicine"
-              icon={
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              }
-            />
-            <ServiceCard
-              title="Spine Care"
-              description="Comprehensive evaluation and treatment strategies for neck and back conditions."
-              href="/services/spine-care"
-              icon={
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
-              }
-            />
-            <ServiceCard
-              title="Pain & Function"
-              description="Integrated non-operative and interventional plans to restore movement with less pain."
-              href="/services/pain-management"
-              icon={
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V7a2 2 0 012-2h3l2 2h5a2 2 0 012 2v10a2 2 0 01-2 2z" />
-                </svg>
-              }
-            />
+          <div className="mt-12">
+            <ServicesGrid />
           </div>
 
           <div className="mt-12 text-center">
@@ -144,7 +104,16 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              {['Lower Back Pain', 'Knee Pain', 'Herniated Disc', 'Shoulder Pain', 'Foot & Ankle Pain', 'Elbow Pain'].map((condition) => (
+              {[
+                'Joint pain and arthritis',
+                'Hip, knee & shoulder problems',
+                'Major fractures',
+                'Hand & wrist conditions',
+                'Spine & back concerns',
+                'Sports injuries',
+                'Tendon & ligament injuries',
+                'Post-traumatic conditions',
+              ].map((condition) => (
                 <span key={condition} className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-700">
                   {condition}
                 </span>
@@ -154,31 +123,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Care Pathway */}
-      <section className="section-padding bg-neutral-50">
+      {/* Treatment Approach */}
+      <section className="section-padding section-band">
         <div className="container-custom">
           <SectionHeader
-            subtitle="Care Journey"
-            title="A clear, confidence-building path from first visit to recovery"
-            description="No confusion, no unnecessary steps. Just focused care and transparent next actions."
+            subtitle="Comprehensive Care"
+            title="Our Treatment Approach"
+            description="From first evaluation through ongoing follow-up, our integrated services are designed around the way you live."
             centered
           />
-          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-            <div className="surface-card border-t-2 border-t-primary-600 p-6">
-              <p className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-display text-base font-semibold text-primary-700">1</p>
-              <h3 className="font-display text-xl font-semibold text-neutral-900">Comprehensive Assessment</h3>
-              <p className="mt-3 text-neutral-600">Your provider evaluates symptoms, imaging, and functional goals to define the right plan early.</p>
-            </div>
-            <div className="surface-card border-t-2 border-t-primary-600 p-6">
-              <p className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-display text-base font-semibold text-primary-700">2</p>
-              <h3 className="font-display text-xl font-semibold text-neutral-900">Personalized Plan</h3>
-              <p className="mt-3 text-neutral-600">We align non-operative and surgical options to your lifestyle, timeline, and outcomes priorities.</p>
-            </div>
-            <div className="surface-card border-t-2 border-t-primary-600 p-6">
-              <p className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-display text-base font-semibold text-primary-700">3</p>
-              <h3 className="font-display text-xl font-semibold text-neutral-900">Measured Recovery</h3>
-              <p className="mt-3 text-neutral-600">Follow-ups and progress checkpoints keep your recovery on track and clinically guided.</p>
-            </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                step: 1,
+                title: 'Complete Health Evaluation',
+                description: 'Full medical review to understand symptoms, history, lifestyle, and wellness goals.',
+              },
+              {
+                step: 2,
+                title: 'Personalized Care Plan',
+                description: 'A treatment plan designed around each patient’s needs — medical, wellness, therapy, or specialty care.',
+              },
+              {
+                step: 3,
+                title: 'Integrated Services',
+                description: 'Access to internal medicine, GI, orthopedics, physical therapy, labs, acupuncture, peptides, and IV therapy in one place.',
+              },
+              {
+                step: 4,
+                title: 'Ongoing Wellness Support',
+                description: 'We focus on prevention, follow-up care, recovery, and helping patients feel healthier long-term.',
+              },
+            ].map(({ step, title, description }) => (
+              <div key={step} className="surface-card border-t-2 border-t-primary-600 p-6">
+                <p className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-display text-base font-semibold text-primary-700">
+                  {step}
+                </p>
+                <h3 className="font-display text-xl font-semibold text-neutral-900">{title}</h3>
+                <p className="mt-3 text-neutral-600">{description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -188,59 +172,97 @@ export default function HomePage() {
         <div className="container-custom">
           <SectionHeader
             subtitle="Clinical Team"
-            title="Led by a board-certified orthopedic surgeon"
-            description="Fellowship-trained expertise in hand and upper-extremity care, paired with personalized treatment planning and clear communication."
+            title="Led by board-certified specialists"
+            description="Two physicians anchor our integrated practice — orthopedic surgery and gastroenterology/internal medicine — working alongside our wellness and therapy team."
             centered
           />
 
-          <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-10 md:grid-cols-[minmax(0,18rem)_1fr] md:items-center">
-            <div>
+          <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-10 md:grid-cols-2">
+            {/* Dr. Kamil M. Amer */}
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-[minmax(0,12rem)_1fr]">
               <ProviderCard
                 name="Dr. Kamil M. Amer"
                 title="MD — Orthopedic Surgery"
                 specialty="Hand & Upper Extremity"
                 slug="dr-kamil-amer"
               />
-            </div>
-            <div className="space-y-5">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">Featured Physician</p>
-                <h3 className="mt-2 text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
-                  Dr. Kamil M. Amer, MD
-                </h3>
-                <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-primary-700">
-                  Orthopedic Surgery · Hand &amp; Upper Extremity
+              <div className="space-y-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">Orthopedic Surgery</p>
+                  <h3 className="mt-1 text-xl font-bold tracking-tight text-neutral-900">
+                    Dr. Kamil M. Amer, MD
+                  </h3>
+                </div>
+                <p className="text-sm text-neutral-600">
+                  Board-certified orthopedic surgeon, fellowship-trained in Hand &amp; Upper
+                  Extremity at Thomas Jefferson University Hospital. MD from Lewis Katz School of
+                  Medicine, residency at Rutgers New Jersey Medical School.
                 </p>
+                <ul className="space-y-1.5 text-xs text-neutral-700">
+                  <li className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
+                    Board certified — American Board of Orthopaedic Surgery
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
+                    Fellowship-trained, Hand &amp; Upper Extremity
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
+                    Saint Michael&apos;s &amp; Atlantic Health affiliations
+                  </li>
+                </ul>
+                <div className="pt-1">
+                  <Link href="/providers/dr-kamil-amer" className="text-sm font-semibold text-primary-700 hover:underline">
+                    Read full bio →
+                  </Link>
+                </div>
               </div>
-              <p className="text-neutral-600">
-                Board certified by the American Board of Orthopaedic Surgery, Dr. Amer earned his MD from the
-                Lewis Katz School of Medicine at Temple University, completed his orthopedic surgery residency at
-                Rutgers New Jersey Medical School, and a hand and upper extremity surgery fellowship at Thomas
-                Jefferson University Hospital. He cares for patients across northern New Jersey at affiliated
-                locations in Clifton, Paramus, and Newark.
-              </p>
-              <ul className="grid grid-cols-1 gap-2 text-sm text-neutral-700 sm:grid-cols-2">
-                <li className="flex items-start gap-2">
-                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
-                  Board certified — American Board of Orthopaedic Surgery
-                </li>
-                <li className="flex items-start gap-2">
-                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
-                  Fellowship-trained, Hand &amp; Upper Extremity
-                </li>
-                <li className="flex items-start gap-2">
-                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
-                  Residency, Rutgers NJ Medical School
-                </li>
-                <li className="flex items-start gap-2">
-                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
-                  Saint Michael&apos;s, Chilton (Atlantic Health) affiliations
-                </li>
-              </ul>
-              <div className="pt-2">
-                <Link href="/providers/dr-kamil-amer" className="btn-secondary">
-                  Read Full Bio
-                </Link>
+            </div>
+
+            {/* Dr. Kamal M. Amer */}
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-[minmax(0,12rem)_1fr]">
+              <ProviderCard
+                name="Dr. Kamal M. Amer"
+                title="MD — Gastroenterology"
+                specialty="Internal Medicine · GI"
+                slug="dr-kamal-amer"
+              />
+              <div className="space-y-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">Gastroenterology &amp; Internal Medicine</p>
+                  <h3 className="mt-1 text-xl font-bold tracking-tight text-neutral-900">
+                    Dr. Kamal M. Amer, MD
+                  </h3>
+                </div>
+                <p className="text-sm text-neutral-600">
+                  Board-certified in Gastroenterology, Internal Medicine, and Obesity &amp;
+                  Nutrition. Fellowship in GI &amp; Hepatology at Rutgers New Jersey Medical
+                  School; Internal Medicine residency at Thomas Jefferson University Hospital.
+                </p>
+                <ul className="space-y-1.5 text-xs text-neutral-700">
+                  <li className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
+                    Board certified — Gastroenterology, Internal Medicine
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
+                    Fellowship-trained, GI &amp; Hepatology
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
+                    Hackensack Meridian &amp; St. Joseph&apos;s affiliations
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
+                    Languages: English, Spanish, Arabic
+                  </li>
+                </ul>
+                <div className="pt-1">
+                  <Link href="/providers/dr-kamal-amer" className="text-sm font-semibold text-primary-700 hover:underline">
+                    Read full bio →
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -258,31 +280,30 @@ export default function HomePage() {
         <div className="container-custom">
           <SectionHeader
             subtitle="Patient Experience"
-            title="Results our patients can feel"
+            title="What patients can expect"
             description="High clinical standards paired with clear communication at every step."
             centered
           />
 
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <TestimonialCard
-              quote="Dr. Johnson and her team were incredible. After my knee replacement, I'm back to hiking and living pain-free. I couldn't be happier with the care I received."
-              author="Robert Martinez"
-              role="Knee Replacement Patient"
-              rating={5}
-            />
-            <TestimonialCard
-              quote="The entire staff made me feel comfortable from day one. They explained everything clearly and answered all my questions. Highly recommend!"
-              author="Linda Thompson"
-              role="Sports Injury Patient"
-              rating={5}
-            />
-            <div className="surface-card border-t-2 border-t-primary-600 p-6">
-              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-700">Why patients choose us</p>
-              <ul className="mt-4 space-y-3 text-neutral-700">
-                <li className="flex items-start gap-3"><span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" /> Clear expectations from day one</li>
-                <li className="flex items-start gap-3"><span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" /> Efficient scheduling and follow-up communication</li>
-                <li className="flex items-start gap-3"><span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" /> Evidence-based treatment recommendations</li>
-                <li className="flex items-start gap-3"><span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" /> Recovery plans designed around real life</li>
+          <div className="mx-auto mt-12 max-w-3xl">
+            <div className="surface-card border-t-2 border-t-primary-600 p-6 md:p-8">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-700">
+                Why patients choose us
+              </p>
+              <ul className="mt-5 grid grid-cols-1 gap-3 text-neutral-700 sm:grid-cols-2">
+                {[
+                  'Clear expectations from day one',
+                  'Efficient scheduling and follow-up communication',
+                  'Evidence-based treatment recommendations',
+                  'Recovery plans designed around real life',
+                  'Care that connects specialty medicine and wellness',
+                  'Compassionate, multilingual team',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 ring-2 ring-primary-200/50" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

@@ -111,20 +111,24 @@ export default function ServiceDetailPage({ params }: Props) {
         <div className="container-custom max-w-3xl">
           <p className="body-large text-neutral-700">{service.intro}</p>
 
-          <div className="mt-10">
-            <h2 className="heading-4 mb-4">Conditions we often evaluate</h2>
-            <ul className="space-y-2 text-neutral-700">
-              {service.conditions.map((item) => (
-                <li key={item} className="flex gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary-500" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {service.conditions.length > 0 && (
+            <div className="mt-10">
+              <h2 className="heading-4 mb-4">Conditions we often evaluate</h2>
+              <ul className="space-y-2 text-neutral-700">
+                {service.conditions.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary-500" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="mt-10">
-            <h2 className="heading-4 mb-4">How we approach care</h2>
+            <h2 className="heading-4 mb-4">
+              {service.conditions.length > 0 ? 'How we approach care' : 'What our service includes'}
+            </h2>
             <ul className="space-y-2 text-neutral-700">
               {service.approach.map((item) => (
                 <li key={item} className="flex gap-2">
@@ -134,6 +138,20 @@ export default function ServiceDetailPage({ params }: Props) {
               ))}
             </ul>
           </div>
+
+          {service.specialistBio && (
+            <div className="mt-10 surface-card border-t-2 border-t-primary-600 p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">
+                About the Specialist
+              </p>
+              {service.specialistName && (
+                <h2 className="mt-2 font-display text-xl font-semibold text-neutral-900">
+                  {service.specialistName}
+                </h2>
+              )}
+              <p className="mt-3 text-neutral-700">{service.specialistBio}</p>
+            </div>
+          )}
 
           <p className="mt-10 text-sm text-neutral-500">
             {siteConfig.legalName} provides individualized medical care. This page is for general

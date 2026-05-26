@@ -33,19 +33,19 @@ export function Hero({
   return (
     <section
       className={cn(
-        'relative overflow-hidden bg-gradient-to-br from-primary-100 via-primary-50/60 to-primary-200/70',
+        'relative overflow-hidden bg-gradient-to-b from-white to-secondary-50',
         className
       )}
     >
-      <div className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-primary-300/45 blur-3xl sm:h-96 sm:w-96" />
-      <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-primary-400/30 blur-3xl sm:h-80 sm:w-80" />
-      {/* Subtle brushed-metal vertical streaks echoing the logo backplate. */}
+      <div className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-secondary-200/45 blur-3xl sm:h-96 sm:w-96" />
+      <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-secondary-300/30 blur-3xl sm:h-80 sm:w-80" />
+      {/* Subtle navy vertical streaks for soft texture against the pale-blue gradient. */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.06] mix-blend-multiply"
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.05] mix-blend-multiply"
         aria-hidden="true"
         style={{
           backgroundImage:
-            'repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(78,50,22,0.6) 2px, rgba(78,50,22,0.6) 3px)',
+            'repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(15,30,51,0.45) 2px, rgba(15,30,51,0.45) 3px)',
         }}
       />
       {backgroundImage && (
@@ -76,7 +76,7 @@ export function Hero({
               </div>
             )}
 
-            <h1 className="heading-1 mb-4 text-balance sm:mb-5">
+            <h1 className="hero-heading mb-4 text-balance sm:mb-5">
               {title}
             </h1>
 

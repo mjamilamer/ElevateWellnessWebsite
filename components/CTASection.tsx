@@ -52,7 +52,7 @@ export function CTASection({
   return (
     <section
       className={cn(
-        'relative overflow-hidden bg-gradient-to-b from-primary-700 via-primary-800 to-primary-900 py-16 text-white md:py-20 lg:py-24',
+        'relative overflow-hidden bg-gradient-to-b from-secondary-800 to-secondary-900 py-16 text-white md:py-20 lg:py-24',
         className
       )}
     >
@@ -97,7 +97,7 @@ export function CTASection({
           <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
             <Link
               href={primaryCTA.href}
-              className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 text-base font-semibold tracking-tight text-primary-900 shadow-[0_10px_28px_-8px_rgba(0,0,0,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-50 hover:shadow-[0_14px_34px_-10px_rgba(0,0,0,0.55)] active:translate-y-0"
+              className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-primary-600 px-7 py-3.5 text-base font-semibold tracking-tight text-white shadow-[0_10px_28px_-8px_rgba(0,0,0,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-700 hover:shadow-[0_14px_34px_-10px_rgba(0,0,0,0.55)] active:translate-y-0"
             >
               {primaryCTA.text}
             </Link>

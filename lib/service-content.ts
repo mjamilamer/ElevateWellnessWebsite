@@ -1,231 +1,261 @@
+export type ServiceIconKey =
+  | 'orthopedic'
+  | 'internal-medicine'
+  | 'physical-therapy'
+  | 'peptide-wellness'
+  | 'acupuncture'
+  | 'iv-infusion'
+  | 'in-house-lab'
+
 export type ServicePage = {
   slug: string
   title: string
+  iconKey: ServiceIconKey
   metaDescription: string
+  cardDescription: string
   summary: string
   intro: string
   conditions: string[]
   approach: string[]
+  specialistName?: string
+  specialistBio?: string
   keywords: string[]
 }
 
 export const servicePages: ServicePage[] = [
   {
-    slug: 'joint-replacement',
-    title: 'Joint Replacement',
+    slug: 'orthopedic-services',
+    title: 'Orthopedic Services',
+    iconKey: 'orthopedic',
     metaDescription:
-      'Hip, knee, and shoulder replacement with modern techniques and recovery-focused care at Elevate Wellness & Health.',
+      'Comprehensive orthopedic care at Elevate Wellness & Health — bones, joints, spine, hands, fractures, and sports-related injuries, led by Dr. Kamil M. Amer.',
+    cardDescription:
+      'Advanced care for bones, joints, spine, hands, fractures, and sports-related injuries — led by an experienced orthopedic surgeon.',
     summary:
-      'Restore mobility with advanced joint replacement options tailored to your goals and lifestyle.',
+      'Advanced care for bones, joints, spine, hands, fractures, and sports-related injuries — led by an experienced orthopedic surgeon.',
     intro:
-      'When joint pain limits everyday activities and conservative care is no longer enough, joint replacement can offer lasting relief. Our team focuses on careful planning, proven implants and methods, and a clear path through recovery.',
+      'At Elevate Wellness & Health, our orthopedic services focus on diagnosing and treating conditions affecting the bones, joints, spine, hands, and muscles. Whether you are dealing with joint pain, a major fracture, sports injury, hand condition, spine concern, or need surgical evaluation, our team provides careful assessment and personalized treatment options to help restore movement, strength, and quality of life.',
     conditions: [
-      'Osteoarthritis of the hip, knee, or shoulder',
-      'Post-traumatic arthritis after injury',
-      'Inflammatory joint disease when surgery is indicated',
-      'Failed prior arthroplasty requiring revision evaluation',
+      'Joint pain and arthritis',
+      'Hip, knee, shoulder, and other joint problems',
+      'Major fractures and injury-related bone conditions',
+      'Hand and wrist conditions',
+      'Spine and back-related concerns',
+      'Sports injuries',
+      'Tendon, ligament, and muscle injuries',
+      'Post-traumatic orthopedic problems',
+      'Surgical and non-surgical orthopedic evaluations',
     ],
     approach: [
-      'Thorough evaluation and shared decision-making',
-      'Minimally invasive approaches when clinically appropriate',
-      'Pain control and mobilization plans aligned with your safety',
-      'Coordination with therapy and follow-up through healing milestones',
+      'Detailed evaluation with exam and imaging when appropriate',
+      'Shared decision-making about non-operative and surgical options',
+      'Coordination with therapy and follow-up across recovery milestones',
+      'Clear communication at each step of your care plan',
     ],
+    specialistName: 'Dr. Kamil M. Amer, MD',
+    specialistBio:
+      'Our orthopedic care is led by Dr. Kamil M. Amer, a board-certified orthopedic surgeon with fellowship training in hand and upper-extremity surgery from Thomas Jefferson University Hospital. Known for his hardworking and patient-focused approach, Dr. Amer provides thoughtful evaluation and treatment planning for both routine and complex orthopedic concerns, with hospital affiliations across northern New Jersey.',
     keywords: [
-      'joint replacement',
-      'hip replacement',
-      'knee replacement',
-      'shoulder replacement',
-      'Elevate Wellness & Health',
+      'orthopedic services',
+      'orthopedic surgeon',
+      'joint pain',
+      'hand surgery',
+      'fracture care',
+      'sports injury',
+      'North Bergen orthopedist',
     ],
   },
   {
-    slug: 'sports-medicine',
-    title: 'Sports Medicine',
+    slug: 'internal-medicine-gastroenterology',
+    title: 'Internal Medicine & Gastroenterology',
+    iconKey: 'internal-medicine',
     metaDescription:
-      'Evaluation and treatment of athletic and active-lifestyle injuries—sprains, tears, overuse, and return-to-play planning.',
+      'Adult internal medicine and gastroenterology care at Elevate Wellness & Health, led by Dr. Kamal M. Amer, MD — board-certified in both specialties.',
+    cardDescription:
+      'Comprehensive adult care that connects overall health with digestive wellness — led by a board-certified specialist in both fields.',
     summary:
-      'Get back to the activities you love with specialized sports injury care.',
+      'Internal medicine and gastroenterology care under one roof, with a focus on connecting overall adult health and digestive wellness.',
     intro:
-      'From weekend warriors to competitive athletes, we diagnose and treat injuries that affect performance and daily movement. Treatment may include activity modification, targeted therapy, injections, or surgery when needed.',
+      'Dr. Kamal M. Amer provides comprehensive care in Internal Medicine and Gastroenterology, focusing on both overall adult health and digestive wellness. His combined training lets him see the whole patient — connecting medical history, lifestyle, and digestive function into a single coordinated care plan.',
     conditions: [
-      'ACL and other knee ligament injuries',
-      'Meniscus tears and cartilage problems',
-      'Shoulder instability, labral tears, and rotator cuff issues',
-      'Ankle sprains, Achilles problems, and stress reactions',
-      'Overuse injuries and tendinopathy',
+      'Adult preventive care and annual wellness visits',
+      'High blood pressure, diabetes, and cholesterol management',
+      'Chronic condition management and ongoing medical concerns',
+      'Acid reflux, heartburn, and GERD',
+      'Abdominal pain, bloating, and digestive discomfort',
+      'Constipation, diarrhea, and bowel concerns',
+      'Liver and stomach conditions',
+      'Intestinal disorders and routine GI screening',
+      'Fatigue, weight, and metabolic wellness concerns',
     ],
     approach: [
-      'Clear diagnosis with exam and appropriate imaging',
-      'Conservative options first when they fit your goals',
-      'Surgical planning when repair or reconstruction is indicated',
-      'Graduated return-to-activity guidance',
+      'Whole-patient evaluation that connects general health and digestive wellness',
+      'Clear diagnosis with appropriate testing and imaging',
+      'Personalized treatment plans focused on finding the cause of symptoms',
+      'Ongoing follow-up and preventive care planning',
     ],
-    keywords: ['sports medicine', 'ACL', 'rotator cuff', 'athletic injury'],
-  },
-  {
-    slug: 'spine-care',
-    title: 'Spine Care',
-    metaDescription:
-      'Back and neck pain care including non-operative treatment and surgical options when appropriate for your condition.',
-    summary:
-      'Comprehensive spine care from conservative therapy to advanced surgery.',
-    intro:
-      'Neck and back symptoms can stem from many causes. We build a plan that matches your diagnosis—often starting with non-surgical care and progressing only if symptoms or imaging support the next step.',
-    conditions: [
-      'Herniated disc and radicular pain',
-      'Spinal stenosis with claudication symptoms',
-      'Degenerative disc disease',
-      'Spondylolisthesis and mechanical back pain',
-      'Selected cervical spine disorders',
+    specialistName: 'Dr. Kamal M. Amer, MD',
+    specialistBio:
+      'Dr. Kamal M. Amer is board-certified in Gastroenterology, Internal Medicine, and Obesity & Nutrition. He completed his fellowship in Gastroenterology and Hepatology at Rutgers New Jersey Medical School and his Internal Medicine residency at Thomas Jefferson University Hospital. He cares for patients in English, Spanish, and Arabic, and brings a thoughtful, patient-focused approach to both routine adult medical care and specialized digestive health support.',
+    keywords: [
+      'internal medicine',
+      'gastroenterology',
+      'colonoscopy',
+      'acid reflux',
+      'adult primary care',
+      'preventive care',
+      'North Bergen gastroenterologist',
     ],
-    approach: [
-      'Focused history, exam, and imaging when needed',
-      'Physical therapy, medications, and injections as indicated',
-      'Surgery discussed when deficits or pain persist despite appropriate care',
-      'Recovery and activity counseling after treatment',
-    ],
-    keywords: ['spine care', 'back pain', 'neck pain', 'herniated disc'],
-  },
-  {
-    slug: 'hand-wrist',
-    title: 'Hand & Wrist',
-    metaDescription:
-      'Expert care for carpal tunnel, arthritis, fractures, and tendon conditions of the hand and wrist.',
-    summary:
-      'Precise treatment for hand and wrist pain, numbness, and loss of function.',
-    intro:
-      'Fine hand and wrist function matters for work and daily life. We treat common and complex conditions with both non-operative and surgical options.',
-    conditions: [
-      'Carpal tunnel syndrome',
-      'Trigger finger and tendonitis',
-      'Basilar thumb and finger arthritis',
-      'Fractures and ligament injuries',
-      'Ganglion cysts and masses (evaluation)',
-    ],
-    approach: [
-      'Detailed hand exam and targeted testing',
-      'Splinting, therapy, and injections when appropriate',
-      'Outpatient procedures for nerve and tendon conditions',
-      'Hand therapy coordination for recovery',
-    ],
-    keywords: ['hand surgery', 'carpal tunnel', 'wrist pain'],
-  },
-  {
-    slug: 'foot-ankle',
-    title: 'Foot & Ankle',
-    metaDescription:
-      'Bunions, plantar fasciitis, ankle instability, Achilles issues, and foot deformity care.',
-    summary:
-      'Walk comfortably again with foot and ankle care built around your symptoms.',
-    intro:
-      'Foot and ankle problems can change gait and limit activity. We identify the source of pain and offer evidence-based treatment paths.',
-    conditions: [
-      'Plantar fasciitis and heel pain',
-      'Bunions and toe deformities',
-      'Ankle sprains and chronic instability',
-      'Achilles tendinopathy and tears',
-      'Arthritis of the foot and ankle',
-    ],
-    approach: [
-      'Biomechanical assessment and imaging when useful',
-      'Orthotics, bracing, therapy, and injections as options',
-      'Surgery for deformity, instability, or tendon problems when indicated',
-      'Progressive return to weight-bearing and sport',
-    ],
-    keywords: ['foot pain', 'ankle', 'plantar fasciitis', 'bunion'],
-  },
-  {
-    slug: 'arthroscopic-surgery',
-    title: 'Arthroscopic Surgery',
-    metaDescription:
-      'Minimally invasive arthroscopic procedures for joints when repair or debridement is the right choice.',
-    summary:
-      'Smaller incisions and focused joint treatment when arthroscopy is appropriate.',
-    intro:
-      'Arthroscopy uses a camera and small instruments inside the joint to treat labral tears, meniscus problems, loose bodies, and other conditions—often as outpatient surgery.',
-    conditions: [
-      'Knee meniscus tears and selected cartilage lesions',
-      'Shoulder labral tears and impingement syndromes',
-      'Hip impingement evaluation and treatment in selected cases',
-      'Ankle and wrist arthroscopy for specific diagnoses',
-    ],
-    approach: [
-      'Confirm that arthroscopy matches your diagnosis and goals',
-      'Discuss alternatives, risks, and realistic outcomes',
-      'Outpatient procedure with structured post-op protocols',
-      'Therapy to restore motion, strength, and function',
-    ],
-    keywords: ['arthroscopy', 'minimally invasive', 'knee scope'],
   },
   {
     slug: 'physical-therapy',
     title: 'Physical Therapy',
+    iconKey: 'physical-therapy',
     metaDescription:
-      'Rehabilitation and therapy coordination to regain strength, motion, and confidence after injury or surgery.',
+      'Personalized physical therapy at Elevate Wellness & Health — pain relief, rehabilitation, strength, mobility, and recovery planning.',
+    cardDescription:
+      'Personalized therapy to help you move better, recover stronger, and return to daily life with confidence.',
     summary:
-      'Structured rehabilitation plans to support recovery and performance.',
+      'Hands-on physical therapy designed around your condition, lifestyle, and goals — from pain relief to long-term function.',
     intro:
-      'Therapy is often central to recovery—whether you avoid surgery or recover after a procedure. We work with skilled therapists on plans that match your condition and pace.',
+      'Our Physical Therapy program is designed to support patients through every stage of recovery — from pain relief and injury rehabilitation to strength, mobility, balance, and long-term function. We focus on the root cause of discomfort, not just the symptom, so each plan fits the patient’s condition, lifestyle, and goals.',
     conditions: [
-      'Post-operative rehabilitation after joint or sports procedures',
-      'Weakness and stiffness after injury or immobilization',
-      'Balance and gait training',
-      'Work-related and overuse strain',
+      'Back pain and neck pain',
+      'Joint pain and post-surgical recovery',
+      'Sports injuries and overuse strain',
+      'Muscle weakness and difficulty with movement',
+      'Balance issues and gait concerns',
+      'Arthritis-related stiffness',
+      'Chronic pain and functional limitation',
     ],
     approach: [
-      'Clear therapy goals tied to your activity level',
-      'Communication between your physician and therapy team',
-      'Progressive loading and return-to-sport criteria when relevant',
-      'Adjustments based on how you respond each week',
+      'Hands-on care combined with guided exercises and stretching',
+      'Strength, posture, and movement training',
+      'Clear progression with weekly adjustments based on response',
+      'Coordination with your physician and care team',
     ],
-    keywords: ['physical therapy', 'rehabilitation', 'recovery'],
+    keywords: [
+      'physical therapy',
+      'rehabilitation',
+      'back pain',
+      'recovery',
+      'movement therapy',
+    ],
   },
   {
-    slug: 'pain-management',
-    title: 'Pain Management',
+    slug: 'peptide-wellness',
+    title: 'Peptide Wellness',
+    iconKey: 'peptide-wellness',
     metaDescription:
-      'Multimodal pain care including injections and coordinated non-opioid strategies when appropriate.',
+      'Peptide therapy at Elevate Wellness & Health — medically guided support for energy, recovery, weight management, and overall wellness.',
+    cardDescription:
+      'Personalized peptide support to help with energy, weight management, recovery, and overall wellness.',
     summary:
-      'Thoughtful pain control options that fit your diagnosis and overall health.',
+      'Medically-guided peptide therapy plans built around your wellness goals.',
     intro:
-      'Pain management is not one-size-fits-all. We combine activity modification, therapy, medications when appropriate, and procedures such as injections to target the source of pain.',
-    conditions: [
-      'Joint and bursal inflammation',
-      'Radicular or mechanical spine-related pain (evaluation)',
-      'Tendon and soft-tissue pain syndromes',
-      'Post-operative pain flares during recovery',
-    ],
+      'Peptides are small protein-like compounds that may help signal the body to improve certain functions. Our Peptide Wellness services are designed for patients who want to support their body’s natural healing, metabolism, strength, and overall vitality with a medically guided plan.',
+    conditions: [],
     approach: [
-      'Identify anatomical contributors when possible',
-      'Coordinate with therapy and other specialists as needed',
-      'Image-guided injections when indicated',
-      'Ongoing reassessment with a focus on function',
+      'May support weight management, energy, and metabolism',
+      'May support muscle recovery, healthy aging, and sleep',
+      'May complement immune support and overall wellness goals',
+      'Plans built on health history and individual wellness priorities',
     ],
-    keywords: ['pain management', 'joint injection', 'musculoskeletal pain'],
+    keywords: [
+      'peptide therapy',
+      'peptide wellness',
+      'weight management',
+      'metabolic health',
+      'recovery',
+    ],
   },
   {
-    slug: 'fracture-care',
-    title: 'Fracture Care',
+    slug: 'acupuncture',
+    title: 'Acupuncture',
+    iconKey: 'acupuncture',
     metaDescription:
-      'Treatment for acute fractures and traumatic injuries—including immobilization, reduction, and surgical fixation when needed.',
+      'Acupuncture at Elevate Wellness & Health — natural, gentle care for pain, tension, and overall wellness in a calm professional environment.',
+    cardDescription:
+      'Natural, holistic care to support pain relief, relaxation, healing, and overall wellness.',
     summary:
-      'Timely fracture care from urgent evaluation through healing.',
+      'Time-tested acupuncture care, personalized to your symptoms and wellness goals.',
     intro:
-      'Broken bones need appropriate alignment, stability, and follow-up. We treat many fractures in the office and operating room, with plans based on bone, location, and your health.',
+      'Acupuncture is a gentle, time-tested treatment that uses very fine needles placed at specific points to help support the body’s natural healing process. Our services are designed to help patients feel better, move better, and restore balance in the body.',
     conditions: [
-      'Wrist, ankle, and foot fractures',
-      'Humerus and clavicle fractures',
-      'Hip and femur fractures in selected settings',
-      'Stress fractures and injury follow-up',
+      'Back pain, neck pain, and joint pain',
+      'Headaches and muscle tension',
+      'Stress, anxiety, and fatigue',
+      'Inflammation and chronic pain',
+      'Recovery from injuries',
+      'General wellness and balance',
     ],
     approach: [
-      'Prompt assessment and imaging',
-      'Casting, splinting, or surgery to achieve stable alignment',
-      'Monitoring bone healing with timely X-rays',
-      'Return to activity as healing permits',
+      'Calm, professional, and supportive environment',
+      'Personalized treatment plans based on symptoms and history',
+      'Often complements other care plans for chronic pain or recovery',
+      'Focus on long-term, natural healing',
     ],
-    keywords: ['fracture', 'broken bone', 'trauma'],
+    keywords: [
+      'acupuncture',
+      'pain relief',
+      'natural medicine',
+      'wellness',
+      'holistic care',
+    ],
+  },
+  {
+    slug: 'iv-infusion-therapy',
+    title: 'IV & Infusion Therapy',
+    iconKey: 'iv-infusion',
+    metaDescription:
+      'IV and infusion therapy at Elevate Wellness & Health — hydration, vitamin, and wellness infusions delivered in a safe, professional environment.',
+    cardDescription:
+      'Hydration and wellness support designed to help restore, refresh, and recharge your body.',
+    summary:
+      'Medically guided IV and infusion services to support hydration, energy, and recovery.',
+    intro:
+      'IV therapy allows fluids, vitamins, and nutrients to be delivered directly into the bloodstream, helping the body absorb them more efficiently. Our IV & Infusion Therapy services are designed to support hydration, energy, recovery, and overall wellness.',
+    conditions: [],
+    approach: [
+      'May help with dehydration, fatigue, and low energy',
+      'May support immune health and vitamin replenishment',
+      'May aid recovery from illness or strenuous activity',
+      'All infusions are reviewed against your health history and goals',
+    ],
+    keywords: [
+      'IV therapy',
+      'infusion therapy',
+      'hydration',
+      'wellness IV',
+      'vitamin infusion',
+    ],
+  },
+  {
+    slug: 'in-house-lab',
+    title: 'In-House Lab Services',
+    iconKey: 'in-house-lab',
+    metaDescription:
+      'In-house lab and blood draw services at Elevate Wellness & Health — convenient testing for wellness visits, chronic condition monitoring, and specialty care plans.',
+    cardDescription:
+      'Convenient lab testing and blood draw services available right here in our clinic.',
+    summary:
+      'Lab orders and blood draws completed in the same visit, without a separate trip.',
+    intro:
+      'We make care easier by offering in-house lab services and blood draws in the same location. Patients can complete their visit, receive their lab order, and have blood work done without needing to travel to a separate facility.',
+    conditions: [],
+    approach: [
+      'Wellness visits and annual screenings',
+      'Chronic condition monitoring and medication management',
+      'Hormone, vitamin, and metabolic panels',
+      'Lab support for weight loss programs, peptide therapy, and preventive care',
+    ],
+    keywords: [
+      'in-house lab',
+      'blood draw',
+      'lab testing',
+      'wellness labs',
+      'chronic condition monitoring',
+    ],
   },
 ]
 

@@ -4,7 +4,9 @@ import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
+import { StructuredData } from '@/components/StructuredData'
 import { siteConfig } from '@/lib/config'
+import { generateLocalBusinessSchema, generateOrganizationSchema } from '@/lib/structured-data'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const fraunces = Fraunces({
@@ -75,6 +77,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="flex min-h-dvh flex-col">
+        <StructuredData data={[generateOrganizationSchema(), generateLocalBusinessSchema()]} />
         <GoogleAnalytics />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 btn-primary">
           Skip to main content

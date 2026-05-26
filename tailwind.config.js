@@ -10,6 +10,8 @@ module.exports = {
       colors: {
         // Bronze ramp derived from the brand logo gradient.
         // 400/600/700 match the logo's top/mid/bottom stops.
+        // In the soft-clinical palette, bronze is used as accent only
+        // (icons, CTAs, eyebrows, links) — not background.
         primary: {
           50: '#fdf6ea',
           100: '#f8e5c8',
@@ -22,31 +24,33 @@ module.exports = {
           800: '#6f4a26',
           900: '#3f2916',
         },
-        // Warm dark neutrals — paired with the bronze primary for a pure warm palette.
+        // Light-to-medium blue ramp. 50 = pale-blue section band (#EEF4FA).
+        // 900 = deep navy (#0F1E33) used for the CTA banner and footer.
         secondary: {
-          50: '#fafaf7',
-          100: '#f0efea',
-          200: '#dad8ce',
-          300: '#b8b5a6',
-          400: '#928e7d',
-          500: '#6f6b5b',
-          600: '#534f43',
-          700: '#3a372f',
-          800: '#23211c',
-          900: '#0e0d0a',
+          50: '#eef4fa',
+          100: '#dde9f2',
+          200: '#bdd1e3',
+          300: '#8db2cd',
+          400: '#5b8db1',
+          500: '#3a6c95',
+          600: '#2b557a',
+          700: '#224361',
+          800: '#16314a',
+          900: '#0F1E33',
         },
-        // Warm-tinted neutrals to harmonize with the bronze brand identity.
+        // Cool slate-tinted gray neutrals. Replaces the prior warm-cream
+        // neutrals so the page reads as soft-clinical rather than warm-bronze.
         neutral: {
-          50: '#faf8f4',
-          100: '#f1ede5',
-          200: '#e3ddd1',
-          300: '#ccc6b8',
-          400: '#a8a294',
-          500: '#6e6a5e',
-          600: '#4d4a41',
-          700: '#3a3832',
-          800: '#23211d',
-          900: '#14130f',
+          50: '#f6f8fa',
+          100: '#eef1f5',
+          200: '#dde3ec',
+          300: '#c2cbd9',
+          400: '#94a0b3',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
         },
       },
       fontFamily: {

@@ -8,7 +8,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/providers', {
   title: 'Our Providers',
   description:
-    'Meet the Elevate Wellness & Health care team—board-certified specialists dedicated to expert, compassionate care.',
+    'Meet the Elevate Wellness & Health care team — board-certified physicians spanning orthopedic surgery, internal medicine, and gastroenterology.',
 })
 
 export default function ProvidersPage() {
@@ -17,9 +17,9 @@ export default function ProvidersPage() {
       <Hero
         subtitle="Specialist Physicians"
         title="Meet Our Expert Team"
-        description="Board-certified specialists with decades of combined experience—here to support your wellness & health goals."
+        description="Board-certified specialists across orthopedics, internal medicine, and gastroenterology — here to support your wellness & health goals."
         highlights={[
-          'Subspecialty-focused physicians across major clinical domains',
+          'Subspecialty-focused physicians across clinical and wellness care',
           'Shared treatment planning and coordinated follow-up',
           'Patient-centered communication at each decision point',
         ]}
@@ -39,45 +39,81 @@ export default function ProvidersPage() {
             centered
           />
 
-          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-8 sm:grid-cols-[minmax(0,18rem)_1fr] sm:items-start">
-            <ProviderCard
-              name="Dr. Kamil M. Amer"
-              title="MD — Orthopedic Surgery"
-              specialty="Hand & Upper Extremity"
-              slug="dr-kamil-amer"
-            />
-            <div>
-              <h3 className="text-2xl font-bold tracking-tight text-neutral-900">Dr. Kamil M. Amer, MD</h3>
-              <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-primary-700">
-                Orthopedic Surgery · Hand &amp; Upper Extremity
-              </p>
-              <p className="mt-4 text-neutral-600">
-                Board-certified orthopedic surgeon and fellowship-trained hand and upper-extremity specialist. Dr.
-                Amer earned his MD from the Lewis Katz School of Medicine at Temple University, completed his
-                orthopedic surgery residency at Rutgers New Jersey Medical School, and a hand and upper extremity
-                fellowship at Thomas Jefferson University Hospital.
-              </p>
-              <p className="mt-3 text-neutral-600">
-                He treats patients across northern New Jersey with affiliations including Saint Michael&apos;s
-                Medical Center (Newark), Chilton Medical Center / Atlantic Health (Clifton), Saint Clare&apos;s
-                Denville Hospital, and St. Mary&apos;s General Hospital.
-              </p>
-              <div className="mt-6">
-                <Link href={`/providers/dr-kamil-amer`} className="btn-secondary">
-                  Read Full Bio
-                </Link>
+          <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-2">
+            {/* Dr. Kamil M. Amer */}
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-[minmax(0,14rem)_1fr]">
+              <ProviderCard
+                name="Dr. Kamil M. Amer"
+                title="MD — Orthopedic Surgery"
+                specialty="Hand & Upper Extremity"
+                slug="dr-kamil-amer"
+              />
+              <div>
+                <h3 className="text-xl font-bold tracking-tight text-neutral-900">
+                  Dr. Kamil M. Amer, MD
+                </h3>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-primary-700">
+                  Orthopedic Surgery · Hand &amp; Upper Extremity
+                </p>
+                <p className="mt-4 text-sm text-neutral-600">
+                  Board-certified orthopedic surgeon and fellowship-trained hand and upper-extremity
+                  specialist. Dr. Amer earned his MD from the Lewis Katz School of Medicine at
+                  Temple University, completed his orthopedic surgery residency at Rutgers New
+                  Jersey Medical School, and a hand and upper extremity fellowship at Thomas
+                  Jefferson University Hospital.
+                </p>
+                <p className="mt-3 text-sm text-neutral-600">
+                  Hospital affiliations include Saint Michael&apos;s Medical Center (Newark),
+                  Chilton Medical Center / Atlantic Health (Clifton), Saint Clare&apos;s Denville
+                  Hospital, and St. Mary&apos;s General Hospital.
+                </p>
+                <div className="mt-5">
+                  <Link href="/providers/dr-kamil-amer" className="btn-secondary">
+                    Read Full Bio
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Dr. Kamal M. Amer */}
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-[minmax(0,14rem)_1fr]">
+              <ProviderCard
+                name="Dr. Kamal M. Amer"
+                title="MD — Gastroenterology"
+                specialty="Internal Medicine · GI"
+                slug="dr-kamal-amer"
+              />
+              <div>
+                <h3 className="text-xl font-bold tracking-tight text-neutral-900">
+                  Dr. Kamal M. Amer, MD
+                </h3>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-primary-700">
+                  Gastroenterology · Internal Medicine
+                </p>
+                <p className="mt-4 text-sm text-neutral-600">
+                  Board-certified in Gastroenterology, Internal Medicine, and Obesity &amp;
+                  Nutrition. Dr. Amer completed his fellowship in Gastroenterology and Hepatology
+                  at Rutgers New Jersey Medical School and his Internal Medicine residency at
+                  Thomas Jefferson University Hospital.
+                </p>
+                <p className="mt-3 text-sm text-neutral-600">
+                  Hospital affiliations include Hackensack Meridian Jersey Shore, Hackensack
+                  Meridian Mountainside, St. Joseph&apos;s University Medical Center, and Bergen
+                  New Bridge Medical Center. He cares for patients in English, Spanish, and Arabic.
+                </p>
+                <div className="mt-5">
+                  <Link href="/providers/dr-kamal-amer" className="btn-secondary">
+                    Read Full Bio
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-
-          <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-neutral-500">
-            Our clinical team is growing. Additional providers will be listed here as they join the practice.
-          </p>
         </div>
       </section>
 
       {/* Why Choose Our Team */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding section-band">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <SectionHeader
@@ -99,8 +135,9 @@ export default function ProvidersPage() {
                   </h3>
                 </div>
                 <p className="text-neutral-600">
-                  All our physicians are board-certified by the American Board of Orthopaedic Surgery, 
-                  ensuring the highest standards of care and expertise.
+                  Our physicians are board-certified by their respective specialty boards —
+                  Orthopaedic Surgery, Gastroenterology, and Internal Medicine — ensuring high
+                  clinical standards across every service.
                 </p>
               </div>
 
@@ -116,8 +153,9 @@ export default function ProvidersPage() {
                   </h3>
                 </div>
                 <p className="text-neutral-600">
-                  Our providers regularly attend conferences and training to stay current with 
-                  the latest advances in musculoskeletal care and surgical techniques.
+                  Our providers regularly attend conferences and training to stay current with the
+                  latest advances in their fields — from musculoskeletal surgery to gastroenterology
+                  and internal medicine.
                 </p>
               </div>
 
@@ -129,12 +167,12 @@ export default function ProvidersPage() {
                     </svg>
                   </div>
                   <h3 className="ml-4 text-lg font-semibold text-neutral-900">
-                    Academic Excellence
+                    Academic Background
                   </h3>
                 </div>
                 <p className="text-neutral-600">
-                  Our team includes faculty members and published researchers who contribute 
-                  to advancing the field of musculoskeletal and wellness medicine.
+                  Our team brings academic training and research experience across orthopedics,
+                  digestive health, and adult medicine to inform thoughtful patient care.
                 </p>
               </div>
 
@@ -150,8 +188,8 @@ export default function ProvidersPage() {
                   </h3>
                 </div>
                 <p className="text-neutral-600">
-                  We take the time to listen, explain options clearly, and involve you in 
-                  every decision about your care.
+                  We take the time to listen, explain options clearly, and involve you in every
+                  decision about your care.
                 </p>
               </div>
             </div>

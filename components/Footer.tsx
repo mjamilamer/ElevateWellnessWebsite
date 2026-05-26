@@ -6,7 +6,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative overflow-hidden bg-[#1a1108] text-primary-100/85">
+    <footer className="relative overflow-hidden bg-secondary-900 text-primary-100/85">
       {/* Thin bronze hairline separates the footer from the CTA banner above */}
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-500/40 to-transparent" />
       <div className="pointer-events-none absolute -top-32 -right-24 h-72 w-72 rounded-full bg-primary-700/15 blur-3xl" />
@@ -92,7 +92,7 @@ export function Footer() {
             <h3 className="mb-4 font-display text-lg font-semibold tracking-tight text-white">Contact</h3>
             <address className="not-italic text-sm space-y-2">
               <p>{siteConfig.contact.address.street}</p>
-              <p>{siteConfig.contact.address.suite}</p>
+              {siteConfig.contact.address.suite && <p>{siteConfig.contact.address.suite}</p>}
               <p>
                 {siteConfig.contact.address.city}, {siteConfig.contact.address.state}{' '}
                 {siteConfig.contact.address.zip}
@@ -102,6 +102,9 @@ export function Footer() {
                   {formatPhone(siteConfig.contact.phone)}
                 </a>
               </p>
+              {siteConfig.contact.fax && (
+                <p className="text-primary-100/70">Fax: {siteConfig.contact.fax}</p>
+              )}
               <p>
                 <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-white transition-colors">
                   {siteConfig.contact.email}

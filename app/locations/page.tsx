@@ -51,7 +51,7 @@ export default function LocationsPage() {
                   </h3>
                   <address className="not-italic text-neutral-700">
                     <p>{siteConfig.contact.address.street}</p>
-                    <p>{siteConfig.contact.address.suite}</p>
+                    {siteConfig.contact.address.suite && <p>{siteConfig.contact.address.suite}</p>}
                     <p>
                       {siteConfig.contact.address.city}, {siteConfig.contact.address.state}{' '}
                       {siteConfig.contact.address.zip}
@@ -125,6 +125,12 @@ export default function LocationsPage() {
                         {formatPhone(siteConfig.contact.phone)}
                       </a>
                     </div>
+                    {siteConfig.contact.fax && (
+                      <div>
+                        <span className="font-medium">Fax: </span>
+                        <span>{siteConfig.contact.fax}</span>
+                      </div>
+                    )}
                     <div>
                       <span className="font-medium">Email: </span>
                       <a href={`mailto:${siteConfig.contact.email}`} className="text-primary-700 hover:underline">
@@ -138,10 +144,11 @@ export default function LocationsPage() {
               {/* Map */}
               <div className="surface-card h-[600px] overflow-hidden">
                 <iframe
-                  title="Office Location Map"
-                  src={`https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${encodeURIComponent(
+                  title={`Map of ${siteConfig.name} office`}
+                  aria-label={`Map showing ${siteConfig.contact.address.street}, ${siteConfig.contact.address.city}, ${siteConfig.contact.address.state}`}
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(
                     `${siteConfig.contact.address.street}, ${siteConfig.contact.address.city}, ${siteConfig.contact.address.state} ${siteConfig.contact.address.zip}`
-                  )}`}
+                  )}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -178,9 +185,8 @@ export default function LocationsPage() {
                   </h3>
                 </div>
                 <p className="text-neutral-700">
-                  Free parking is available in the building's parking garage. Enter from Main Street 
-                  and look for visitor parking on levels 1-3. Handicapped-accessible parking spaces 
-                  are available on level 1 near the elevators.
+                  Parking is available near our North Bergen office. Our team will share specific
+                  parking guidance and any accommodations you may need when you schedule your visit.
                 </p>
               </div>
 
@@ -214,9 +220,8 @@ export default function LocationsPage() {
                   </h3>
                 </div>
                 <p className="text-neutral-700">
-                  We're conveniently located near several public transit routes. The Green Line 
-                  station is a 5-minute walk, and bus routes 42, 57, and 89 stop within one block 
-                  of our building.
+                  Our North Bergen office is accessible by car and by local public transit serving
+                  the Broadway corridor. Contact our team for the best route from your starting point.
                 </p>
               </div>
 
@@ -232,9 +237,9 @@ export default function LocationsPage() {
                   </h3>
                 </div>
                 <p className="text-neutral-700">
-                  We're located on the 2nd floor of the main wellness building. Take the elevator 
-                  or stairs from the main lobby. Our suite number is listed above, and you'll see our signage 
-                  when you exit the elevator.
+                  Look for Elevate Wellness &amp; Health signage at the entrance. Our front desk
+                  will share specific arrival details and any check-in instructions before your
+                  first visit.
                 </p>
               </div>
             </div>

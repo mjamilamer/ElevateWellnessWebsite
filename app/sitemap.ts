@@ -29,15 +29,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  // Provider pages
-  const providers = [
-    'dr-sarah-johnson',
-    'dr-michael-chen',
-    'dr-emily-rodriguez',
-    'dr-david-kim',
-    'dr-jennifer-lee',
-    'dr-robert-thompson',
-  ].map((provider) => ({
+  // Provider pages — keep in sync with the two physician detail pages under
+  // app/providers/<slug>/page.tsx. Adding a third provider? Add the slug here
+  // and create the matching detail page.
+  const providers = ['dr-kamil-amer', 'dr-kamal-amer'].map((provider) => ({
     url: `${baseUrl}/providers/${provider}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,

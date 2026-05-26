@@ -109,18 +109,23 @@ export function Header() {
             >
               <span
                 aria-hidden="true"
-                className="block h-9 w-11 shrink-0 bg-gradient-to-b from-primary-400 via-primary-600 to-primary-700 sm:h-10 sm:w-12 lg:h-11 lg:w-[3.25rem]"
-                style={{
-                  WebkitMaskImage: 'url(/images/elevate_logo_icon.svg)',
-                  WebkitMaskRepeat: 'no-repeat',
-                  WebkitMaskPosition: 'center',
-                  WebkitMaskSize: 'contain',
-                  maskImage: 'url(/images/elevate_logo_icon.svg)',
-                  maskRepeat: 'no-repeat',
-                  maskPosition: 'center',
-                  maskSize: 'contain',
-                }}
-              />
+                className="relative inline-flex h-10 w-12 shrink-0 items-center justify-center rounded-full border border-primary-400/60 bg-primary-50/60 p-1 shadow-[inset_0_1px_2px_rgba(78,50,22,0.18)] sm:h-11 sm:w-14 lg:h-12 lg:w-[3.75rem]"
+              >
+                <span
+                  aria-hidden="true"
+                  className="block h-full w-full bg-gradient-to-b from-primary-400 via-primary-600 to-primary-700"
+                  style={{
+                    WebkitMaskImage: 'url(/images/elevate_logo_icon.svg)',
+                    WebkitMaskRepeat: 'no-repeat',
+                    WebkitMaskPosition: 'center',
+                    WebkitMaskSize: 'contain',
+                    maskImage: 'url(/images/elevate_logo_icon.svg)',
+                    maskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    maskSize: 'contain',
+                  }}
+                />
+              </span>
               <span className="block font-display text-base font-semibold leading-snug tracking-tight sm:text-lg lg:text-xl">
                 {siteConfig.name.split(/(\s&\s)/).map((part, i) =>
                   /\s&\s/.test(part) ? (

@@ -6,26 +6,26 @@ import { pageMetadata } from '@/lib/seo'
 import { generateBreadcrumbSchema, generatePhysicianSchema } from '@/lib/structured-data'
 import { siteConfig } from '@/lib/config'
 
-export const metadata: Metadata = pageMetadata('/providers/dr-kamil-amer', {
-  title: 'Dr. Kamil M. Amer, MD — Orthopedic Surgery',
+export const metadata: Metadata = pageMetadata('/providers/dr-kamal-amer', {
+  title: 'Dr. Kamal M. Amer, MD — Gastroenterology & Internal Medicine',
   description:
-    'Dr. Kamil M. Amer is a board-certified orthopedic surgeon and fellowship-trained hand and upper extremity specialist serving patients across northern New Jersey.',
+    'Dr. Kamal M. Amer is board-certified in Gastroenterology, Internal Medicine, and Obesity & Nutrition, caring for adult patients with a focus on digestive health and metabolic wellness.',
 })
 
-export default function DrKamilAmerPage() {
+export default function DrKamalAmerPage() {
   const base = siteConfig.siteUrl.replace(/\/$/, '')
   const jsonLd = [
     generatePhysicianSchema({
-      name: 'Dr. Kamil M. Amer, MD',
-      slug: 'dr-kamil-amer',
+      name: 'Dr. Kamal M. Amer, MD',
+      slug: 'dr-kamal-amer',
       title: 'MD',
-      specialty: 'Orthopedic Surgery — Hand & Upper Extremity',
-      bio: 'Board-certified orthopedic surgeon with fellowship training in hand and upper extremity surgery from Thomas Jefferson University Hospital.',
+      specialty: 'Gastroenterology — Internal Medicine',
+      bio: 'Board-certified gastroenterologist and internal medicine physician with fellowship training in Gastroenterology & Hepatology at Rutgers New Jersey Medical School.',
     }),
     generateBreadcrumbSchema([
       { name: 'Home', url: `${base}/` },
       { name: 'Providers', url: `${base}/providers` },
-      { name: 'Dr. Kamil M. Amer', url: `${base}/providers/dr-kamil-amer` },
+      { name: 'Dr. Kamal M. Amer', url: `${base}/providers/dr-kamal-amer` },
     ]),
   ]
 
@@ -49,18 +49,18 @@ export default function DrKamilAmerPage() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">Clinical Team</p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl md:text-5xl">
-                Dr. Kamil M. Amer, MD
+                Dr. Kamal M. Amer, MD
               </h1>
               <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-primary-700">
-                Orthopedic Surgery · Hand &amp; Upper Extremity
+                Gastroenterology · Internal Medicine
               </p>
               <p className="mt-5 max-w-2xl text-lg text-neutral-700">
-                Board-certified orthopedic surgeon with fellowship training in hand and upper extremity surgery,
-                caring for patients across northern New Jersey.
+                Board-certified gastroenterologist and internal medicine physician with a clinical
+                focus on digestive health, metabolic wellness, and nutrition-based interventions.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link href="/appointments" className="btn-primary">
-                  Schedule Appointment
+                  Schedule with Dr. Amer
                 </Link>
                 <Link href="/contact" className="btn-secondary">
                   Contact Office
@@ -79,21 +79,25 @@ export default function DrKamilAmerPage() {
               <div>
                 <h2 className="text-2xl font-bold tracking-tight text-neutral-900">About Dr. Amer</h2>
                 <p className="mt-4">
-                  Dr. Kamil M. Amer is a board-certified orthopedic surgeon specializing in the care of the hand
-                  and upper extremity. His practice emphasizes precise diagnosis, evidence-based treatment, and
-                  clear communication with patients throughout their recovery.
+                  Dr. Kamal M. Amer brings a well-rounded approach to adult care through his
+                  combined training in Internal Medicine and Gastroenterology. His background
+                  allows him to see the whole patient — not just a single symptom — and connect
+                  overall medical health with digestive wellness in one coordinated plan.
                 </p>
                 <p className="mt-4">
-                  He earned his Doctor of Medicine from the Lewis Katz School of Medicine at Temple University,
-                  followed by an orthopedic surgery residency at Rutgers New Jersey Medical School. He went on to
-                  complete a fellowship in hand and upper extremity surgery at Thomas Jefferson University
-                  Hospital, where he refined his expertise in microsurgical reconstruction, complex fracture
-                  care, and minimally invasive techniques.
+                  He completed his fellowship in Gastroenterology and Hepatology at Rutgers New
+                  Jersey Medical School and his Internal Medicine residency at Thomas Jefferson
+                  University Hospital. Dr. Amer is board-certified in Gastroenterology, Internal
+                  Medicine, and Obesity & Nutrition.
                 </p>
                 <p className="mt-4">
-                  Dr. Amer treats patients across northern New Jersey at affiliated locations in Clifton,
-                  Paramus, and Newark. He sees patients with a range of upper extremity conditions, from acute
-                  injuries and fractures to chronic conditions affecting the shoulder, elbow, wrist, and hand.
+                  As an Internal Medicine provider, he focuses on adult preventive care, annual
+                  wellness visits, chronic condition management, and concerns such as high blood
+                  pressure, diabetes, cholesterol, fatigue, and overall wellness. As a
+                  Gastroenterology specialist, he evaluates and treats acid reflux, abdominal pain,
+                  bloating, constipation, diarrhea, liver concerns, stomach issues, and intestinal
+                  disorders. Patients can expect thoughtful, detailed, and compassionate care
+                  focused on finding the cause of symptoms.
                 </p>
               </div>
 
@@ -101,12 +105,14 @@ export default function DrKamilAmerPage() {
                 <h2 className="text-2xl font-bold tracking-tight text-neutral-900">Clinical Interests</h2>
                 <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {[
-                    'Hand and upper extremity surgery',
-                    'Carpal tunnel and nerve decompression',
-                    'Fracture care and trauma reconstruction',
-                    'Tendon repair and reconstruction',
-                    'Wrist and elbow arthroscopy',
-                    'Sports-related upper extremity injuries',
+                    'Gastroenterology consultation',
+                    'Colonoscopy and screening',
+                    'Acid reflux, GERD, and abdominal pain',
+                    'Liver and metabolic health',
+                    'Adult preventive care',
+                    'Chronic condition management',
+                    'Weight loss and nutrition support',
+                    'Hemorrhoid evaluation and care',
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-neutral-700">
                       <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
@@ -117,12 +123,9 @@ export default function DrKamilAmerPage() {
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold tracking-tight text-neutral-900">Research &amp; Scholarship</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-neutral-900">Languages</h2>
                 <p className="mt-4">
-                  Dr. Amer has contributed to the peer-reviewed orthopedic literature on topics including
-                  tranexamic acid use in orthopedic surgery, radial head arthroplasty, intertrochanteric fracture
-                  management, posterior interosseous neuropathy, and the development of mobile-based surgical
-                  simulation tools for procedures such as carpal tunnel release.
+                  Dr. Amer cares for patients in English, Spanish, and Arabic.
                 </p>
               </div>
             </article>
@@ -137,25 +140,17 @@ export default function DrKamilAmerPage() {
                   <div>
                     <dt className="font-semibold text-neutral-900">Fellowship</dt>
                     <dd className="mt-0.5 text-neutral-600">
-                      Hand &amp; Upper Extremity Surgery,
-                      <br />
-                      Thomas Jefferson University Hospital
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="font-semibold text-neutral-900">Residency</dt>
-                    <dd className="mt-0.5 text-neutral-600">
-                      Orthopedic Surgery,
+                      Gastroenterology &amp; Hepatology,
                       <br />
                       Rutgers New Jersey Medical School
                     </dd>
                   </div>
                   <div>
-                    <dt className="font-semibold text-neutral-900">Medical School</dt>
+                    <dt className="font-semibold text-neutral-900">Residency</dt>
                     <dd className="mt-0.5 text-neutral-600">
-                      Doctor of Medicine,
+                      Internal Medicine,
                       <br />
-                      Lewis Katz School of Medicine at Temple University
+                      Thomas Jefferson University Hospital
                     </dd>
                   </div>
                 </dl>
@@ -165,9 +160,11 @@ export default function DrKamilAmerPage() {
                 <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-700">
                   Board Certification
                 </h3>
-                <p className="mt-3 text-sm text-neutral-700">
-                  American Board of Orthopaedic Surgery (ABOS)
-                </p>
+                <ul className="mt-3 space-y-2 text-sm text-neutral-700">
+                  <li>Gastroenterology</li>
+                  <li>Internal Medicine</li>
+                  <li>Obesity &amp; Nutrition</li>
+                </ul>
               </div>
 
               <div className="surface-card p-6">
@@ -175,10 +172,10 @@ export default function DrKamilAmerPage() {
                   Hospital Affiliations
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-neutral-700">
-                  <li>Saint Michael&apos;s Medical Center — Newark, NJ</li>
-                  <li>Chilton Medical Center (Atlantic Health) — Clifton, NJ</li>
-                  <li>Saint Clare&apos;s Denville Hospital</li>
-                  <li>St. Mary&apos;s General Hospital</li>
+                  <li>Hackensack Meridian Jersey Shore University Medical Center</li>
+                  <li>Hackensack Meridian Mountainside Medical Center</li>
+                  <li>St. Joseph&apos;s University Medical Center</li>
+                  <li>Bergen New Bridge Medical Center</li>
                 </ul>
               </div>
 
@@ -187,9 +184,9 @@ export default function DrKamilAmerPage() {
                   Practice Locations
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-neutral-700">
-                  <li>Clifton, NJ</li>
-                  <li>Paramus, NJ</li>
-                  <li>Newark, NJ</li>
+                  <li>North Bergen, NJ — Elevate Wellness &amp; Health</li>
+                  <li>Paterson, NJ</li>
+                  <li>Woodland Park, NJ</li>
                 </ul>
               </div>
             </aside>

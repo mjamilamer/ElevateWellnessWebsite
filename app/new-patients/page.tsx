@@ -234,7 +234,7 @@ export default function NewPatientsPage() {
               />
               <FAQItem
                 question="Do you offer same-day appointments for urgent issues?"
-                answer="Yes, we reserve appointment slots for urgent musculoskeletal issues. Call our office, and we'll do our best to accommodate you the same day or next day."
+                answer="We reserve appointment slots for urgent medical concerns across our specialties. Call our office and we'll do our best to accommodate you the same day or next day."
               />
               <FAQItem
                 question="What if I need to cancel or reschedule?"

@@ -44,6 +44,9 @@ export default function ContactPage() {
                 >
                   {formatPhone(siteConfig.contact.phone)}
                 </a>
+                {siteConfig.contact.fax && (
+                  <p className="mt-1 text-sm text-neutral-500">Fax: {siteConfig.contact.fax}</p>
+                )}
                 <p className="mt-2 text-sm text-neutral-600">
                   Monday - Friday<br />8:00 AM - 5:00 PM
                 </p>
@@ -79,7 +82,7 @@ export default function ContactPage() {
                 <h3 className="text-lg font-bold text-neutral-900 mb-2">Visit Us</h3>
                 <address className="not-italic text-neutral-700 text-sm">
                   {siteConfig.contact.address.street}<br />
-                  {siteConfig.contact.address.suite}<br />
+                  {siteConfig.contact.address.suite && <>{siteConfig.contact.address.suite}<br /></>}
                   {siteConfig.contact.address.city}, {siteConfig.contact.address.state} {siteConfig.contact.address.zip}
                 </address>
                 <a

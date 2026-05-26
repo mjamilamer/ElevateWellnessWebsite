@@ -4,17 +4,18 @@ export const siteConfig = {
   legalName: 'Elevate Wellness & Health, LLC',
   description:
     'Personalized wellness & health care to help you feel your best. Schedule a convenient visit—no referral required.',
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://elevatewellnessandhealth.com',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://elevatewellnessnj.com',
   
   contact: {
-    phone: '+1 (000) 000-0000',
-    email: 'hello@exampleclinic.test',
+    phone: '+1 (206) 397-8171',
+    fax: '206-395-0372',
+    email: 'Info@elevatewellnessnj.com',
     address: {
-      street: '000 Wellness Avenue',
-      suite: 'Suite 000',
-      city: 'Sample City',
-      state: 'ST',
-      zip: '00000',
+      street: '7504-06 Broadway Avenue',
+      suite: '',
+      city: 'North Bergen',
+      state: 'NJ',
+      zip: '07047',
     },
   },
 
