@@ -104,7 +104,7 @@ export default function ContactPage() {
               />
 
               <div className="mt-12">
-                <ContactForm formType="contact" />
+                <ContactForm />
               </div>
             </div>
           </div>

@@ -10,12 +10,15 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@libsql/client": "^0.17.2",
+    "@googleapis/calendar": "^14.3.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.3.1",
+    "date-fns-tz": "^3.2.0",
+    "google-auth-library": "^10.6.2",
     "next": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "resend": "^4.8.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {

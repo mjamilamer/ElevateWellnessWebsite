@@ -116,7 +116,7 @@ export const servicePages: ServicePage[] = [
     cardDescription:
       'Personalized therapy to help you move better, recover stronger, and return to daily life with confidence.',
     summary:
-      'Hands-on physical therapy designed around your condition, lifestyle, and goals — from pain relief to long-term function.',
+      'Personalized therapy to help you move better, recover stronger, and return to daily life with confidence.',
     intro:
       'Our Physical Therapy program is designed to support patients through every stage of recovery — from pain relief and injury rehabilitation to strength, mobility, balance, and long-term function. We focus on the root cause of discomfort, not just the symptom, so each plan fits the patient’s condition, lifestyle, and goals.',
     conditions: [
@@ -151,7 +151,7 @@ export const servicePages: ServicePage[] = [
     cardDescription:
       'Personalized peptide support to help with energy, weight management, recovery, and overall wellness.',
     summary:
-      'Medically-guided peptide therapy plans built around your wellness goals.',
+      'Personalized peptide support to help with energy, weight management, recovery, and overall wellness.',
     intro:
       'Peptides are small protein-like compounds that may help signal the body to improve certain functions. Our Peptide Wellness services are designed for patients who want to support their body’s natural healing, metabolism, strength, and overall vitality with a medically guided plan.',
     conditions: [],
@@ -178,7 +178,7 @@ export const servicePages: ServicePage[] = [
     cardDescription:
       'Natural, holistic care to support pain relief, relaxation, healing, and overall wellness.',
     summary:
-      'Time-tested acupuncture care, personalized to your symptoms and wellness goals.',
+      'Natural, holistic care to support pain relief, relaxation, healing, and overall wellness.',
     intro:
       'Acupuncture is a gentle, time-tested treatment that uses very fine needles placed at specific points to help support the body’s natural healing process. Our services are designed to help patients feel better, move better, and restore balance in the body.',
     conditions: [
@@ -212,7 +212,7 @@ export const servicePages: ServicePage[] = [
     cardDescription:
       'Hydration and wellness support designed to help restore, refresh, and recharge your body.',
     summary:
-      'Medically guided IV and infusion services to support hydration, energy, and recovery.',
+      'Hydration and wellness support designed to help restore, refresh, and recharge your body.',
     intro:
       'IV therapy allows fluids, vitamins, and nutrients to be delivered directly into the bloodstream, helping the body absorb them more efficiently. Our IV & Infusion Therapy services are designed to support hydration, energy, recovery, and overall wellness.',
     conditions: [],
@@ -239,7 +239,7 @@ export const servicePages: ServicePage[] = [
     cardDescription:
       'Convenient lab testing and blood draw services available right here in our clinic.',
     summary:
-      'Lab orders and blood draws completed in the same visit, without a separate trip.',
+      'Convenient lab testing and blood draw services available right here in our clinic.',
     intro:
       'We make care easier by offering in-house lab services and blood draws in the same location. Patients can complete their visit, receive their lab order, and have blood work done without needing to travel to a separate facility.',
     conditions: [],

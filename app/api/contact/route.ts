@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { dbConfigured, getDb } from '@/lib/server/db'
 import {
   clientIp,
   containsPotentialPHI,
   generateId,
-  logAudit,
   sanitizeInput,
 } from '@/lib/server/api-utils'
+import { mailConfigured, sendEmail } from '@/lib/server/email'
+import { contactMessageEmail } from '@/lib/server/email-templates/contact-message'
 
 const contactSchema = z.object({
   name: z.string().min(1).max(100),
@@ -17,9 +17,11 @@ const contactSchema = z.object({
 })
 
 export async function POST(request: Request) {
-  if (!dbConfigured()) {
+  // Mail transport is the only persistence layer now. Without it, surface a
+  // clear failure so the patient knows to call the office.
+  if (!mailConfigured()) {
     return NextResponse.json(
-      { error: 'Contact form is not available (database not configured).' },
+      { error: 'Contact form is temporarily unavailable. Please call our office.' },
       { status: 503 }
     )
   }
@@ -51,23 +53,34 @@ export async function POST(request: Request) {
     }
 
     const id = generateId('msg')
-    const db = getDb()
+    const ipAddress = clientIp(request)
+    const userAgent = request.headers.get('user-agent') || 'unknown'
 
-    await db.execute({
-      sql: `INSERT INTO contact_messages (id, name, email, phone, message, status)
-            VALUES (?, ?, ?, ?, ?, 'new')`,
-      args: [id, sanitized.name, sanitized.email, sanitized.phone, sanitized.message],
+    const { subject, html, text } = contactMessageEmail({
+      id,
+      name: sanitized.name,
+      email: sanitized.email,
+      phone: sanitized.phone,
+      message: sanitized.message,
+      ipAddress,
+      userAgent,
+      submittedAt: new Date(),
     })
 
-    await logAudit(db, {
-      actor: sanitized.email,
-      action: 'create_contact_message',
-      resource_type: 'contact_message',
-      resource_id: id,
-      payload: JSON.stringify({ has_phone: !!sanitized.phone }),
-      ip_address: clientIp(request),
-      user_agent: request.headers.get('user-agent') || 'unknown',
+    const result = await sendEmail({
+      subject,
+      html,
+      text,
+      replyTo: sanitized.email,
     })
+
+    if (!result.ok) {
+      console.error('Contact email send failed:', result.error)
+      return NextResponse.json(
+        { error: 'Failed to send message. Please try again or call our office.' },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json(
       {
@@ -77,7 +90,7 @@ export async function POST(request: Request) {
       { status: 201 }
     )
   } catch (error) {
-    console.error('Error creating contact message:', error)
+    console.error('Error processing contact message:', error)
     return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
   }
 }
