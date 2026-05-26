@@ -15,12 +15,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/locations',
     '/appointments',
     '/contact',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1 : 0.8,
-  }))
+    '/privacy',
+    '/terms',
+    '/hipaa',
+  ].map((route) => {
+    const isLegal = route === '/privacy' || route === '/terms' || route === '/hipaa'
+    return {
+      url: `${baseUrl}${route}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: route === '' ? 1 : isLegal ? 0.3 : 0.8,
+    }
+  })
 
   const services = getAllServiceSlugs().map((service) => ({
     url: `${baseUrl}/services/${service}`,

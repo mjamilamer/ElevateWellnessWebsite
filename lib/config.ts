@@ -1,10 +1,10 @@
 export const siteConfig = {
   name: 'Elevate Wellness & Health',
   /** Use for copyright, legal footers, and structured data where the legal entity is required. */
-  legalName: 'Elevate Wellness & Health, LLC',
+  legalName: 'Elevate Wellness & Health',
   description:
     'Personalized wellness & health care to help you feel your best. Schedule a convenient visit—no referral required.',
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://elevatewellnessnj.com',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevatewellnessnj.com',
   
   contact: {
     phone: '+1 (206) 397-8171',

@@ -12,7 +12,6 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { siteConfig } from '@/lib/config'
-import { getServicePage } from '@/lib/service-content'
 import { assignDoctor, allServiceSlugs } from '@/lib/scheduling/assignment'
 import { generateCandidateSlots, formatSlotLabel } from '@/lib/scheduling/slots'
 import { calendarConfigured, listEventsInRange } from '@/lib/server/google-calendar'
@@ -114,18 +113,3 @@ export async function POST(request: Request) {
   }
 }
 
-// Static helper to surface the service titles in any future client without
-// re-importing service-content.
-export function GET() {
-  const services = allServiceSlugs().map((slug) => {
-    const sp = getServicePage(slug)
-    const assignment = assignDoctor(slug)!
-    return {
-      slug,
-      title: sp?.title ?? slug,
-      doctor: assignment.doctor,
-      confidence: assignment.confidence,
-    }
-  })
-  return NextResponse.json({ services })
-}

@@ -23,35 +23,39 @@ export default function AboutPage() {
         ]}
       />
 
-      {/* Our Story */}
+      {/* About the Practice */}
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <SectionHeader
-              title="Our Story"
-              subtitle="Since 2005"
-              description="Building a legacy of excellence in wellness & health."
+              title="About the Practice"
+              subtitle="Integrated Medical Care"
+              description="Specialty medicine and wellness services under one roof in North Bergen, New Jersey."
             />
 
             <div className="surface-card mt-8 p-6 md:p-8 prose prose-lg max-w-none">
               <p>
-                Founded in 2005, Elevate Wellness & Health, LLC has been serving our community with 
-                state-of-the-art care for nearly two decades. What started as a 
-                single-provider practice has grown into a comprehensive wellness & health center 
-                with multiple specialists, all committed to one goal: helping you get back 
-                to the activities you love.
+                Elevate Wellness &amp; Health is an integrated medical practice in North Bergen,
+                New Jersey, combining specialty care with wellness services. Our team brings
+                together orthopedic surgery, internal medicine, gastroenterology, physical
+                therapy, peptide wellness, acupuncture, IV therapy, and in-house lab services in
+                a single coordinated setting.
               </p>
 
               <p>
-                Our practice combines cutting-edge medical technology with personalized, 
-                compassionate care. We believe that every patient deserves individual 
-                attention and a treatment plan tailored to their unique needs and goals.
+                Our practice is led by two board-certified physicians: Dr. Kamil M. Amer, an
+                orthopedic surgeon fellowship-trained in hand and upper-extremity care, and
+                Dr. Kamal M. Amer, board-certified in gastroenterology, internal medicine, and
+                obesity &amp; nutrition. Together they cover a broad range of adult care — from
+                musculoskeletal concerns to digestive health, chronic-condition management, and
+                preventive medicine.
               </p>
 
               <p>
-                Over the years, we've helped thousands of patients recover from injuries, 
-                manage chronic conditions, and achieve better quality of life through both 
-                surgical and non-surgical treatments.
+                We believe in care plans built around each patient&apos;s goals and lifestyle.
+                That means clear communication, conservative options explored first when
+                appropriate, and a coordinated approach across specialties so you don&apos;t
+                have to juggle multiple offices.
               </p>
             </div>
           </div>
@@ -195,8 +199,8 @@ export default function AboutPage() {
 
       {/* CTA */}
       <CTASection
-        title="Experience the Elevate Wellness & Health Difference"
-        description="Join thousands of patients who have trusted us with their wellness & health care."
+        title="Ready to meet our team?"
+        description="Schedule a visit with one of our specialists, or reach out with questions — we're here to help."
         primaryCTA={{
           text: 'Schedule Consultation',
           href: '/appointments',

@@ -50,9 +50,9 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="surface-card grid grid-cols-1 divide-y divide-primary-200/60 p-2 text-center md:grid-cols-3 md:divide-x md:divide-y-0 md:p-3">
             <div className="px-4 py-6 md:px-6 md:py-8">
-              <p className="font-display text-3xl font-semibold tracking-tight text-primary-700 sm:text-4xl">20+ Years</p>
+              <p className="font-display text-3xl font-semibold tracking-tight text-primary-700 sm:text-4xl">Board Certified</p>
               <span aria-hidden="true" className="mx-auto mt-3 block h-px w-10 bg-primary-500/70" />
-              <p className="mt-3 text-sm leading-relaxed text-neutral-600">Trusted experience in modern medicine and wellness care</p>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">Specialty-trained physicians across orthopedics, gastroenterology, and internal medicine</p>
             </div>
             <div className="px-4 py-6 md:px-6 md:py-8">
               <p className="font-display text-3xl font-semibold tracking-tight text-primary-700 sm:text-4xl">Same-Week Access</p>
