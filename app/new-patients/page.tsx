@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { FAQItem } from '@/components/FAQItem'
+import { StructuredData } from '@/components/StructuredData'
 import { siteConfig } from '@/lib/config'
 import { pageMetadata } from '@/lib/seo'
 
@@ -11,9 +12,70 @@ export const metadata = pageMetadata('/new-patients', {
     'New patient information for Elevate Wellness & Health—what to expect, insurance, billing, and FAQs.',
 })
 
+/**
+ * FAQ Q/A pairs. Single source of truth used both for visual rendering and
+ * for the FAQPage JSON-LD that unlocks Google rich results.
+ */
+const FAQS: Array<{ question: string; answer: string }> = [
+  {
+    question: 'Do I need a referral to schedule an appointment?',
+    answer:
+      'In most cases, you do not need a referral to see our specialists at Elevate Wellness & Health. However, some insurance plans require referrals for specialist visits. Please check with your insurance provider to confirm their requirements.',
+  },
+  {
+    question: 'How long will my first appointment take?',
+    answer:
+      'Your initial consultation typically lasts 45-60 minutes. This allows time for a comprehensive evaluation, discussion of your symptoms, physical examination, and development of a treatment plan.',
+  },
+  {
+    question: 'What should I bring to my appointment?',
+    answer:
+      'Please bring your insurance card, photo ID, any previous medical records or imaging (X-rays, MRI, CT scans), a list of current medications, and any questions you want to discuss with your provider.',
+  },
+  {
+    question: 'Will I need surgery?',
+    answer:
+      'Not necessarily. We always explore conservative treatment options first, including physical therapy, medication, and injections. Surgery is recommended only when necessary and after discussing all alternatives with you.',
+  },
+  {
+    question: 'How quickly can I get an appointment?',
+    answer:
+      'We strive to see new patients as quickly as possible. Depending on provider availability and urgency, we can often schedule appointments within a few days to a week.',
+  },
+  {
+    question: 'Do you offer same-day appointments for urgent issues?',
+    answer:
+      "We reserve appointment slots for urgent medical concerns across our specialties. Call our office and we'll do our best to accommodate you the same day or next day.",
+  },
+  {
+    question: 'What if I need to cancel or reschedule?',
+    answer:
+      'We understand that schedules change. Please call us at least 24 hours in advance if you need to cancel or reschedule your appointment. This allows us to offer that time to another patient.',
+  },
+  {
+    question: 'Do you provide imaging services on-site?',
+    answer:
+      'We coordinate imaging based on your clinical needs. Some studies can be done in-office; for MRI or CT scans we work with nearby imaging centers and help coordinate those appointments for you.',
+  },
+]
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: f.answer,
+    },
+  })),
+}
+
 export default function NewPatientsPage() {
   return (
     <>
+      <StructuredData data={faqJsonLd} />
       <Hero
         subtitle="First Visit Guide"
         title="Welcome New Patients"
@@ -212,38 +274,9 @@ export default function NewPatientsPage() {
             />
 
             <div className="surface-card mt-12 divide-y divide-neutral-200 p-6">
-              <FAQItem
-                question="Do I need a referral to schedule an appointment?"
-                answer="In most cases, you do not need a referral to see our specialists at Elevate Wellness & Health. However, some insurance plans require referrals for specialist visits. Please check with your insurance provider to confirm their requirements."
-              />
-              <FAQItem
-                question="How long will my first appointment take?"
-                answer="Your initial consultation typically lasts 45-60 minutes. This allows time for a comprehensive evaluation, discussion of your symptoms, physical examination, and development of a treatment plan."
-              />
-              <FAQItem
-                question="What should I bring to my appointment?"
-                answer="Please bring your insurance card, photo ID, any previous medical records or imaging (X-rays, MRI, CT scans), a list of current medications, and any questions you want to discuss with your provider."
-              />
-              <FAQItem
-                question="Will I need surgery?"
-                answer="Not necessarily. We always explore conservative treatment options first, including physical therapy, medication, and injections. Surgery is recommended only when necessary and after discussing all alternatives with you."
-              />
-              <FAQItem
-                question="How quickly can I get an appointment?"
-                answer="We strive to see new patients as quickly as possible. Depending on provider availability and urgency, we can often schedule appointments within a few days to a week."
-              />
-              <FAQItem
-                question="Do you offer same-day appointments for urgent issues?"
-                answer="We reserve appointment slots for urgent medical concerns across our specialties. Call our office and we'll do our best to accommodate you the same day or next day."
-              />
-              <FAQItem
-                question="What if I need to cancel or reschedule?"
-                answer="We understand that schedules change. Please call us at least 24 hours in advance if you need to cancel or reschedule your appointment. This allows us to offer that time to another patient."
-              />
-              <FAQItem
-                question="Do you provide imaging services on-site?"
-                answer="Yes, we have on-site X-ray capabilities for your convenience. For MRI or CT scans, we work with nearby imaging centers and will coordinate those appointments for you."
-              />
+              {FAQS.map((faq) => (
+                <FAQItem key={faq.question} question={faq.question} answer={faq.answer} />
+              ))}
             </div>
 
             <div className="mt-12 text-center">

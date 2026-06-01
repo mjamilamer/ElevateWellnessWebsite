@@ -15,8 +15,18 @@ export function Header() {
   const menuId = useId()
   const pathname = usePathname()
 
+  const [scrolled, setScrolled] = useState(false)
+
   useEffect(() => {
     setMounted(true)
+  }, [])
+
+  // Toggle subtle shadow on the header once user scrolls past 8px.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
@@ -98,7 +108,10 @@ export function Header() {
   )
 
   return (
-    <header className="sticky top-0 z-[120] border-b border-neutral-200/80 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/80">
+    <header
+      data-scrolled={scrolled ? 'true' : 'false'}
+      className="header-shadow sticky top-0 z-[120] border-b border-neutral-200/80 bg-white/95 backdrop-blur-md transition-shadow duration-200 supports-[backdrop-filter]:bg-white/80"
+    >
       <nav className="container-custom" aria-label="Main navigation">
         <div className="flex h-16 items-center justify-between gap-3 sm:h-[4.5rem] sm:gap-4">
           <div className="min-w-0 shrink">

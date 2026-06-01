@@ -4,6 +4,7 @@ import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
+import { MobileStickyCTA } from '@/components/MobileStickyCTA'
 import { StructuredData } from '@/components/StructuredData'
 import { siteConfig } from '@/lib/config'
 import { generateLocalBusinessSchema, generateOrganizationSchema } from '@/lib/structured-data'
@@ -87,6 +88,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <MobileStickyCTA />
       </body>
     </html>
   )

@@ -11,7 +11,46 @@ export function Footer() {
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-500/40 to-transparent" />
       <div className="pointer-events-none absolute -top-32 -right-24 h-72 w-72 rounded-full bg-primary-700/15 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-primary-600/10 blur-3xl" />
-      <div className="container-custom relative py-14 md:py-16">
+      <div className="container-custom relative pb-24 pt-14 md:py-16">
+        {/* Trust strip — hospital affiliations + multilingual badge */}
+        <div className="mb-10 border-b border-primary-700/30 pb-10">
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.16em] text-primary-200/80">
+            Trusted by patients across northern New Jersey
+          </p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-primary-100/85">
+            {[
+              'Saint Michael’s Medical Center',
+              'Atlantic Health · Chilton',
+              'Hackensack Meridian Health',
+              'St. Joseph’s University Medical Center',
+              'Bergen New Bridge Medical Center',
+            ].map((aff, i, arr) => (
+              <span key={aff} className="flex items-center gap-x-6">
+                <span>{aff}</span>
+                {i < arr.length - 1 && (
+                  <span aria-hidden="true" className="hidden text-primary-500/40 md:inline">
+                    •
+                  </span>
+                )}
+              </span>
+            ))}
+          </div>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-xs">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary-500/30 bg-primary-900/40 px-3 py-1 text-primary-100/85">
+              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3 5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H5a2 2 0 0 1-2-2V5Z" />
+              </svg>
+              Care available in English · Spanish · Arabic
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary-500/30 bg-primary-900/40 px-3 py-1 text-primary-100/85">
+              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 0 0 1.946-.806 3.42 3.42 0 0 1 4.438 0 3.42 3.42 0 0 0 1.946.806 3.42 3.42 0 0 1 3.138 3.138 3.42 3.42 0 0 0 .806 1.946 3.42 3.42 0 0 1 0 4.438 3.42 3.42 0 0 0-.806 1.946 3.42 3.42 0 0 1-3.138 3.138 3.42 3.42 0 0 0-1.946.806 3.42 3.42 0 0 1-4.438 0 3.42 3.42 0 0 0-1.946-.806 3.42 3.42 0 0 1-3.138-3.138 3.42 3.42 0 0 0-.806-1.946 3.42 3.42 0 0 1 0-4.438 3.42 3.42 0 0 0 .806-1.946 3.42 3.42 0 0 1 3.138-3.138z" />
+              </svg>
+              Board-certified physicians
+            </span>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Practice Info */}
           <div>

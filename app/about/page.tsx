@@ -16,11 +16,9 @@ export default function AboutPage() {
         subtitle="Who We Are"
         title="About Elevate Wellness & Health"
         description="Dedicated to compassionate, expert wellness & health care that helps you live your best life."
-        highlights={[
-          'Evidence-based recommendations tailored to your goals',
-          'Collaborative care plans with clear next steps',
-          'Consistent communication from consult through recovery',
-        ]}
+        image="/images/photos/waiting-room.jpg"
+        imageAlt="Modern, welcoming waiting room at the practice"
+        imageCaption="A welcoming, patient-centered environment"
       />
 
       {/* About the Practice */}

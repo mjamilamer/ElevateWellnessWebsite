@@ -7,12 +7,27 @@ import { siteConfig } from '@/lib/config'
 import {
   getAllServiceSlugs,
   getServicePage,
+  type ServiceIconKey,
 } from '@/lib/service-content'
 import {
   generateBreadcrumbSchema,
   generateServiceSchema,
 } from '@/lib/structured-data'
 import type { Metadata } from 'next'
+
+/**
+ * Per-service hero photography. Drop-in replacement: once real practice photos
+ * arrive, swap the file in /public/images/photos/ — no code change needed.
+ */
+const SERVICE_IMAGES: Record<ServiceIconKey, { src: string; caption: string }> = {
+  orthopedic: { src: '/images/photos/office-lobby.jpg', caption: 'Orthopedic and surgical evaluation' },
+  'internal-medicine': { src: '/images/photos/waiting-room.jpg', caption: 'Comprehensive adult care' },
+  'physical-therapy': { src: '/images/photos/physical-therapy.jpg', caption: 'Hands-on rehabilitation' },
+  'peptide-wellness': { src: '/images/photos/hero-wellness.jpg', caption: 'Medically guided wellness' },
+  acupuncture: { src: '/images/photos/wellness-care.jpg', caption: 'Calm, patient-centered care' },
+  'iv-infusion': { src: '/images/photos/hero-wellness.jpg', caption: 'Restorative infusion therapy' },
+  'in-house-lab': { src: '/images/photos/office-lobby.jpg', caption: 'In-house lab and blood draws' },
+}
 
 type Props = { params: { slug: string } }
 
@@ -97,6 +112,9 @@ export default function ServiceDetailPage({ params }: Props) {
         subtitle="Specialty"
         title={service.title}
         description={service.summary}
+        image={SERVICE_IMAGES[service.iconKey]?.src}
+        imageAlt={`${service.title} at Elevate Wellness & Health`}
+        imageCaption={SERVICE_IMAGES[service.iconKey]?.caption}
         primaryCTA={{
           text: 'Schedule consultation',
           href: '/appointments',
@@ -124,6 +142,15 @@ export default function ServiceDetailPage({ params }: Props) {
               </ul>
             </div>
           )}
+
+          {/* Pull quote — visual break between conditions and approach. */}
+          <figure className="my-12 border-l-4 border-primary-600 bg-primary-50/40 px-6 py-5 sm:px-8">
+            <blockquote>
+              <p className="font-display text-lg leading-relaxed text-neutral-800 sm:text-xl">
+                “{service.summary}”
+              </p>
+            </blockquote>
+          </figure>
 
           <div className="mt-10">
             <h2 className="heading-4 mb-4">

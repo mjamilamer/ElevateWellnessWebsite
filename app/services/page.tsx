@@ -44,11 +44,9 @@ export default function ServicesPage() {
         subtitle="Clinical Programs"
         title="Comprehensive Wellness & Clinical Services"
         description="From evaluation to recovery, Elevate Wellness & Health offers expert care across orthopedics, internal medicine, gastroenterology, therapy, and wellness."
-        highlights={[
-          'Specialty medical care plus integrated wellness services',
-          'Personalized treatment plans aligned to your goals and lifestyle',
-          'In-house labs, IV therapy, and convenient on-site testing',
-        ]}
+        image="/images/photos/office-lobby.jpg"
+        imageAlt="Clinical office environment showing the practice's professional setting"
+        imageCaption="Integrated care under one roof"
         primaryCTA={{
           text: 'Schedule Consultation',
           href: '/appointments',
