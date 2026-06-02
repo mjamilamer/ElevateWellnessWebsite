@@ -14,13 +14,15 @@ import { z } from 'zod'
 import { siteConfig } from '@/lib/config'
 import { assignDoctor, allServiceSlugs } from '@/lib/scheduling/assignment'
 import { generateCandidateSlots, formatSlotLabel } from '@/lib/scheduling/slots'
-import { calendarConfigured, listEventsInRange } from '@/lib/server/google-calendar'
+import { schedulerCalendarEnabled, listEventsInRange } from '@/lib/server/google-calendar'
 
 const MAX_PER_DOCTOR = 2
 const MAX_RESULTS = 5
 
+const OTHER_SERVICE_SLUG = 'other'
+
 const availabilitySchema = z.object({
-  service: z.string().refine((s) => allServiceSlugs().includes(s), {
+  service: z.string().refine((s) => allServiceSlugs().includes(s) || s === OTHER_SERVICE_SLUG, {
     message: 'Unknown service',
   }),
   dateFrom: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -40,6 +42,24 @@ export async function POST(request: Request) {
     }
     const { service, dateFrom, dateTo, timeOfDay } = parsed.data
 
+    const candidates = generateCandidateSlots({ dateFrom, dateTo, timeOfDay })
+
+    const toSlot = (c: { start: Date; end: Date }) => ({
+      startISO: c.start.toISOString(),
+      endISO: c.end.toISOString(),
+      label: formatSlotLabel(c.start),
+    })
+
+    // "Other" requests have no specific provider — return business-window slots
+    // and let the team route the request on review.
+    if (service === OTHER_SERVICE_SLUG) {
+      return NextResponse.json({
+        doctor: { slug: OTHER_SERVICE_SLUG, name: 'Our team', confidence: 'suggested' },
+        slots: candidates.slice(0, MAX_RESULTS).map(toSlot),
+        calendarChecked: false,
+      })
+    }
+
     const assignment = assignDoctor(service)
     if (!assignment) {
       return NextResponse.json({ error: 'No provider configured for this service' }, { status: 400 })
@@ -50,18 +70,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Physician metadata missing' }, { status: 500 })
     }
 
-    const candidates = generateCandidateSlots({ dateFrom, dateTo, timeOfDay })
-
-    // If Calendar isn't configured, return the first N candidates straight away.
-    if (!calendarConfigured() || candidates.length === 0) {
-      const slots = candidates.slice(0, MAX_RESULTS).map((c) => ({
-        startISO: c.start.toISOString(),
-        endISO: c.end.toISOString(),
-        label: formatSlotLabel(c.start),
-      }))
+    // If the Calendar scheduler is disabled, return the first N candidates straight away.
+    if (!schedulerCalendarEnabled() || candidates.length === 0) {
       return NextResponse.json({
         doctor: { slug: doctor.slug, name: doctor.name, confidence: assignment.confidence },
-        slots,
+        slots: candidates.slice(0, MAX_RESULTS).map(toSlot),
         calendarChecked: false,
       })
     }

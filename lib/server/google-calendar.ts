@@ -30,6 +30,17 @@ export function calendarConfigured(): boolean {
   )
 }
 
+/**
+ * Master switch for the Calendar-backed scheduler. The Calendar logic stays in
+ * code but is inactive unless SCHEDULER_CALENDAR_ENABLED is explicitly 'true'
+ * AND all OAuth/calendar env vars are present. When this returns false the
+ * scheduler runs in email-only mode: availability returns business-window slots
+ * and requests are emailed to info@ without creating a Calendar event.
+ */
+export function schedulerCalendarEnabled(): boolean {
+  return process.env.SCHEDULER_CALENDAR_ENABLED === 'true' && calendarConfigured()
+}
+
 let cachedAuth: OAuth2Client | null = null
 
 function getAuth(): OAuth2Client {

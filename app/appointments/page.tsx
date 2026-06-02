@@ -1,7 +1,8 @@
-import Link from 'next/link'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { AppointmentRequestForm } from '@/components/AppointmentRequestForm'
+import { ContactMethods } from '@/components/ContactMethods'
+import { EmergencyNotice } from '@/components/EmergencyNotice'
 import { siteConfig } from '@/lib/config'
 import { formatPhone } from '@/lib/utils'
 import { pageMetadata } from '@/lib/seo'
@@ -113,13 +114,29 @@ export default function AppointmentsPage() {
               Prefer to call?{' '}
               <a href={tel} className="font-semibold text-primary-700 hover:underline">
                 {formatPhone(siteConfig.contact.phone)}
-              </a>
-              {' '}or{' '}
-              <Link href="/contact" className="font-semibold text-primary-700 hover:underline">
-                send us a message
-              </Link>
-              .
+              </a>{' '}
+              during office hours.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Other ways to reach us */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="max-w-5xl mx-auto">
+            <SectionHeader
+              title="Other ways to reach us"
+              subtitle="Contact"
+              description="Call, email, or visit us in North Bergen. We're happy to help with scheduling, insurance, and first-visit questions."
+              centered
+            />
+            <div className="mt-12">
+              <ContactMethods />
+            </div>
+            <div className="mt-12">
+              <EmergencyNotice bordered />
+            </div>
           </div>
         </div>
       </section>

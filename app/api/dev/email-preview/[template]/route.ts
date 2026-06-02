@@ -2,26 +2,12 @@
  * Dev-only HTML email preview. Iterate on email design without sending real
  * mail. Disabled in production (returns 404).
  *
- *   /api/dev/email-preview/contact                 — general contact form
  *   /api/dev/email-preview/appointment-tentative   — appointment-request email
  *   ?text=1                                         — plain-text fallback
  */
 
 import { NextResponse } from 'next/server'
-import { contactMessageEmail } from '@/lib/server/email-templates/contact-message'
 import { appointmentTentativeEmail } from '@/lib/server/email-templates/appointment-tentative'
-
-const SAMPLE_CONTACT = {
-  id: 'msg_sample456',
-  name: 'John Caller',
-  email: 'john.caller@example.com',
-  phone: '+1 (201) 555-0123',
-  message:
-    'Hello — wanted to ask about whether you accept Aetna PPO plans and whether new patients need a referral. Thanks!',
-  ipAddress: '203.0.113.55',
-  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
-  submittedAt: new Date('2026-05-26T15:01:00-04:00'),
-}
 
 const SAMPLE_APPOINTMENT = {
   id: 'apt_sample789',
@@ -36,7 +22,12 @@ const SAMPLE_APPOINTMENT = {
   doctorName: 'Dr. Kamil M. Amer, MD',
   doctorConfidence: 'definitive' as const,
   reason: 'Recurring discomfort in my right wrist after a fall last month.',
-  calendarEventLink: 'https://calendar.google.com/calendar/event?eid=sample',
+  calendarEventLink: null, // email-only mode preview
+  requestedWindow: {
+    dateFrom: '2026-06-10',
+    dateTo: '2026-06-20',
+    timeOfDay: 'morning' as const,
+  },
   submittedAt: new Date('2026-05-26T14:23:00-04:00'),
 }
 
@@ -50,15 +41,12 @@ export async function GET(
 
   let payload: { subject: string; html: string; text: string }
   switch (params.template) {
-    case 'contact':
-      payload = contactMessageEmail(SAMPLE_CONTACT)
-      break
     case 'appointment-tentative':
       payload = appointmentTentativeEmail(SAMPLE_APPOINTMENT)
       break
     default:
       return NextResponse.json(
-        { error: 'Unknown template', available: ['contact', 'appointment-tentative'] },
+        { error: 'Unknown template', available: ['appointment-tentative'] },
         { status: 404 }
       )
   }

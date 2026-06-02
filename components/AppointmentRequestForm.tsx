@@ -33,6 +33,12 @@ const STEPS: Array<{ id: Step; label: string }> = [
   { id: 'contact', label: 'You' },
 ]
 
+const OTHER_SERVICE = {
+  slug: 'other',
+  title: 'Other',
+  cardDescription: "Something else? Tell us what you need and we'll point you to the right care.",
+}
+
 export function AppointmentRequestForm() {
   const [step, setStep] = useState<Step>('service')
 
@@ -61,8 +67,12 @@ export function AppointmentRequestForm() {
   const [submittedId, setSubmittedId] = useState<string | null>(null)
 
   const stepIndex = STEPS.findIndex((s) => s.id === step)
+  const isOtherService = service === OTHER_SERVICE.slug
   const serviceTitle = useMemo(
-    () => servicePages.find((p) => p.slug === service)?.title ?? '',
+    () =>
+      service === OTHER_SERVICE.slug
+        ? OTHER_SERVICE.title
+        : servicePages.find((p) => p.slug === service)?.title ?? '',
     [service]
   )
 
@@ -106,7 +116,9 @@ export function AppointmentRequestForm() {
     else if (!isValidEmail(email)) newErrors.email = 'Please enter a valid email'
     if (!phone.trim()) newErrors.phone = 'Phone is required'
     else if (!isValidPhone(phone)) newErrors.phone = 'Please enter a valid phone number'
-    if (reason && containsPotentialPHI(reason)) {
+    if (isOtherService && !reason.trim()) {
+      newErrors.reason = 'Please tell us how we can help'
+    } else if (reason && containsPotentialPHI(reason)) {
       newErrors.reason = 'Please do not include medical information here'
     }
     setErrors(newErrors)
@@ -122,6 +134,9 @@ export function AppointmentRequestForm() {
         body: JSON.stringify({
           service,
           slotStartISO: selectedSlot.startISO,
+          dateFrom,
+          dateTo,
+          timeOfDay,
           name: sanitizeInput(name),
           email: sanitizeInput(email),
           phone: sanitizeInput(phone),
@@ -232,6 +247,24 @@ export function AppointmentRequestForm() {
                   </p>
                 </button>
               ))}
+              <button
+                key={OTHER_SERVICE.slug}
+                type="button"
+                onClick={() => {
+                  setService(OTHER_SERVICE.slug)
+                  setStep('window')
+                }}
+                className={`text-left rounded-xl border p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40 ${
+                  isOtherService
+                    ? 'border-primary-500 bg-primary-50/60'
+                    : 'border-neutral-200 bg-white'
+                }`}
+              >
+                <p className="font-semibold text-neutral-900">{OTHER_SERVICE.title}</p>
+                <p className="mt-1 text-xs text-neutral-600 line-clamp-2">
+                  {OTHER_SERVICE.cardDescription}
+                </p>
+              </button>
             </div>
           </div>
         )}
@@ -438,15 +471,28 @@ export function AppointmentRequestForm() {
               </div>
               <div className="sm:col-span-2">
                 <label htmlFor="reason" className="block text-sm font-semibold text-neutral-900 mb-2">
-                  Brief reason for visit{' '}
-                  <span className="text-neutral-500 font-normal">(optional, no medical details)</span>
+                  {isOtherService ? (
+                    <>
+                      How can we help? <span className="text-red-600">*</span>
+                    </>
+                  ) : (
+                    <>
+                      Brief reason for visit{' '}
+                      <span className="text-neutral-500 font-normal">(optional, no medical details)</span>
+                    </>
+                  )}
                 </label>
                 <textarea
                   id="reason"
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   rows={3}
-                  placeholder="e.g. follow-up, new evaluation, recurring issue"
+                  required={isOtherService}
+                  placeholder={
+                    isOtherService
+                      ? 'Tell us what you need — a question, a service not listed, or anything else (no medical details)'
+                      : 'e.g. follow-up, new evaluation, recurring issue'
+                  }
                   className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   aria-invalid={!!errors.reason}
                 />

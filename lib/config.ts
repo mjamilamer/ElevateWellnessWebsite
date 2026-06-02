@@ -20,11 +20,11 @@ export const siteConfig = {
   },
 
   hours: {
-    monday: '8:00 AM - 5:00 PM',
-    tuesday: '8:00 AM - 5:00 PM',
-    wednesday: '8:00 AM - 5:00 PM',
-    thursday: '8:00 AM - 5:00 PM',
-    friday: '8:00 AM - 4:00 PM',
+    monday: '9:00 AM - 5:00 PM',
+    tuesday: '9:00 AM - 5:00 PM',
+    wednesday: '9:00 AM - 5:00 PM',
+    thursday: '9:00 AM - 5:00 PM',
+    friday: '9:00 AM - 5:00 PM',
     saturday: 'Closed',
     sunday: 'Closed',
   },

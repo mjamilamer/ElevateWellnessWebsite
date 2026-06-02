@@ -1,11 +1,11 @@
 /**
- * Email template for tentative appointment requests. Sent to info@ as soon as
- * a patient submits the form on /appointments. Mirrors the contact-message
- * template — same editing rules apply (inline styles, table layout, escape
- * user content).
+ * Email template for appointment requests. Sent to info@ as soon as a patient
+ * submits the form on /appointments. Editing rules: inline styles, table
+ * layout, always escape user content.
  *
- * The email includes a deep-link to the Calendar event so the manager can
- * confirm or reassign with one click.
+ * In email-only mode (the default) there is no Calendar event, so the template
+ * adapts its call-to-action and next-steps. When the Calendar scheduler is
+ * enabled it includes a deep-link to the tentative event instead.
  */
 
 import { siteConfig } from '@/lib/config'
@@ -34,7 +34,40 @@ export type AppointmentTentativeEmailData = {
   doctorConfidence: 'definitive' | 'suggested' | null
   reason?: string | null
   calendarEventLink?: string | null
+  requestedWindow?: {
+    dateFrom: string | null
+    dateTo: string | null
+    timeOfDay: 'any' | 'morning' | 'afternoon' | null
+  } | null
   submittedAt?: Date
+}
+
+function formatRequestedWindow(
+  window: AppointmentTentativeEmailData['requestedWindow']
+): string | null {
+  if (!window) return null
+  const { dateFrom, dateTo, timeOfDay } = window
+  const fmt = (d: string) =>
+    new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'America/New_York',
+    }).format(new Date(`${d}T12:00:00Z`))
+  let range: string | null = null
+  if (dateFrom && dateTo) range = dateFrom === dateTo ? fmt(dateFrom) : `${fmt(dateFrom)} – ${fmt(dateTo)}`
+  else if (dateFrom) range = `From ${fmt(dateFrom)}`
+  else if (dateTo) range = `Through ${fmt(dateTo)}`
+  const todLabel =
+    timeOfDay === 'morning'
+      ? 'Mornings'
+      : timeOfDay === 'afternoon'
+      ? 'Afternoons'
+      : timeOfDay === 'any'
+      ? 'Any time of day'
+      : null
+  const parts = [range, todLabel].filter((p): p is string => Boolean(p))
+  return parts.length ? parts.join(' · ') : null
 }
 
 function escapeHtml(str: string): string {
@@ -75,11 +108,13 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
   })
 
   const slotLabel = formatSlot(data.slotStart, data.slotEnd)
+  const requestedWindowLabel = formatRequestedWindow(data.requestedWindow)
+  const emailOnly = !data.calendarEventLink
   const confidenceLabel =
     data.doctorConfidence === 'definitive'
       ? `${data.doctorName} (auto-assigned)`
       : data.doctorConfidence === 'suggested'
-      ? `${data.doctorName} (suggested — please confirm or reassign)`
+      ? `${data.doctorName ? data.doctorName + ' ' : ''}(suggested — please confirm or reassign)`
       : 'No doctor assigned — please assign on review'
 
   const subject = `[Action needed] Appointment request — ${data.patient.name} — ${data.serviceTitle}`
@@ -93,6 +128,9 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
     `PROPOSED SLOT`,
     `  ${slotLabel}`,
     '',
+    requestedWindowLabel ? `REQUESTED AVAILABILITY` : null,
+    requestedWindowLabel ? `  ${requestedWindowLabel}` : null,
+    requestedWindowLabel ? '' : null,
     `PROVIDER`,
     `  ${confidenceLabel}`,
     '',
@@ -101,14 +139,22 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
     `  Email: ${data.patient.email}`,
     `  Phone: ${data.patient.phone}`,
     '',
-    data.reason?.trim() ? `REASON FOR VISIT` : null,
+    data.reason?.trim() ? `MESSAGE / REASON` : null,
     data.reason?.trim() ? `  ${data.reason.trim()}` : null,
     data.reason?.trim() ? '' : null,
     `NEXT STEPS`,
-    `  1. Open the Calendar event:${data.calendarEventLink ? ' ' + data.calendarEventLink : ' (Calendar not configured — please book manually.)'}`,
-    `  2. Confirm or reassign the provider.`,
-    `  3. Adjust the time/duration if needed.`,
-    `  4. Remove "[TENTATIVE]" from the title and click Send to notify the patient.`,
+    ...(emailOnly
+      ? [
+          `  1. Review the request details above.`,
+          `  2. Reply to this email (or call the patient) to confirm or adjust the time.`,
+          `  3. Add the confirmed appointment to the practice calendar.`,
+        ]
+      : [
+          `  1. Open the Calendar event: ${data.calendarEventLink}`,
+          `  2. Confirm or reassign the provider.`,
+          `  3. Adjust the time/duration if needed.`,
+          `  4. Remove "[TENTATIVE]" from the title and click Send to notify the patient.`,
+        ]),
     '',
     `Reply to this email to respond to the patient directly.`,
     `Submitted ${submittedAt} (ET).`,
@@ -121,7 +167,7 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
     ? `
             <tr>
               <td style="padding:20px 28px 0;">
-                <p style="margin:0 0 8px; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:${BRAND_BRONZE_DARK}; font-weight:700;">Reason for visit</p>
+                <p style="margin:0 0 8px; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:${BRAND_BRONZE_DARK}; font-weight:700;">Message / reason</p>
                 <div style="padding:14px 16px; background-color:#fdf6ea; border:1px solid #f1d2a3; border-radius:10px; white-space:pre-wrap; font-size:14px; line-height:1.55; color:${TEXT};">${escapeHtml(data.reason.trim())}</div>
               </td>
             </tr>`
@@ -129,7 +175,28 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
 
   const eventButton = data.calendarEventLink
     ? `<a href="${escapeHtml(data.calendarEventLink)}" style="display:inline-block;background-color:${BRAND_BRONZE};color:#ffffff;padding:11px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">Open in Google Calendar →</a>`
-    : `<p style="margin:0;color:${MUTED};font-size:13px;font-style:italic;">Calendar integration not yet configured — please add this appointment manually.</p>`
+    : `<p style="margin:0;color:${MUTED};font-size:13px;font-style:italic;">Email-only request — confirm the time with the patient and add it to the practice calendar.</p>`
+
+  const requestedWindowRow = requestedWindowLabel
+    ? `
+                  <tr>
+                    <td style="padding:12px 16px; background-color:${BG_PAGE}; border-top:1px solid ${BORDER}; font-size:13px; color:${MUTED}; vertical-align:top;">Preferred window</td>
+                    <td style="padding:12px 16px; border-top:1px solid ${BORDER}; font-size:14px; color:${TEXT}; vertical-align:top;">${escapeHtml(requestedWindowLabel)}</td>
+                  </tr>`
+    : ''
+
+  const nextStepsList = emailOnly
+    ? `<ol style="margin:0; padding-left:20px; font-size:14px; line-height:1.6; color:${TEXT};">
+                  <li>Review the request details above.</li>
+                  <li>Reply to this email (or call the patient) to confirm or adjust the time.</li>
+                  <li>Add the confirmed appointment to the practice calendar.</li>
+                </ol>`
+    : `<ol style="margin:0; padding-left:20px; font-size:14px; line-height:1.6; color:${TEXT};">
+                  <li>Open the Calendar event using the button above.</li>
+                  <li>Confirm or reassign the provider${data.doctorConfidence === 'suggested' ? ' — this one is a suggestion, not a definitive assignment' : ''}.</li>
+                  <li>Adjust time / duration as needed.</li>
+                  <li>Remove <code style="font-family:Menlo,monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:3px;">[TENTATIVE]</code> from the title and click Send to notify the patient.</li>
+                </ol>`
 
   const html = `<!doctype html>
 <html lang="en">
@@ -168,6 +235,7 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
                     <td style="padding:12px 16px; background-color:${BG_PAGE}; width:140px; font-size:13px; color:${MUTED}; vertical-align:top;">When</td>
                     <td style="padding:12px 16px; font-size:14px; color:${TEXT}; vertical-align:top;">${escapeHtml(slotLabel)}</td>
                   </tr>
+                  ${requestedWindowRow}
                   <tr>
                     <td style="padding:12px 16px; background-color:${BG_PAGE}; border-top:1px solid ${BORDER}; font-size:13px; color:${MUTED}; vertical-align:top;">Provider</td>
                     <td style="padding:12px 16px; border-top:1px solid ${BORDER}; font-size:14px; color:${TEXT}; vertical-align:top;">
@@ -199,12 +267,7 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
             <tr>
               <td style="padding:20px 28px 0;">
                 <p style="margin:0 0 8px; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:${BRAND_BRONZE_DARK}; font-weight:700;">Next steps</p>
-                <ol style="margin:0; padding-left:20px; font-size:14px; line-height:1.6; color:${TEXT};">
-                  <li>Open the Calendar event using the button above.</li>
-                  <li>Confirm or reassign the provider${data.doctorConfidence === 'suggested' ? ' — this one is a suggestion, not a definitive assignment' : ''}.</li>
-                  <li>Adjust time / duration as needed.</li>
-                  <li>Remove <code style="font-family:Menlo,monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:3px;">[TENTATIVE]</code> from the title and click Send to notify the patient.</li>
-                </ol>
+                ${nextStepsList}
               </td>
             </tr>
 

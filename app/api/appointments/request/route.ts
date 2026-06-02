@@ -23,13 +23,22 @@ import {
 } from '@/lib/server/api-utils'
 import { mailConfigured, mailRecipient, sendEmail } from '@/lib/server/email'
 import { appointmentTentativeEmail } from '@/lib/server/email-templates/appointment-tentative'
-import { calendarConfigured, createTentativeEvent } from '@/lib/server/google-calendar'
+import { schedulerCalendarEnabled, createTentativeEvent } from '@/lib/server/google-calendar'
 
 const SLOT_DURATION_MIN = 30
+const OTHER_SERVICE_SLUG = 'other'
+const OTHER_SERVICE_TITLE = 'Other — general inquiry'
 
 const requestSchema = z.object({
-  service: z.string().refine((s) => allServiceSlugs().includes(s), { message: 'Unknown service' }),
+  service: z
+    .string()
+    .refine((s) => allServiceSlugs().includes(s) || s === OTHER_SERVICE_SLUG, {
+      message: 'Unknown service',
+    }),
   slotStartISO: z.string().datetime(),
+  dateFrom: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  dateTo: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  timeOfDay: z.enum(['any', 'morning', 'afternoon']).optional(),
   name: z.string().min(1).max(100),
   email: z.string().email().max(255),
   phone: z.string().min(10).max(20),
@@ -71,14 +80,34 @@ export async function POST(request: Request) {
       reason: data.reason ? sanitizeInput(data.reason) : null,
     }
 
-    const assignment = assignDoctor(data.service)
-    if (!assignment) {
-      return NextResponse.json({ error: 'No provider configured for this service' }, { status: 400 })
+    const isOther = data.service === OTHER_SERVICE_SLUG
+
+    // "Other" requests carry no auto-assignment but must include a message so the
+    // team knows what's being asked.
+    if (isOther && !sanitized.reason?.trim()) {
+      return NextResponse.json(
+        { error: 'Please tell us how we can help.' },
+        { status: 400 }
+      )
     }
-    const doctor = siteConfig.team.physicians.find((p) => p.slug === assignment.doctor)
-    const servicePage = getServicePage(data.service)
-    if (!doctor || !servicePage) {
-      return NextResponse.json({ error: 'Service metadata missing' }, { status: 500 })
+
+    let assignment: ReturnType<typeof assignDoctor> = null
+    let doctor: (typeof siteConfig.team.physicians)[number] | null = null
+    let serviceTitle: string
+
+    if (isOther) {
+      serviceTitle = OTHER_SERVICE_TITLE
+    } else {
+      assignment = assignDoctor(data.service)
+      if (!assignment) {
+        return NextResponse.json({ error: 'No provider configured for this service' }, { status: 400 })
+      }
+      doctor = siteConfig.team.physicians.find((p) => p.slug === assignment!.doctor) ?? null
+      const servicePage = getServicePage(data.service)
+      if (!doctor || !servicePage) {
+        return NextResponse.json({ error: 'Service metadata missing' }, { status: 500 })
+      }
+      serviceTitle = servicePage.title
     }
 
     const id = generateId('apt')
@@ -91,7 +120,7 @@ export async function POST(request: Request) {
     // Try to create the tentative Calendar event. If anything fails, fall
     // through to email-only — the lead is preserved either way.
     let calendarEventLink: string | null = null
-    if (calendarConfigured()) {
+    if (schedulerCalendarEnabled() && assignment && doctor) {
       try {
         const attendees =
           assignment.confidence === 'definitive'
@@ -101,14 +130,14 @@ export async function POST(request: Request) {
         const eventDescription = buildEventDescription({
           id,
           patient: sanitized,
-          service: servicePage.title,
+          service: serviceTitle,
           doctor,
           confidence: assignment.confidence,
           reason: sanitized.reason,
         })
 
         const event = await createTentativeEvent({
-          summary: `[TENTATIVE] ${servicePage.title} — ${sanitized.name}`,
+          summary: `[TENTATIVE] ${serviceTitle} — ${sanitized.name}`,
           description: eventDescription,
           start,
           end,
@@ -122,14 +151,19 @@ export async function POST(request: Request) {
 
     const { subject, html, text } = appointmentTentativeEmail({
       id,
-      serviceTitle: servicePage.title,
+      serviceTitle,
       patient: sanitized,
       slotStart: start,
       slotEnd: end,
-      doctorName: doctor.name,
-      doctorConfidence: assignment.confidence,
+      doctorName: doctor?.name ?? '',
+      doctorConfidence: assignment?.confidence ?? null,
       reason: sanitized.reason,
       calendarEventLink,
+      requestedWindow: {
+        dateFrom: data.dateFrom ?? null,
+        dateTo: data.dateTo ?? null,
+        timeOfDay: data.timeOfDay ?? null,
+      },
       submittedAt: new Date(),
     })
 
@@ -141,7 +175,22 @@ export async function POST(request: Request) {
     })
 
     if (!mailResult.ok) {
-      console.error('Appointment email send failed:', mailResult.error)
+      // Email is the only record in email-only mode. If the send fails, log the
+      // full submission so the lead is recoverable from the Vercel logs.
+      console.error(
+        'appointment.request.SEND_FAILED',
+        JSON.stringify({
+          id,
+          error: mailResult.error,
+          service: data.service,
+          serviceTitle,
+          slotStartISO: data.slotStartISO,
+          requestedWindow: { dateFrom: data.dateFrom, dateTo: data.dateTo, timeOfDay: data.timeOfDay },
+          patient: sanitized,
+          ip: clientIp(request),
+          submittedAt: new Date().toISOString(),
+        })
+      )
       return NextResponse.json(
         { error: 'Failed to submit request. Please try again or call our office.' },
         { status: 500 }
@@ -150,8 +199,8 @@ export async function POST(request: Request) {
 
     // Log a single structured line so we can grep Vercel logs if needed
     console.log(
-      `appointment.request id=${id} service=${data.service} doctor=${assignment.doctor} ` +
-        `confidence=${assignment.confidence} calendar=${calendarEventLink ? 'created' : 'skipped'} ` +
+      `appointment.request id=${id} service=${data.service} doctor=${assignment?.doctor ?? 'other'} ` +
+        `confidence=${assignment?.confidence ?? 'n/a'} calendar=${calendarEventLink ? 'created' : 'skipped'} ` +
         `ip=${clientIp(request)}`
     )
 

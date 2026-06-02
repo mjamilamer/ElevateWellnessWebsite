@@ -22,6 +22,14 @@ export type SlotCandidate = {
 const DEFAULT_SLOT_MINUTES = 30
 const DEFAULT_MIN_LEAD_HOURS = 24
 
+/**
+ * Bookable window (ET), decoupled from the displayed office hours. Office hours
+ * are 9-5; bookings run 9:30 AM through 4:30 PM start times (the last 30-min
+ * appointment ends at 5:00 PM), leaving a buffer at open and close.
+ */
+const BOOKING_FIRST_START_MIN = 9 * 60 + 30 // 9:30 AM
+const BOOKING_END_MIN = 17 * 60 // 5:00 PM — last valid 30-min start is 4:30 PM
+
 export type SlotGenerationOptions = {
   /** ISO date YYYY-MM-DD, inclusive, interpreted in ET */
   dateFrom: string
@@ -49,13 +57,15 @@ export function generateCandidateSlots(opts: SlotGenerationOptions): SlotCandida
   const cursor = new Date(fromDate)
 
   while (cursor <= toDate) {
-    // Compute hours for this calendar day in ET
+    // Use the day's hours only to decide whether the practice is open (null =
+    // Closed). The actual slot times come from the fixed booking window so the
+    // bookable range stays 9:30 AM-4:30 PM regardless of displayed open/close.
     const dow = cursor.getUTCDay() // we constructed cursor as midnight UTC of the date
-    const hours = hoursForDayOfWeek(dow)
-    if (hours) {
-      const [todStartMin, todEndMin] = timeOfDayWindow(timeOfDay, hours.startMinutes, hours.endMinutes)
-      let startMin = Math.max(hours.startMinutes, todStartMin)
-      const endMin = Math.min(hours.endMinutes, todEndMin)
+    const isOpen = hoursForDayOfWeek(dow) !== null
+    if (isOpen) {
+      const [todStartMin, todEndMin] = timeOfDayWindow(timeOfDay, BOOKING_FIRST_START_MIN, BOOKING_END_MIN)
+      let startMin = todStartMin
+      const endMin = todEndMin
       while (startMin + slotMinutes <= endMin) {
         // Convert local ET start to UTC
         const isoLocal = `${formatDateISO(cursor)}T${formatTimeISO(startMin)}:00`
