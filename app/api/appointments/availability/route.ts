@@ -28,6 +28,8 @@ const availabilitySchema = z.object({
   dateFrom: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   dateTo: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   timeOfDay: z.enum(['any', 'morning', 'afternoon']).default('any'),
+  // Only honored for the "Other" service: the patient's optional provider pick.
+  doctorSlug: z.enum(['dr-kamil-amer', 'dr-kamal-amer']).optional(),
 })
 
 export async function POST(request: Request) {
@@ -40,7 +42,7 @@ export async function POST(request: Request) {
         { status: 400 }
       )
     }
-    const { service, dateFrom, dateTo, timeOfDay } = parsed.data
+    const { service, dateFrom, dateTo, timeOfDay, doctorSlug } = parsed.data
 
     const candidates = generateCandidateSlots({ dateFrom, dateTo, timeOfDay })
 
@@ -50,11 +52,16 @@ export async function POST(request: Request) {
       label: formatSlotLabel(c.start),
     })
 
-    // "Other" requests have no specific provider — return business-window slots
-    // and let the team route the request on review.
+    // "Other" requests have no auto-assignment. Echo the patient's optional
+    // provider pick (or "Our team" for no preference); the team routes on review.
     if (service === OTHER_SERVICE_SLUG) {
+      const picked = doctorSlug
+        ? siteConfig.team.physicians.find((p) => p.slug === doctorSlug)
+        : null
       return NextResponse.json({
-        doctor: { slug: OTHER_SERVICE_SLUG, name: 'Our team', confidence: 'suggested' },
+        doctor: picked
+          ? { slug: picked.slug, name: picked.name, confidence: 'suggested' }
+          : { slug: OTHER_SERVICE_SLUG, name: 'Our team', confidence: 'suggested' },
         slots: candidates.slice(0, MAX_RESULTS).map(toSlot),
         calendarChecked: false,
       })

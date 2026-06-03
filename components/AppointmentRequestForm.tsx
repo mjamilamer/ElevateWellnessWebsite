@@ -2,11 +2,17 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { siteConfig } from '@/lib/config'
 import { servicePages } from '@/lib/service-content'
 import { isValidEmail, isValidPhone, sanitizeInput, containsPotentialPHI } from '@/lib/utils'
 
 type TimeOfDay = 'any' | 'morning' | 'afternoon'
+type ContactWindow = 'morning' | 'afternoon' | 'evening'
+type ContactMethod = 'phone' | 'email' | 'text'
+type DoctorSlug = 'dr-kamil-amer' | 'dr-kamal-amer'
 type Step = 'service' | 'window' | 'slot' | 'contact' | 'success'
+
+const NO_PREFERENCE = 'no-preference'
 
 type Slot = {
   startISO: string
@@ -49,17 +55,23 @@ export function AppointmentRequestForm() {
   const [dateFrom, setDateFrom] = useState<string>(todayISO(1))
   const [dateTo, setDateTo] = useState<string>(todayISO(14))
   const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('any')
+  // Provider preference — only used for the "Other" service.
+  const [doctorPref, setDoctorPref] = useState<DoctorSlug | typeof NO_PREFERENCE>(NO_PREFERENCE)
 
   // Step 3
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null)
-  const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null)
+  const [primarySlot, setPrimarySlot] = useState<Slot | null>(null)
+  const [backupSlot, setBackupSlot] = useState<Slot | null>(null)
   const [loadingAvail, setLoadingAvail] = useState(false)
   const [availError, setAvailError] = useState<string | null>(null)
 
   // Step 4
-  const [name, setName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [contactWindow, setContactWindow] = useState<ContactWindow | ''>('')
+  const [preferredContactMethod, setPreferredContactMethod] = useState<ContactMethod>('phone')
   const [reason, setReason] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState(false)
@@ -82,15 +94,47 @@ export function AppointmentRequestForm() {
     else if (step === 'contact') setStep('slot')
   }
 
+  // 1st tap → primary. 2nd tap (different slot) → backup. Tapping a chosen slot
+  // clears it; tapping the primary promotes the backup.
+  const toggleSlot = (slot: Slot) => {
+    if (primarySlot?.startISO === slot.startISO) {
+      setPrimarySlot(backupSlot)
+      setBackupSlot(null)
+      return
+    }
+    if (backupSlot?.startISO === slot.startISO) {
+      setBackupSlot(null)
+      return
+    }
+    if (!primarySlot) {
+      setPrimarySlot(slot)
+    } else if (!backupSlot) {
+      setBackupSlot(slot)
+    } else {
+      // Both filled — replace the backup with the newest pick.
+      setBackupSlot(slot)
+    }
+  }
+
+  const slotRole = (slot: Slot): '1st' | '2nd' | null => {
+    if (primarySlot?.startISO === slot.startISO) return '1st'
+    if (backupSlot?.startISO === slot.startISO) return '2nd'
+    return null
+  }
+
   // Step 2 → Step 3: fetch availability
   const fetchAvailability = async () => {
     setLoadingAvail(true)
     setAvailError(null)
+    setPrimarySlot(null)
+    setBackupSlot(null)
     try {
+      const doctorSlug =
+        isOtherService && doctorPref !== NO_PREFERENCE ? doctorPref : undefined
       const r = await fetch('/api/appointments/availability', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ service, dateFrom, dateTo, timeOfDay }),
+        body: JSON.stringify({ service, dateFrom, dateTo, timeOfDay, ...(doctorSlug && { doctorSlug }) }),
       })
       const body = await r.json()
       if (!r.ok) {
@@ -111,7 +155,8 @@ export function AppointmentRequestForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const newErrors: Record<string, string> = {}
-    if (!name.trim()) newErrors.name = 'Name is required'
+    if (!firstName.trim()) newErrors.firstName = 'First name is required'
+    if (!lastName.trim()) newErrors.lastName = 'Last name is required'
     if (!email.trim()) newErrors.email = 'Email is required'
     else if (!isValidEmail(email)) newErrors.email = 'Please enter a valid email'
     if (!phone.trim()) newErrors.phone = 'Phone is required'
@@ -123,7 +168,10 @@ export function AppointmentRequestForm() {
     }
     setErrors(newErrors)
     if (Object.keys(newErrors).length > 0) return
-    if (!selectedSlot) return
+    if (!primarySlot) return
+
+    const doctorSlug =
+      isOtherService && doctorPref !== NO_PREFERENCE ? doctorPref : undefined
 
     setSubmitting(true)
     setSubmitError(null)
@@ -133,13 +181,18 @@ export function AppointmentRequestForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           service,
-          slotStartISO: selectedSlot.startISO,
+          slotStartISO: primarySlot.startISO,
+          ...(backupSlot && { secondarySlotStartISO: backupSlot.startISO }),
           dateFrom,
           dateTo,
           timeOfDay,
-          name: sanitizeInput(name),
+          ...(doctorSlug && { doctorSlug }),
+          firstName: sanitizeInput(firstName),
+          lastName: sanitizeInput(lastName),
           email: sanitizeInput(email),
           phone: sanitizeInput(phone),
+          ...(contactWindow && { contactWindow }),
+          preferredContactMethod,
           ...(reason && { reason: sanitizeInput(reason) }),
         }),
       })
@@ -162,11 +215,16 @@ export function AppointmentRequestForm() {
   const startOver = () => {
     setStep('service')
     setService('')
+    setDoctorPref(NO_PREFERENCE)
     setAvailability(null)
-    setSelectedSlot(null)
-    setName('')
+    setPrimarySlot(null)
+    setBackupSlot(null)
+    setFirstName('')
+    setLastName('')
     setEmail('')
     setPhone('')
+    setContactWindow('')
+    setPreferredContactMethod('phone')
     setReason('')
     setErrors({})
     setSubmittedId(null)
@@ -281,6 +339,47 @@ export function AppointmentRequestForm() {
                 day that works best.
               </p>
             </div>
+
+            {isOtherService && (
+              <div>
+                <p className="block text-sm font-semibold text-neutral-900 mb-2">
+                  Provider preference{' '}
+                  <span className="text-neutral-500 font-normal">(optional)</span>
+                </p>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  {siteConfig.team.physicians.map((p) => (
+                    <button
+                      key={p.slug}
+                      type="button"
+                      onClick={() => setDoctorPref(p.slug)}
+                      className={`text-left rounded-lg border px-3 py-2.5 text-sm transition-colors ${
+                        doctorPref === p.slug
+                          ? 'border-primary-500 bg-primary-50 text-primary-700'
+                          : 'border-neutral-200 bg-white text-neutral-700 hover:border-primary-300'
+                      }`}
+                    >
+                      <span className="block font-semibold">{p.name}</span>
+                      <span className="mt-0.5 block text-xs text-neutral-500">{p.title}</span>
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setDoctorPref(NO_PREFERENCE)}
+                    className={`text-left rounded-lg border px-3 py-2.5 text-sm transition-colors ${
+                      doctorPref === NO_PREFERENCE
+                        ? 'border-primary-500 bg-primary-50 text-primary-700'
+                        : 'border-neutral-200 bg-white text-neutral-700 hover:border-primary-300'
+                    }`}
+                  >
+                    <span className="block font-semibold">No preference</span>
+                    <span className="mt-0.5 block text-xs text-neutral-500">
+                      We&apos;ll route your request
+                    </span>
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="dateFrom" className="block text-sm font-semibold text-neutral-900 mb-2">
@@ -354,15 +453,21 @@ export function AppointmentRequestForm() {
           <div className="space-y-6">
             <div>
               <h3 className="font-display text-xl font-semibold text-neutral-900">
-                Pick a time that works
+                Pick your preferred times
               </h3>
               <p className="mt-1 text-sm text-neutral-600">
-                Suggested with{' '}
-                <strong>{availability.doctor.name}</strong>
-                {availability.doctor.confidence === 'suggested' && (
-                  <span className="text-neutral-500"> (subject to provider confirmation)</span>
-                )}
-                .
+                {availability.doctor.slug === 'other' ? (
+                  <>Times shown for <strong>{availability.doctor.name}</strong>.</>
+                ) : (
+                  <>
+                    Suggested with <strong>{availability.doctor.name}</strong>
+                    {availability.doctor.confidence === 'suggested' && (
+                      <span className="text-neutral-500"> (subject to provider confirmation)</span>
+                    )}
+                    .
+                  </>
+                )}{' '}
+                Choose a <strong>1st choice</strong>, then optionally a <strong>2nd choice</strong> backup.
               </p>
             </div>
 
@@ -377,46 +482,96 @@ export function AppointmentRequestForm() {
                 <p className="mt-2">Try widening your date range, or call our office for help.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {availability.slots.map((s) => (
-                  <button
-                    key={s.startISO}
-                    type="button"
-                    onClick={() => {
-                      setSelectedSlot(s)
-                      setStep('contact')
-                    }}
-                    className={`text-left rounded-xl border p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40 ${
-                      selectedSlot?.startISO === s.startISO
-                        ? 'border-primary-500 bg-primary-50/60'
-                        : 'border-neutral-200 bg-white'
-                    }`}
-                  >
-                    <p className="font-semibold text-neutral-900">{s.label}</p>
-                    <p className="mt-1 text-xs text-neutral-500">30-minute appointment</p>
-                  </button>
-                ))}
-              </div>
+              <>
+                <div className="flex flex-wrap items-center gap-2 text-sm">
+                  <span className="font-semibold text-neutral-900">Selected:</span>
+                  {primarySlot ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-100 px-3 py-1 font-medium text-primary-800">
+                      <span className="text-[10px] font-bold uppercase tracking-wide">1st</span>
+                      {primarySlot.label}
+                    </span>
+                  ) : (
+                    <span className="text-neutral-500">Tap a time to set your 1st choice</span>
+                  )}
+                  {backupSlot && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-100 px-3 py-1 font-medium text-secondary-900">
+                      <span className="text-[10px] font-bold uppercase tracking-wide">2nd</span>
+                      {backupSlot.label}
+                    </span>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {availability.slots.map((s) => {
+                    const role = slotRole(s)
+                    return (
+                      <button
+                        key={s.startISO}
+                        type="button"
+                        onClick={() => toggleSlot(s)}
+                        aria-pressed={role !== null}
+                        className={`relative text-left rounded-xl border p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40 ${
+                          role
+                            ? 'border-primary-500 bg-primary-50/60'
+                            : 'border-neutral-200 bg-white'
+                        }`}
+                      >
+                        {role && (
+                          <span
+                            className={`absolute right-3 top-3 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                              role === '1st'
+                                ? 'bg-primary-600 text-white'
+                                : 'bg-secondary-600 text-white'
+                            }`}
+                          >
+                            {role === '1st' ? '1st choice' : '2nd choice'}
+                          </span>
+                        )}
+                        <p className="font-semibold text-neutral-900">{s.label}</p>
+                        <p className="mt-1 text-xs text-neutral-500">30-minute appointment</p>
+                      </button>
+                    )
+                  })}
+                </div>
+              </>
             )}
 
             <div className="flex items-center justify-between gap-3 pt-2">
               <button type="button" onClick={goBack} className="text-sm font-semibold text-neutral-600 hover:text-neutral-900">
                 ← Back
               </button>
+              <button
+                type="button"
+                onClick={() => setStep('contact')}
+                disabled={!primarySlot}
+                className="btn-primary"
+              >
+                Continue
+              </button>
             </div>
           </div>
         )}
 
         {/* STEP 4: Contact */}
-        {step === 'contact' && selectedSlot && (
+        {step === 'contact' && primarySlot && (
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <h3 className="font-display text-xl font-semibold text-neutral-900">
                 Last step — your contact info
               </h3>
               <p className="mt-1 text-sm text-neutral-600">
-                Holding <strong>{selectedSlot.label}</strong> for{' '}
-                <strong>{serviceTitle}</strong>. Our team will confirm or adjust.
+                Holding <strong>{primarySlot.label}</strong>
+                {backupSlot && (
+                  <> (backup <strong>{backupSlot.label}</strong>)</>
+                )}{' '}
+                for <strong>{serviceTitle}</strong>
+                {availability && availability.doctor.slug !== 'other' && (
+                  <> with <strong>{availability.doctor.name}</strong></>
+                )}
+                {availability && availability.doctor.slug === 'other' && doctorPref !== NO_PREFERENCE && (
+                  <> with <strong>{availability.doctor.name}</strong></>
+                )}
+                . Our team will confirm or adjust.
               </p>
             </div>
 
@@ -426,19 +581,35 @@ export function AppointmentRequestForm() {
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <label htmlFor="name" className="block text-sm font-semibold text-neutral-900 mb-2">
-                  Full Name <span className="text-red-600">*</span>
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-semibold text-neutral-900 mb-2">
+                  First name <span className="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  id="firstName"
+                  autoComplete="given-name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                  aria-invalid={!!errors.name}
+                  aria-invalid={!!errors.firstName}
                 />
-                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                {errors.firstName && <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>}
+              </div>
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-semibold text-neutral-900 mb-2">
+                  Last name <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  autoComplete="family-name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  aria-invalid={!!errors.lastName}
+                />
+                {errors.lastName && <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>}
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-semibold text-neutral-900 mb-2">
@@ -447,6 +618,7 @@ export function AppointmentRequestForm() {
                 <input
                   type="email"
                   id="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
@@ -461,6 +633,7 @@ export function AppointmentRequestForm() {
                 <input
                   type="tel"
                   id="phone"
+                  autoComplete="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="(000) 000-0000"
@@ -468,6 +641,49 @@ export function AppointmentRequestForm() {
                   aria-invalid={!!errors.phone}
                 />
                 {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
+              </div>
+              <div>
+                <p className="block text-sm font-semibold text-neutral-900 mb-2">
+                  Best time to reach you{' '}
+                  <span className="text-neutral-500 font-normal">(optional)</span>
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  {(['morning', 'afternoon', 'evening'] as const).map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setContactWindow((prev) => (prev === opt ? '' : opt))}
+                      className={`rounded-lg border px-2 py-2.5 text-sm font-semibold capitalize transition-colors ${
+                        contactWindow === opt
+                          ? 'border-primary-500 bg-primary-50 text-primary-700'
+                          : 'border-neutral-200 bg-white text-neutral-700 hover:border-primary-300'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="block text-sm font-semibold text-neutral-900 mb-2">
+                  Preferred contact method
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  {(['phone', 'email', 'text'] as const).map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setPreferredContactMethod(opt)}
+                      className={`rounded-lg border px-2 py-2.5 text-sm font-semibold capitalize transition-colors ${
+                        preferredContactMethod === opt
+                          ? 'border-primary-500 bg-primary-50 text-primary-700'
+                          : 'border-neutral-200 bg-white text-neutral-700 hover:border-primary-300'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div className="sm:col-span-2">
                 <label htmlFor="reason" className="block text-sm font-semibold text-neutral-900 mb-2">
@@ -530,9 +746,9 @@ export function AppointmentRequestForm() {
                 Request received
               </h3>
               <p className="mx-auto mt-2 max-w-md text-sm text-neutral-600">
-                Our team will confirm your appointment within <strong>1 business day</strong>. The
-                time you selected is tentative and may be adjusted to fit our schedule.
-                You&apos;ll receive a calendar invite once confirmed.
+                Our team will reach out within <strong>1 business day</strong> to confirm your
+                appointment. The time you selected is tentative and may be adjusted to fit our
+                schedule{backupSlot ? '; your backup time gives us a second option' : ''}.
               </p>
               {submittedId && (
                 <p className="mt-2 text-xs text-neutral-500">

@@ -26,9 +26,13 @@ export type AppointmentTentativeEmailData = {
     name: string
     email: string
     phone: string
+    contactWindow?: 'morning' | 'afternoon' | 'evening' | null
+    preferredContactMethod?: 'phone' | 'email' | 'text' | null
   }
   slotStart: Date
   slotEnd: Date
+  secondarySlotStart?: Date | null
+  secondarySlotEnd?: Date | null
   doctorName: string
   /** 'definitive' — auto-added to Calendar event; 'suggested' — manager picks; null — none */
   doctorConfidence: 'definitive' | 'suggested' | null
@@ -108,7 +112,18 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
   })
 
   const slotLabel = formatSlot(data.slotStart, data.slotEnd)
+  const backupSlotLabel =
+    data.secondarySlotStart && data.secondarySlotEnd
+      ? formatSlot(data.secondarySlotStart, data.secondarySlotEnd)
+      : null
   const requestedWindowLabel = formatRequestedWindow(data.requestedWindow)
+  const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+  const contactWindowLabel = data.patient.contactWindow
+    ? `${titleCase(data.patient.contactWindow)}s`
+    : null
+  const preferredMethodLabel = data.patient.preferredContactMethod
+    ? titleCase(data.patient.preferredContactMethod)
+    : null
   const emailOnly = !data.calendarEventLink
   const confidenceLabel =
     data.doctorConfidence === 'definitive'
@@ -125,9 +140,12 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
     `SERVICE`,
     `  ${data.serviceTitle}`,
     '',
-    `PROPOSED SLOT`,
+    `PROPOSED SLOT (1st choice)`,
     `  ${slotLabel}`,
     '',
+    backupSlotLabel ? `BACKUP SLOT (2nd choice)` : null,
+    backupSlotLabel ? `  ${backupSlotLabel}` : null,
+    backupSlotLabel ? '' : null,
     requestedWindowLabel ? `REQUESTED AVAILABILITY` : null,
     requestedWindowLabel ? `  ${requestedWindowLabel}` : null,
     requestedWindowLabel ? '' : null,
@@ -138,6 +156,8 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
     `  Name:  ${data.patient.name}`,
     `  Email: ${data.patient.email}`,
     `  Phone: ${data.patient.phone}`,
+    preferredMethodLabel ? `  Preferred contact: ${preferredMethodLabel}` : null,
+    contactWindowLabel ? `  Best time to reach: ${contactWindowLabel}` : null,
     '',
     data.reason?.trim() ? `MESSAGE / REASON` : null,
     data.reason?.trim() ? `  ${data.reason.trim()}` : null,
@@ -177,6 +197,14 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
     ? `<a href="${escapeHtml(data.calendarEventLink)}" style="display:inline-block;background-color:${BRAND_BRONZE};color:#ffffff;padding:11px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">Open in Google Calendar →</a>`
     : `<p style="margin:0;color:${MUTED};font-size:13px;font-style:italic;">Email-only request — confirm the time with the patient and add it to the practice calendar.</p>`
 
+  const backupSlotRow = backupSlotLabel
+    ? `
+                  <tr>
+                    <td style="padding:12px 16px; background-color:${BG_PAGE}; border-top:1px solid ${BORDER}; font-size:13px; color:${MUTED}; vertical-align:top;">Backup (2nd choice)</td>
+                    <td style="padding:12px 16px; border-top:1px solid ${BORDER}; font-size:14px; color:${TEXT}; vertical-align:top;">${escapeHtml(backupSlotLabel)}</td>
+                  </tr>`
+    : ''
+
   const requestedWindowRow = requestedWindowLabel
     ? `
                   <tr>
@@ -184,6 +212,14 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
                     <td style="padding:12px 16px; border-top:1px solid ${BORDER}; font-size:14px; color:${TEXT}; vertical-align:top;">${escapeHtml(requestedWindowLabel)}</td>
                   </tr>`
     : ''
+
+  const contactPrefRows = `${
+    preferredMethodLabel
+      ? `${renderRow('Preferred contact', escapeHtml(preferredMethodLabel))}`
+      : ''
+  }${
+    contactWindowLabel ? `${renderRow('Best time to reach', escapeHtml(contactWindowLabel))}` : ''
+  }`
 
   const nextStepsList = emailOnly
     ? `<ol style="margin:0; padding-left:20px; font-size:14px; line-height:1.6; color:${TEXT};">
@@ -232,9 +268,10 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
                 <p style="margin:0 0 8px; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:${BRAND_BRONZE_DARK}; font-weight:700;">Proposed slot</p>
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid ${BORDER}; border-radius:10px; overflow:hidden;">
                   <tr>
-                    <td style="padding:12px 16px; background-color:${BG_PAGE}; width:140px; font-size:13px; color:${MUTED}; vertical-align:top;">When</td>
+                    <td style="padding:12px 16px; background-color:${BG_PAGE}; width:140px; font-size:13px; color:${MUTED}; vertical-align:top;">${backupSlotLabel ? '1st choice' : 'When'}</td>
                     <td style="padding:12px 16px; font-size:14px; color:${TEXT}; vertical-align:top;">${escapeHtml(slotLabel)}</td>
                   </tr>
+                  ${backupSlotRow}
                   ${requestedWindowRow}
                   <tr>
                     <td style="padding:12px 16px; background-color:${BG_PAGE}; border-top:1px solid ${BORDER}; font-size:13px; color:${MUTED}; vertical-align:top;">Provider</td>
@@ -257,7 +294,8 @@ export function appointmentTentativeEmail(data: AppointmentTentativeEmailData) {
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid ${BORDER}; border-radius:10px; overflow:hidden;">
                   ${renderRow('Name', escapeHtml(data.patient.name))}
                   ${renderRow('Email', `<a href="mailto:${escapeHtml(data.patient.email)}" style="color:${BRAND_BRONZE}; text-decoration:none;">${escapeHtml(data.patient.email)}</a>`)}
-                  ${renderRow('Phone', `<a href="tel:${escapeHtml(data.patient.phone.replace(/[^0-9+]/g, ''))}" style="color:${BRAND_BRONZE}; text-decoration:none;">${escapeHtml(data.patient.phone)}</a>`, true)}
+                  ${renderRow('Phone', `<a href="tel:${escapeHtml(data.patient.phone.replace(/[^0-9+]/g, ''))}" style="color:${BRAND_BRONZE}; text-decoration:none;">${escapeHtml(data.patient.phone)}</a>`, !preferredMethodLabel && !contactWindowLabel)}
+                  ${contactPrefRows}
                 </table>
               </td>
             </tr>

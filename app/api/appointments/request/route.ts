@@ -21,6 +21,7 @@ import {
   generateId,
   sanitizeInput,
 } from '@/lib/server/api-utils'
+import { isValidSlotStart } from '@/lib/scheduling/slots'
 import { mailConfigured, mailRecipient, sendEmail } from '@/lib/server/email'
 import { appointmentTentativeEmail } from '@/lib/server/email-templates/appointment-tentative'
 import { schedulerCalendarEnabled, createTentativeEvent } from '@/lib/server/google-calendar'
@@ -36,12 +37,17 @@ const requestSchema = z.object({
       message: 'Unknown service',
     }),
   slotStartISO: z.string().datetime(),
+  secondarySlotStartISO: z.string().datetime().optional(),
   dateFrom: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   dateTo: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   timeOfDay: z.enum(['any', 'morning', 'afternoon']).optional(),
-  name: z.string().min(1).max(100),
+  doctorSlug: z.enum(['dr-kamil-amer', 'dr-kamal-amer']).optional(),
+  firstName: z.string().min(1).max(60),
+  lastName: z.string().min(1).max(60),
   email: z.string().email().max(255),
   phone: z.string().min(10).max(20),
+  contactWindow: z.enum(['morning', 'afternoon', 'evening']).optional(),
+  preferredContactMethod: z.enum(['phone', 'email', 'text']).optional(),
   reason: z.string().max(1000).optional(),
 })
 
@@ -73,8 +79,20 @@ export async function POST(request: Request) {
       )
     }
 
+    // Reject any slot that isn't a real bookable time (open weekday, on a
+    // boundary, within 9:30 AM-4:30 PM ET). Guards against tampered submissions.
+    if (!isValidSlotStart(data.slotStartISO)) {
+      return NextResponse.json({ error: 'Selected time is outside booking hours' }, { status: 400 })
+    }
+    if (data.secondarySlotStartISO && !isValidSlotStart(data.secondarySlotStartISO)) {
+      return NextResponse.json({ error: 'Backup time is outside booking hours' }, { status: 400 })
+    }
+
+    const fullName = `${data.firstName.trim()} ${data.lastName.trim()}`.trim()
     const sanitized = {
-      name: sanitizeInput(data.name),
+      name: sanitizeInput(fullName),
+      firstName: sanitizeInput(data.firstName),
+      lastName: sanitizeInput(data.lastName),
       email: sanitizeInput(data.email),
       phone: sanitizeInput(data.phone),
       reason: data.reason ? sanitizeInput(data.reason) : null,
@@ -93,10 +111,16 @@ export async function POST(request: Request) {
 
     let assignment: ReturnType<typeof assignDoctor> = null
     let doctor: (typeof siteConfig.team.physicians)[number] | null = null
+    let doctorConfidence: 'definitive' | 'suggested' | null = null
     let serviceTitle: string
 
     if (isOther) {
       serviceTitle = OTHER_SERVICE_TITLE
+      // Honor the patient's optional provider preference for "Other".
+      if (data.doctorSlug) {
+        doctor = siteConfig.team.physicians.find((p) => p.slug === data.doctorSlug) ?? null
+        if (doctor) doctorConfidence = 'suggested'
+      }
     } else {
       assignment = assignDoctor(data.service)
       if (!assignment) {
@@ -107,15 +131,17 @@ export async function POST(request: Request) {
       if (!doctor || !servicePage) {
         return NextResponse.json({ error: 'Service metadata missing' }, { status: 500 })
       }
+      doctorConfidence = assignment.confidence
       serviceTitle = servicePage.title
     }
 
     const id = generateId('apt')
     const start = new Date(data.slotStartISO)
     const end = new Date(start.getTime() + SLOT_DURATION_MIN * 60_000)
-    if (Number.isNaN(start.getTime())) {
-      return NextResponse.json({ error: 'Invalid slot' }, { status: 400 })
-    }
+    const secondaryStart = data.secondarySlotStartISO ? new Date(data.secondarySlotStartISO) : null
+    const secondaryEnd = secondaryStart
+      ? new Date(secondaryStart.getTime() + SLOT_DURATION_MIN * 60_000)
+      : null
 
     // Try to create the tentative Calendar event. If anything fails, fall
     // through to email-only — the lead is preserved either way.
@@ -152,11 +178,19 @@ export async function POST(request: Request) {
     const { subject, html, text } = appointmentTentativeEmail({
       id,
       serviceTitle,
-      patient: sanitized,
+      patient: {
+        name: sanitized.name,
+        email: sanitized.email,
+        phone: sanitized.phone,
+        contactWindow: data.contactWindow ?? null,
+        preferredContactMethod: data.preferredContactMethod ?? null,
+      },
       slotStart: start,
       slotEnd: end,
+      secondarySlotStart: secondaryStart,
+      secondarySlotEnd: secondaryEnd,
       doctorName: doctor?.name ?? '',
-      doctorConfidence: assignment?.confidence ?? null,
+      doctorConfidence,
       reason: sanitized.reason,
       calendarEventLink,
       requestedWindow: {
@@ -185,7 +219,11 @@ export async function POST(request: Request) {
           service: data.service,
           serviceTitle,
           slotStartISO: data.slotStartISO,
+          secondarySlotStartISO: data.secondarySlotStartISO ?? null,
+          doctorSlug: doctor?.slug ?? null,
           requestedWindow: { dateFrom: data.dateFrom, dateTo: data.dateTo, timeOfDay: data.timeOfDay },
+          contactWindow: data.contactWindow ?? null,
+          preferredContactMethod: data.preferredContactMethod ?? null,
           patient: sanitized,
           ip: clientIp(request),
           submittedAt: new Date().toISOString(),
@@ -199,9 +237,9 @@ export async function POST(request: Request) {
 
     // Log a single structured line so we can grep Vercel logs if needed
     console.log(
-      `appointment.request id=${id} service=${data.service} doctor=${assignment?.doctor ?? 'other'} ` +
-        `confidence=${assignment?.confidence ?? 'n/a'} calendar=${calendarEventLink ? 'created' : 'skipped'} ` +
-        `ip=${clientIp(request)}`
+      `appointment.request id=${id} service=${data.service} doctor=${doctor?.slug ?? 'unassigned'} ` +
+        `confidence=${doctorConfidence ?? 'n/a'} backup=${secondaryStart ? 'yes' : 'no'} ` +
+        `calendar=${calendarEventLink ? 'created' : 'skipped'} ip=${clientIp(request)}`
     )
 
     return NextResponse.json(

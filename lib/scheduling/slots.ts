@@ -7,7 +7,7 @@
  * calendar days in the practice time zone (ET).
  */
 
-import { fromZonedTime, toZonedTime } from 'date-fns-tz'
+import { fromZonedTime } from 'date-fns-tz'
 import { hoursForDayOfWeek, PRACTICE_TIMEZONE } from './business-hours'
 
 export type TimeOfDay = 'any' | 'morning' | 'afternoon'
@@ -103,6 +103,44 @@ function formatTimeISO(totalMinutes: number): string {
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
 }
 
+/**
+ * Validates that a slot start (UTC ISO string) lands on a real bookable slot:
+ * an open weekday, on a :00/:30 boundary, within the 9:30 AM-4:30 PM ET start
+ * range. Used server-side so an out-of-window time can never be submitted.
+ */
+export function isValidSlotStart(iso: string, slotMinutes = DEFAULT_SLOT_MINUTES): boolean {
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return false
+
+  // Read the ET wall-clock parts of this instant.
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: PRACTICE_TIMEZONE,
+    weekday: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(date)
+
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? ''
+  const weekday = get('weekday')
+  let hour = parseInt(get('hour'), 10)
+  const minute = parseInt(get('minute'), 10)
+  if (Number.isNaN(hour) || Number.isNaN(minute)) return false
+  // Intl can emit "24" for midnight in hour12:false mode.
+  if (hour === 24) hour = 0
+
+  const dowIndex: Record<string, number> = {
+    Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6,
+  }
+  const dow = dowIndex[weekday]
+  if (dow === undefined || hoursForDayOfWeek(dow) === null) return false
+
+  if (minute % slotMinutes !== 0) return false
+
+  const totalMin = hour * 60 + minute
+  return totalMin >= BOOKING_FIRST_START_MIN && totalMin + slotMinutes <= BOOKING_END_MIN
+}
+
 function timeOfDayWindow(
   tod: TimeOfDay,
   dayStart: number,
@@ -123,19 +161,21 @@ function timeOfDayWindow(
 /**
  * Pretty-print a slot in ET for patient-facing display.
  * E.g. "Mon Jun 16 · 10:30 AM"
+ *
+ * Formats the UTC instant directly with a fixed ET time zone so the label is
+ * correct regardless of the server's local time zone (Vercel runs in UTC).
  */
 export function formatSlotLabel(start: Date): string {
-  const zoned = toZonedTime(start, PRACTICE_TIMEZONE)
   const date = new Intl.DateTimeFormat('en-US', {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
     timeZone: PRACTICE_TIMEZONE,
-  }).format(zoned)
+  }).format(start)
   const time = new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
     minute: '2-digit',
     timeZone: PRACTICE_TIMEZONE,
-  }).format(zoned)
+  }).format(start)
   return `${date} · ${time}`
 }

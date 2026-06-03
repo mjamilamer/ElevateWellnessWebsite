@@ -16,9 +16,13 @@ const SAMPLE_APPOINTMENT = {
     name: 'Jane Patient',
     email: 'jane.patient@example.com',
     phone: '+1 (201) 555-0142',
+    contactWindow: 'afternoon' as const,
+    preferredContactMethod: 'text' as const,
   },
   slotStart: new Date('2026-06-15T13:30:00Z'), // 9:30 AM ET
   slotEnd: new Date('2026-06-15T14:00:00Z'),
+  secondarySlotStart: new Date('2026-06-16T18:30:00Z'), // 2:30 PM ET
+  secondarySlotEnd: new Date('2026-06-16T19:00:00Z'),
   doctorName: 'Dr. Kamil M. Amer, MD',
   doctorConfidence: 'definitive' as const,
   reason: 'Recurring discomfort in my right wrist after a fall last month.',
