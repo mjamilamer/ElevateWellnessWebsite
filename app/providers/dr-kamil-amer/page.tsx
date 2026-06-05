@@ -20,7 +20,7 @@ export default function DrKamilAmerPage() {
       slug: 'dr-kamil-amer',
       title: 'MD',
       specialty: 'Orthopedic Surgery — Hand & Upper Extremity',
-      bio: 'Board-certified orthopedic surgeon with fellowship training in hand and upper extremity surgery from Thomas Jefferson University Hospital.',
+      bio: 'Board-certified orthopedic surgeon specializing in musculoskeletal care with advanced expertise in hand and upper extremity surgery — treating fractures, sports injuries, arthritis, carpal tunnel syndrome, and hand and wrist disorders.',
     }),
     generateBreadcrumbSchema([
       { name: 'Home', url: `${base}/` },
@@ -55,8 +55,8 @@ export default function DrKamilAmerPage() {
                 Orthopedic Surgery · Hand &amp; Upper Extremity
               </p>
               <p className="mt-5 max-w-2xl text-lg text-neutral-700">
-                Board-certified orthopedic surgeon with fellowship training in hand and upper extremity surgery,
-                caring for patients across northern New Jersey.
+                Board-certified orthopedic surgeon specializing in musculoskeletal care, with advanced
+                expertise in hand and upper extremity surgery.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link href="/appointments" className="btn-primary">
@@ -79,34 +79,40 @@ export default function DrKamilAmerPage() {
               <div>
                 <h2 className="text-2xl font-bold tracking-tight text-neutral-900">About Dr. Amer</h2>
                 <p className="mt-4">
-                  Dr. Kamil M. Amer is a board-certified orthopedic surgeon specializing in the care of the hand
-                  and upper extremity. His practice emphasizes precise diagnosis, evidence-based treatment, and
-                  clear communication with patients throughout their recovery.
+                  Dr. Kamil M. Amer is a board-certified orthopedic surgeon specializing in the diagnosis and
+                  treatment of musculoskeletal conditions, with advanced expertise in hand and upper extremity
+                  surgery. He is dedicated to helping patients restore function, reduce pain, and return to
+                  their daily activities through both non-surgical and surgical treatment options.
                 </p>
                 <p className="mt-4">
-                  He earned his Doctor of Medicine from the Lewis Katz School of Medicine at Temple University,
-                  followed by an orthopedic surgery residency at Rutgers New Jersey Medical School. He went on to
-                  complete a fellowship in hand and upper extremity surgery at Thomas Jefferson University
-                  Hospital, where he refined his expertise in microsurgical reconstruction, complex fracture
-                  care, and minimally invasive techniques.
+                  Dr. Amer earned his medical degree from the Lewis Katz School of Medicine at Temple
+                  University and has extensive training in orthopedic surgery and hand surgery. He treats a wide
+                  range of conditions, including fractures, sports injuries, arthritis, tendon and ligament
+                  injuries, carpal tunnel syndrome, hand and wrist disorders, joint pain, and other orthopedic
+                  conditions affecting the upper and lower extremities.
                 </p>
                 <p className="mt-4">
-                  Dr. Amer treats patients across northern New Jersey at affiliated locations in Clifton,
-                  Paramus, and Newark. He sees patients with a range of upper extremity conditions, from acute
-                  injuries and fractures to chronic conditions affecting the shoulder, elbow, wrist, and hand.
+                  Known for his patient-centered approach, Dr. Amer works closely with each patient to develop
+                  individualized treatment plans focused on achieving the best possible outcomes. His goal is to
+                  provide comprehensive orthopedic care utilizing the latest evidence-based techniques and
+                  minimally invasive treatment options whenever appropriate.
+                </p>
+                <p className="mt-4">
+                  At Elevate Wellness &amp; Health, Dr. Amer is committed to delivering high-quality orthopedic
+                  care to help patients regain mobility, improve function, and enhance their quality of life.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold tracking-tight text-neutral-900">Clinical Interests</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-neutral-900">Conditions Treated</h2>
                 <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {[
-                    'Hand and upper extremity surgery',
-                    'Carpal tunnel and nerve decompression',
-                    'Fracture care and trauma reconstruction',
-                    'Tendon repair and reconstruction',
-                    'Wrist and elbow arthroscopy',
-                    'Sports-related upper extremity injuries',
+                    'Fractures and trauma care',
+                    'Sports injuries',
+                    'Arthritis and joint pain',
+                    'Tendon and ligament injuries',
+                    'Carpal tunnel syndrome',
+                    'Hand and wrist disorders',
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-neutral-700">
                       <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-600" />
