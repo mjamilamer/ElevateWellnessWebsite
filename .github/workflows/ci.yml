@@ -1,0 +1,48 @@
+name: CI
+
+# Runs the same quality gates used locally (lint, type-check, production build)
+# on every push to the main branches and on every pull request. Gives a
+# pass/fail status in GitHub that can be required via branch protection.
+
+on:
+  push:
+    branches: [ElevateWellnessWebsite, main]
+  pull_request:
+
+# Cancel an in-progress run when a newer commit is pushed to the same ref.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint · Type-check · Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run type-check
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+        env:
+          # The app reads secrets at request time, not build time, so no real
+          # secrets are needed to build. Set the canonical URL for correctness.
+          NEXT_PUBLIC_SITE_URL: https://www.elevatewellnessnj.com
