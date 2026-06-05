@@ -123,6 +123,16 @@ export function Footer() {
               <li><Link href="/new-patients#insurance" className="hover:text-white transition-colors">Insurance & Billing</Link></li>
               <li><Link href="/new-patients#faq" className="hover:text-white transition-colors">FAQs</Link></li>
               <li><Link href="/locations" className="hover:text-white transition-colors">Locations & Hours</Link></li>
+              <li>
+                <a
+                  href={siteConfig.googleBusiness.reviewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Review us on Google
+                </a>
+              </li>
             </ul>
           </div>
 

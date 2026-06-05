@@ -1,5 +1,64 @@
 import { siteConfig } from './config'
 
+const DAY_LABELS: Record<string, string> = {
+  monday: 'Monday',
+  tuesday: 'Tuesday',
+  wednesday: 'Wednesday',
+  thursday: 'Thursday',
+  friday: 'Friday',
+  saturday: 'Saturday',
+  sunday: 'Sunday',
+}
+
+const DAY_ORDER = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const
+
+/** Convert a '9:00 AM'-style time to 24-hour 'HH:MM'. Returns null if unparseable. */
+function to24h(label: string): string | null {
+  const m = label.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
+  if (!m) return null
+  let h = parseInt(m[1], 10)
+  const min = m[2]
+  const mer = m[3].toUpperCase()
+  if (mer === 'AM') h = h === 12 ? 0 : h
+  else h = h === 12 ? 12 : h + 12
+  return `${String(h).padStart(2, '0')}:${min}`
+}
+
+/**
+ * Derive schema.org openingHoursSpecification from siteConfig.hours, grouping
+ * consecutive days that share the same open/close times. Single source of
+ * truth — the website's displayed hours and its structured data never drift.
+ *
+ * NOTE: these must also match your Google Business Profile hours exactly.
+ */
+function buildOpeningHoursSpec() {
+  const specs: Array<{ '@type': 'OpeningHoursSpecification'; dayOfWeek: string[]; opens: string; closes: string }> = []
+  const byRange = new Map<string, string[]>()
+
+  for (const day of DAY_ORDER) {
+    const raw = (siteConfig.hours as Record<string, string>)[day]
+    if (!raw || /closed/i.test(raw)) continue
+    const [openRaw, closeRaw] = raw.split(/\s*[–-]\s*/)
+    const opens = to24h(openRaw ?? '')
+    const closes = to24h(closeRaw ?? '')
+    if (!opens || !closes) continue
+    const key = `${opens}-${closes}`
+    if (!byRange.has(key)) byRange.set(key, [])
+    byRange.get(key)!.push(DAY_LABELS[day])
+  }
+
+  for (const [range, days] of byRange) {
+    const [opens, closes] = range.split('-')
+    specs.push({ '@type': 'OpeningHoursSpecification', dayOfWeek: days, opens, closes })
+  }
+  return specs
+}
+
+/** Google Business Profile + social links for `sameAs`. */
+function sameAsLinks(): string[] {
+  return [siteConfig.googleBusiness.profileUrl, ...Object.values(siteConfig.social)].filter(Boolean)
+}
+
 /**
  * Generate JSON-LD structured data for the medical practice
  */
@@ -25,21 +84,8 @@ export function generateOrganizationSchema() {
       postalCode: siteConfig.contact.address.zip,
       addressCountry: 'US',
     },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
-        opens: '08:00',
-        closes: '17:00',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Friday',
-        opens: '08:00',
-        closes: '16:00',
-      },
-    ],
-    sameAs: Object.values(siteConfig.social).filter(Boolean),
+    openingHoursSpecification: buildOpeningHoursSpec(),
+    sameAs: sameAsLinks(),
   }
 }
 
@@ -117,11 +163,14 @@ export function generateLocalBusinessSchema() {
     '@id': `${siteConfig.siteUrl}/#localbusiness`,
     name: siteConfig.name,
     legalName: siteConfig.legalName,
+    description: siteConfig.description,
     image: `${siteConfig.siteUrl}/images/elevate_logo.jpg`,
     url: siteConfig.siteUrl,
     telephone: siteConfig.contact.phone,
     faxNumber: siteConfig.contact.fax,
+    email: siteConfig.contact.email,
     priceRange: '$$',
+    currenciesAccepted: 'USD',
     address: {
       '@type': 'PostalAddress',
       streetAddress: siteConfig.contact.address.street,
@@ -130,20 +179,10 @@ export function generateLocalBusinessSchema() {
       postalCode: siteConfig.contact.address.zip,
       addressCountry: 'US',
     },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
-        opens: '08:00',
-        closes: '17:00',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Friday',
-        opens: '08:00',
-        closes: '16:00',
-      },
-    ],
+    areaServed: siteConfig.areaServed.map((name) => ({ '@type': 'City', name })),
+    hasMap: siteConfig.googleBusiness.profileUrl,
+    openingHoursSpecification: buildOpeningHoursSpec(),
+    sameAs: sameAsLinks(),
   } as Record<string, unknown>
 
   if (siteConfig.geo.latitude && siteConfig.geo.longitude) {

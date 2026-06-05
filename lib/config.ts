@@ -111,11 +111,35 @@ export const siteConfig = {
     instagram: 'https://instagram.com/elevatewellnessandhealth',
   },
 
-  /** Set real coordinates for LocalBusiness JSON-LD (better local SEO). */
-  geo: {
-    latitude: '',
-    longitude: '',
+  /**
+   * Google Business Profile links. These connect the website to the Google
+   * listing — used in JSON-LD `sameAs`/`hasMap` and the "review us" CTA.
+   * `reviewUrl` is the short link Google generates under "Get more reviews".
+   */
+  googleBusiness: {
+    reviewUrl: 'https://g.page/r/Ca1f1Cxoyz3oEAI/review',
+    profileUrl: 'https://g.page/r/Ca1f1Cxoyz3oEAI',
   },
+
+  /**
+   * Geo coordinates for LocalBusiness JSON-LD (improves local-pack ranking).
+   * Exact pin for 7504 Broadway, North Bergen, NJ 07047 — taken from the
+   * Google Maps place URL (`!3d<lat>!4d<lng>`).
+   */
+  geo: {
+    latitude: '40.796634',
+    longitude: '-74.0027832',
+  },
+
+  /** Towns/areas served — reinforces local relevance for nearby searches. */
+  areaServed: [
+    'North Bergen',
+    'Union City',
+    'West New York',
+    'Guttenberg',
+    'Secaucus',
+    'Hudson County',
+  ],
 
   // Insurance providers
   insurance: [
