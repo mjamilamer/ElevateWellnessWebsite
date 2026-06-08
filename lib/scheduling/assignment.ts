@@ -27,6 +27,8 @@ const ASSIGNMENTS: Record<string, DoctorAssignment> = {
   'iv-infusion-therapy': { doctor: 'dr-kamal-amer', confidence: 'suggested' },
   'in-house-lab': { doctor: 'dr-kamal-amer', confidence: 'suggested' },
   acupuncture: { doctor: 'dr-kamil-amer', confidence: 'suggested' },
+  'emg-nerve-conduction-studies': { doctor: 'dr-kamil-amer', confidence: 'suggested' },
+  'weight-management': { doctor: 'dr-kamal-amer', confidence: 'definitive' },
 }
 
 export function assignDoctor(serviceSlug: string): DoctorAssignment | null {

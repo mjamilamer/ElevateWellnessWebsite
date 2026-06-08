@@ -14,6 +14,8 @@ import { z } from 'zod'
 import { siteConfig } from '@/lib/config'
 import { assignDoctor, allServiceSlugs } from '@/lib/scheduling/assignment'
 import { generateCandidateSlots, formatSlotLabel } from '@/lib/scheduling/slots'
+import { clientIp } from '@/lib/server/api-utils'
+import { rateLimit } from '@/lib/server/rate-limit'
 import { schedulerCalendarEnabled, listEventsInRange } from '@/lib/server/google-calendar'
 
 const MAX_PER_DOCTOR = 2
@@ -33,6 +35,16 @@ const availabilitySchema = z.object({
 })
 
 export async function POST(request: Request) {
+  // Availability is browsed repeatedly while picking a slot, so the limit is
+  // looser than the submit endpoint — it only guards against scripted floods.
+  const limit = rateLimit(`apt:availability:${clientIp(request)}`, 40, 60_000)
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please slow down.' },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfterSec) } }
+    )
+  }
+
   try {
     const body = await request.json()
     const parsed = availabilitySchema.safeParse(body)

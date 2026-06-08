@@ -7,8 +7,8 @@ export const siteConfig = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevatewellnessnj.com',
   
   contact: {
-    phone: '+1 (206) 397-8171',
-    fax: '206-395-0372',
+    phone: '+1 (201) 305-5103',
+    fax: '201-305-5104',
     email: 'Info@elevatewellnessnj.com',
     address: {
       street: '7504-06 Broadway Avenue',

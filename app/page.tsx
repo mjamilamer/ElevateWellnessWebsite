@@ -2,10 +2,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
-import { ServicesGrid } from '@/components/ServicesGrid'
+import { ServicesCarousel } from '@/components/ServicesCarousel'
 import { ProviderCard } from '@/components/ProviderCard'
+import { FocusPills } from '@/components/FocusPills'
 import { CTASection } from '@/components/CTASection'
 import { Reveal } from '@/components/Reveal'
+import { providerFocus } from '@/lib/provider-focus'
 import { siteConfig } from '@/lib/config'
 import { pageMetadata } from '@/lib/seo'
 
@@ -48,7 +50,7 @@ export default function HomePage() {
           <div className="surface-card grid grid-cols-2 gap-y-6 divide-y-0 p-6 text-center md:grid-cols-4 md:gap-0 md:divide-x md:divide-primary-200/50 md:p-4">
             {[
               { headline: '4', subheadline: 'Board Certifications', detail: 'Orthopedic Surgery · Internal Medicine · Gastroenterology · Obesity & Nutrition' },
-              { headline: '7', subheadline: 'Integrated Services', detail: 'Specialty medicine and wellness under one roof' },
+              { headline: '9', subheadline: 'Integrated Services', detail: 'Specialty medicine and wellness under one roof' },
               { headline: '3', subheadline: 'Languages of Care', detail: 'English · Spanish · Arabic' },
               { headline: 'Same Week', subheadline: 'Average Availability', detail: 'Convenient scheduling for new patients' },
             ].map(({ headline, subheadline, detail }) => (
@@ -65,6 +67,45 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Featured offerings — at a glance */}
+      <section className="bg-white pb-4 pt-10">
+        <div className="container-custom">
+          <Reveal className="surface-muted p-6 md:p-8">
+            <div className="text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-700">
+                Comprehensive Wellness, Recovery &amp; Preventive Care Under One Roof
+              </p>
+              <h2 className="mt-2 text-2xl font-bold tracking-tight text-neutral-900">
+                Everything our patients need, in one place
+              </h2>
+            </div>
+            <ul className="mx-auto mt-6 grid max-w-4xl grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+              {[
+                'Internal Medicine & Gastroenterology',
+                'Orthopedic Surgery',
+                'Physical Therapy',
+                'EMG & Nerve Conduction Studies',
+                'IV Therapy & Infusions',
+                'Peptide Therapy',
+                'In-House Laboratory Services',
+                'Weight Management & Wellness Programs',
+                'Same-Week Appointments Available',
+                'Most Major Insurances Accepted',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm font-medium text-neutral-800">
+                  <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-700">
+                    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
       {/* Services Highlights */}
       <section className="section-padding bg-white">
         <div className="container-custom">
@@ -74,27 +115,28 @@ export default function HomePage() {
             description="Integrated specialty and wellness services designed to support how you feel, move, and live every day."
             centered
           />
+        </div>
 
-          <div className="mt-12">
-            <ServicesGrid />
-          </div>
+        {/* Full-bleed rolling carousel: cards glide edge to edge, pause on hover */}
+        <Reveal className="mt-12">
+          <ServicesCarousel />
+        </Reveal>
 
-          <div className="mt-12 text-center">
-            <Link href="/services" className="btn-secondary">
-              View Clinical Programs
-            </Link>
-          </div>
+        <div className="container-custom mt-12 text-center">
+          <Link href="/services" className="btn-secondary">
+            View Clinical Programs
+          </Link>
         </div>
       </section>
 
       {/* Conditions We Treat */}
       <section className="bg-neutral-50 pb-8">
         <div className="container-custom">
-          <div className="surface-muted p-6 md:p-8">
+          <Reveal className="surface-muted p-6 md:p-8">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-700">Common Conditions</p>
-                <h3 className="mt-2 text-2xl font-bold tracking-tight text-neutral-900">Care tailored to the diagnoses we see every day</h3>
+                <h3 className="mt-2 text-2xl font-bold tracking-tight text-neutral-900">Conditions We Commonly Treat</h3>
               </div>
               <Link href="/services" className="btn-text">
                 See all conditions and treatments
@@ -102,21 +144,27 @@ export default function HomePage() {
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
               {[
-                'Joint pain and arthritis',
-                'Hip, knee & shoulder problems',
-                'Major fractures',
-                'Hand & wrist conditions',
-                'Spine & back concerns',
-                'Sports injuries',
-                'Tendon & ligament injuries',
-                'Post-traumatic conditions',
+                'Back and Neck Pain',
+                'Joint Pain and Arthritis',
+                'Sports Injuries',
+                'Nerve Pain and Neuropathy',
+                'Carpal Tunnel Syndrome',
+                'Digestive Disorders',
+                'Acid Reflux (GERD)',
+                'Diabetes',
+                'High Blood Pressure',
+                'High Cholesterol',
+                'Weight Management Concerns',
+                'Chronic Pain Conditions',
+                'Balance and Mobility Issues',
+                'Post-Surgical Recovery',
               ].map((condition) => (
                 <span key={condition} className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-700">
                   {condition}
                 </span>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -282,11 +330,11 @@ export default function HomePage() {
           <SectionHeader
             subtitle="Clinical Team"
             title="Led by board-certified specialists"
-            description="Two physicians anchor our integrated practice — orthopedic surgery and gastroenterology/internal medicine — working alongside our wellness and therapy team."
+            description="Two physicians anchor our integrated practice — orthopedic surgery and gastroenterology/internal medicine — working alongside our licensed physical therapist."
             centered
           />
 
-          <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-10 md:grid-cols-2">
+          <Reveal className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-10 md:grid-cols-2">
             {/* Dr. Kamil M. Amer */}
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-[minmax(0,12rem)_1fr]">
               <ProviderCard
@@ -307,20 +355,7 @@ export default function HomePage() {
                   Extremity at Thomas Jefferson University Hospital. MD from Lewis Katz School of
                   Medicine, residency at Rutgers New Jersey Medical School.
                 </p>
-                <ul className="space-y-1.5 text-xs text-neutral-700">
-                  <li className="flex items-start gap-2">
-                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
-                    Board certified — American Board of Orthopaedic Surgery
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
-                    Fellowship-trained, Hand &amp; Upper Extremity
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
-                    Saint Michael&apos;s &amp; Atlantic Health affiliations
-                  </li>
-                </ul>
+                <FocusPills areas={providerFocus['dr-kamil-amer']} />
                 <div className="pt-1">
                   <Link href="/providers/dr-kamil-amer" className="text-sm font-semibold text-primary-700 hover:underline">
                     Read full bio →
@@ -348,25 +383,9 @@ export default function HomePage() {
                   Board-certified in Gastroenterology, Internal Medicine, and Obesity &amp;
                   Nutrition. Fellowship in GI &amp; Hepatology at Rutgers New Jersey Medical
                   School; Internal Medicine residency at Thomas Jefferson University Hospital.
+                  Cares for patients in English, Spanish, and Arabic.
                 </p>
-                <ul className="space-y-1.5 text-xs text-neutral-700">
-                  <li className="flex items-start gap-2">
-                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
-                    Board certified — Gastroenterology, Internal Medicine
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
-                    Fellowship-trained, GI &amp; Hepatology
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
-                    Hackensack Meridian &amp; St. Joseph&apos;s affiliations
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary-600" />
-                    Languages: English, Spanish, Arabic
-                  </li>
-                </ul>
+                <FocusPills areas={providerFocus['dr-kamal-amer']} />
                 <div className="pt-1">
                   <Link href="/providers/dr-kamal-amer" className="text-sm font-semibold text-primary-700 hover:underline">
                     Read full bio →
@@ -374,7 +393,45 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
+
+          {/* Rehabilitation Team — grouped below the physicians for clear hierarchy */}
+          <Reveal delay={120} className="mx-auto mt-16 max-w-5xl">
+            <div className="flex items-center gap-4">
+              <span aria-hidden="true" className="h-px flex-1 bg-neutral-200" />
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">
+                Rehabilitation Team
+              </p>
+              <span aria-hidden="true" className="h-px flex-1 bg-neutral-200" />
+            </div>
+
+            <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-[minmax(0,12rem)_1fr]">
+              <ProviderCard
+                name="Muneer Obeidallah, PT"
+                title="Physical Therapist"
+                specialty="Physical Therapy & Rehabilitation"
+                slug="muneer-obeidallah"
+              />
+              <div className="space-y-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">Physical Therapy</p>
+                  <h3 className="mt-1 text-xl font-bold tracking-tight text-neutral-900">
+                    Muneer Obeidallah, PT
+                  </h3>
+                </div>
+                <p className="text-sm text-neutral-600">
+                  Muneer Obeidallah is a dedicated Physical Therapist committed to helping patients
+                  restore mobility, reduce pain, and improve their overall quality of life.
+                </p>
+                <FocusPills areas={providerFocus['muneer-obeidallah']} />
+                <div className="pt-1">
+                  <Link href="/providers/muneer-obeidallah" className="text-sm font-semibold text-primary-700 hover:underline">
+                    Read full bio →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </Reveal>
 
           <div className="mt-12 text-center">
             <Link href="/providers" className="btn-secondary">
@@ -394,7 +451,7 @@ export default function HomePage() {
             centered
           />
 
-          <div className="mx-auto mt-12 max-w-3xl">
+          <Reveal className="mx-auto mt-12 max-w-3xl">
             <div className="surface-card border-t-2 border-t-primary-600 p-6 md:p-8">
               <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-700">
                 Why patients choose us
@@ -415,6 +472,72 @@ export default function HomePage() {
                 ))}
               </ul>
             </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Why Choose Elevate */}
+      <section className="section-padding section-band">
+        <div className="container-custom">
+          <SectionHeader
+            subtitle="Why Elevate"
+            title="Why Choose Elevate Wellness & Health?"
+            description="At Elevate Wellness & Health, we believe healthcare should be personalized, accessible, and focused on the whole patient. Our team combines primary care, specialty care, rehabilitation, diagnostics, and wellness services under one roof, providing a seamless healthcare experience designed around your needs."
+            centered
+          />
+
+          <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {([
+              {
+                title: 'Same-Week Appointments Available',
+                description:
+                  'We understand that health concerns can’t always wait. That’s why we offer same-week appointments whenever possible, helping patients receive timely care without unnecessary delays.',
+              },
+              {
+                title: 'Personalized Treatment Plans',
+                description:
+                  'No two patients are alike. Our providers take the time to understand your unique health goals and create individualized treatment plans tailored to your condition, lifestyle, and long-term wellness objectives.',
+              },
+              {
+                title: 'Preventive & Wellness Care',
+                description:
+                  'Our focus extends beyond treating illness. We emphasize preventive medicine, routine screenings, health education, and wellness programs to help patients stay healthy and reduce future health risks.',
+              },
+              {
+                title: 'In-House Diagnostics & Testing',
+                description:
+                  'From laboratory testing and diagnostic evaluations to nerve studies and specialty assessments, our in-house services help streamline care and provide faster answers for patients.',
+              },
+              {
+                title: 'Multidisciplinary Care Team',
+                description:
+                  'Our physicians, specialists, therapists, and clinical staff work together to coordinate your care, ensuring a comprehensive and integrated approach to treatment and recovery.',
+              },
+              {
+                title: 'Weight Management & Metabolic Health',
+                description:
+                  'We offer medically supervised programs designed to help patients achieve and maintain a healthy weight while improving overall metabolic health, energy levels, and wellness.',
+              },
+              {
+                title: 'Recovery & Performance Optimization',
+                description:
+                  'Whether recovering from an injury, surgery, or simply seeking to optimize physical performance, we provide therapies and wellness solutions designed to support healing, strength, and long-term vitality.',
+              },
+              {
+                title: 'Compassionate, Patient-Centered Care',
+                description:
+                  'Our mission is to treat every patient with respect, compassion, and dignity. We are committed to building lasting relationships and delivering exceptional healthcare experiences.',
+              },
+            ] as const).map(({ title, description }, i) => (
+              <Reveal
+                key={title}
+                delay={(i % 3) * 80}
+                className="surface-card border-t-2 border-t-primary-600 p-6 transition-shadow duration-200 hover:shadow-md"
+              >
+                <h3 className="font-display text-lg font-semibold text-neutral-900">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-neutral-600">{description}</p>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -430,7 +553,7 @@ export default function HomePage() {
               centered
             />
 
-            <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+            <Reveal className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
               {['Aetna', 'Blue Cross Blue Shield', 'Cigna', 'UnitedHealthcare', 'Medicare', 'Medicaid', 'Humana', 'Most major plans'].map((provider) => (
                 <div
                   key={provider}
@@ -444,7 +567,7 @@ export default function HomePage() {
                   <p className="text-sm font-semibold text-neutral-800">{provider}</p>
                 </div>
               ))}
-            </div>
+            </Reveal>
 
             <p className="mt-8 text-neutral-600">
               Not sure if your insurance is accepted?{' '}
