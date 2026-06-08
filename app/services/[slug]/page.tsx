@@ -27,6 +27,8 @@ const SERVICE_IMAGES: Record<ServiceIconKey, { src: string; caption: string }> =
   acupuncture: { src: '/images/photos/wellness-care.jpg', caption: 'Calm, patient-centered care' },
   'iv-infusion': { src: '/images/photos/hero-wellness.jpg', caption: 'Restorative infusion therapy' },
   'in-house-lab': { src: '/images/photos/office-lobby.jpg', caption: 'In-house lab and blood draws' },
+  'emg-ncs': { src: '/images/photos/office-lobby.jpg', caption: 'Advanced diagnostic nerve testing' },
+  'weight-management': { src: '/images/photos/wellness-care.jpg', caption: 'Medically supervised weight management' },
 }
 
 type Props = { params: { slug: string } }
@@ -127,7 +129,13 @@ export default function ServiceDetailPage({ params }: Props) {
 
       <section className="section-padding bg-white">
         <div className="container-custom max-w-3xl">
-          <p className="body-large text-neutral-700">{service.intro}</p>
+          <div className="space-y-4">
+            {service.intro.split('\n\n').map((paragraph) => (
+              <p key={paragraph} className="body-large text-neutral-700">
+                {paragraph}
+              </p>
+            ))}
+          </div>
 
           {service.conditions.length > 0 && (
             <div className="mt-10">
@@ -166,19 +174,48 @@ export default function ServiceDetailPage({ params }: Props) {
             </ul>
           </div>
 
-          {service.specialistBio && (
-            <div className="mt-10 surface-card border-t-2 border-t-primary-600 p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">
-                About the Specialist
-              </p>
-              {service.specialistName && (
-                <h2 className="mt-2 font-display text-xl font-semibold text-neutral-900">
-                  {service.specialistName}
-                </h2>
-              )}
-              <p className="mt-3 text-neutral-700">{service.specialistBio}</p>
-            </div>
-          )}
+          {service.specialistBio &&
+            (service.specialistSlug ? (
+              <Link
+                href={`/providers/${service.specialistSlug}`}
+                className="group mt-10 block rounded-2xl surface-card border-t-2 border-t-primary-600 p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                aria-label={`Read the full profile of ${service.specialistName ?? 'the specialist'}`}
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">
+                  About the Specialist
+                </p>
+                {service.specialistName && (
+                  <h2 className="mt-2 font-display text-xl font-semibold text-neutral-900 transition-colors group-hover:text-primary-700">
+                    {service.specialistName}
+                  </h2>
+                )}
+                <p className="mt-3 text-neutral-700">{service.specialistBio}</p>
+                <span className="mt-4 inline-flex items-center font-semibold text-primary-700 group-hover:underline">
+                  View full profile
+                  <svg
+                    className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </Link>
+            ) : (
+              <div className="mt-10 surface-card border-t-2 border-t-primary-600 p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">
+                  About the Specialist
+                </p>
+                {service.specialistName && (
+                  <h2 className="mt-2 font-display text-xl font-semibold text-neutral-900">
+                    {service.specialistName}
+                  </h2>
+                )}
+                <p className="mt-3 text-neutral-700">{service.specialistBio}</p>
+              </div>
+            ))}
 
           <p className="mt-10 text-sm text-neutral-500">
             {siteConfig.legalName} provides individualized medical care. This page is for general

@@ -22,6 +22,7 @@ import {
   sanitizeInput,
 } from '@/lib/server/api-utils'
 import { isValidSlotStart } from '@/lib/scheduling/slots'
+import { rateLimit } from '@/lib/server/rate-limit'
 import { mailConfigured, mailRecipient, sendEmail } from '@/lib/server/email'
 import { appointmentTentativeEmail } from '@/lib/server/email-templates/appointment-tentative'
 import { schedulerCalendarEnabled, createTentativeEvent } from '@/lib/server/google-calendar'
@@ -52,6 +53,16 @@ const requestSchema = z.object({
 })
 
 export async function POST(request: Request) {
+  // Throttle abusive/accidental rapid submissions before doing any work.
+  const ip = clientIp(request)
+  const limit = rateLimit(`apt:request:${ip}`, 5, 10 * 60_000)
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please wait a few minutes or call our office.' },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfterSec) } }
+    )
+  }
+
   // Mail transport is the only required dependency. Calendar is optional —
   // the manager can still book manually if it's not yet configured.
   if (!mailConfigured()) {

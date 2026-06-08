@@ -2,26 +2,28 @@ import Link from 'next/link'
 import { Hero } from '@/components/Hero'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ProviderCard } from '@/components/ProviderCard'
+import { FocusPills } from '@/components/FocusPills'
 import { CTASection } from '@/components/CTASection'
+import { providerFocus } from '@/lib/provider-focus'
 import { pageMetadata } from '@/lib/seo'
 
 export const metadata = pageMetadata('/providers', {
   title: 'Our Providers',
   description:
-    'Meet the Elevate Wellness & Health care team — board-certified physicians spanning orthopedic surgery, internal medicine, and gastroenterology.',
+    'Meet the Elevate Wellness & Health care team — board-certified physicians spanning orthopedic surgery, internal medicine, and gastroenterology, plus our licensed physical therapist.',
 })
 
 export default function ProvidersPage() {
   return (
     <>
       <Hero
-        subtitle="Specialist Physicians"
+        subtitle="Our Care Team"
         title="Meet Our Expert Team"
-        description="Board-certified specialists across orthopedics, internal medicine, and gastroenterology — here to support your wellness & health goals."
+        description="Board-certified specialists across orthopedics, internal medicine, and gastroenterology, alongside our licensed physical therapist — here to support your wellness & health goals."
         highlights={[
           'Subspecialty-focused physicians across clinical and wellness care',
+          'On-site physical therapy and rehabilitation',
           'Shared treatment planning and coordinated follow-up',
-          'Patient-centered communication at each decision point',
         ]}
         primaryCTA={{
           text: 'Schedule Appointment',
@@ -67,6 +69,7 @@ export default function ProvidersPage() {
                   Chilton Medical Center / Atlantic Health (Clifton), Saint Clare&apos;s Denville
                   Hospital, and St. Mary&apos;s General Hospital.
                 </p>
+                <FocusPills areas={providerFocus['dr-kamil-amer']} className="mt-5" />
                 <div className="mt-5">
                   <Link href="/providers/dr-kamil-amer" className="btn-secondary">
                     Read Full Bio
@@ -101,6 +104,7 @@ export default function ProvidersPage() {
                   Meridian Mountainside, St. Joseph&apos;s University Medical Center, and Bergen
                   New Bridge Medical Center. He cares for patients in English, Spanish, and Arabic.
                 </p>
+                <FocusPills areas={providerFocus['dr-kamal-amer']} className="mt-5" />
                 <div className="mt-5">
                   <Link href="/providers/dr-kamal-amer" className="btn-secondary">
                     Read Full Bio
@@ -112,8 +116,50 @@ export default function ProvidersPage() {
         </div>
       </section>
 
-      {/* Why Choose Our Team */}
+      {/* Rehabilitation Team */}
       <section className="section-padding section-band">
+        <div className="container-custom">
+          <SectionHeader
+            title="Rehabilitation Team"
+            subtitle="Physical Therapy"
+            description="Our licensed physical therapist works closely with our physicians to deliver coordinated, hands-on recovery care."
+            centered
+          />
+
+          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-[minmax(0,14rem)_1fr]">
+            <ProviderCard
+              name="Muneer Obeidallah, PT"
+              title="Physical Therapist"
+              specialty="Physical Therapy & Rehabilitation"
+              slug="muneer-obeidallah"
+            />
+            <div>
+              <h3 className="text-xl font-bold tracking-tight text-neutral-900">
+                Muneer Obeidallah, PT
+              </h3>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-primary-700">
+                Physical Therapist
+              </p>
+              <p className="mt-4 text-sm text-neutral-600">
+                Muneer Obeidallah is a dedicated Physical Therapist committed to helping patients
+                restore mobility, reduce pain, and improve their overall quality of life. He
+                specializes in evaluating and treating a wide range of musculoskeletal and
+                orthopedic conditions, including sports injuries, post-surgical rehabilitation,
+                chronic pain, balance disorders, and mobility limitations.
+              </p>
+              <FocusPills areas={providerFocus['muneer-obeidallah']} className="mt-5" />
+              <div className="mt-5">
+                <Link href="/providers/muneer-obeidallah" className="btn-secondary">
+                  Read Full Bio
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Our Team */}
+      <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <SectionHeader

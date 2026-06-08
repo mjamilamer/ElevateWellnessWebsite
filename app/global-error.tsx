@@ -52,7 +52,7 @@ export default function GlobalError({
           </h1>
           <p style={{ fontSize: 16, color: '#475569', margin: '0 0 24px' }}>
             The site couldn’t load. Please try reloading. If the problem persists, call our office
-            at <a href="tel:+12063978171" style={{ color: '#9a6a3c', fontWeight: 600 }}>+1 (206) 397-8171</a>.
+            at <a href="tel:+12013055103" style={{ color: '#9a6a3c', fontWeight: 600 }}>+1 (201) 305-5103</a>.
           </p>
           {error.digest && (
             <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 24px' }}>

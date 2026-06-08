@@ -100,4 +100,22 @@ const GLYPHS: Record<ServiceIconKey, JSX.Element> = {
       <path d="M18.5 7.5c.6-1 2-1 2.6 0a1.5 1.5 0 1 1-2.6 0z" />
     </>
   ),
+
+  // Waveform / nerve signal trace. EMG & nerve conduction studies.
+  'emg-ncs': (
+    <>
+      <path d="M2 12h3l2-6 3 13 3-9 2 5 1-3h3" />
+      <circle cx="21" cy="12" r="1.1" />
+    </>
+  ),
+
+  // Scale / downward arrow within a ring. Weight management & wellness.
+  'weight-management': (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v6" />
+      <path d="M9.5 10.5 12 13l2.5-2.5" />
+      <path d="M8.5 16.5h7" />
+    </>
+  ),
 }

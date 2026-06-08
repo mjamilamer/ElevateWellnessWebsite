@@ -79,25 +79,37 @@ export default function DrKamalAmerPage() {
               <div>
                 <h2 className="text-2xl font-bold tracking-tight text-neutral-900">About Dr. Amer</h2>
                 <p className="mt-4">
-                  Dr. Kamal M. Amer brings a well-rounded approach to adult care through his
-                  combined training in Internal Medicine and Gastroenterology. His background
-                  allows him to see the whole patient — not just a single symptom — and connect
-                  overall medical health with digestive wellness in one coordinated plan.
+                  Dr. Kamal Amer is a board-certified Gastroenterologist and Internal Medicine
+                  physician dedicated to providing comprehensive digestive health and preventive
+                  care services. He specializes in the diagnosis, treatment, and management of a
+                  wide range of gastrointestinal disorders, helping patients achieve better health
+                  through personalized, evidence-based care.
                 </p>
                 <p className="mt-4">
-                  He completed his fellowship in Gastroenterology and Hepatology at Rutgers New
-                  Jersey Medical School and his Internal Medicine residency at Thomas Jefferson
-                  University Hospital. Dr. Amer is board-certified in Gastroenterology, Internal
-                  Medicine, and Obesity & Nutrition.
+                  Dr. Amer earned his Doctor of Medicine degree from Rutgers New Jersey Medical
+                  School and completed his Internal Medicine residency at Thomas Jefferson
+                  University Hospital. He subsequently completed fellowship training in
+                  Gastroenterology and Hepatology at Rutgers New Jersey Medical School, where he
+                  also served in a leadership role during his fellowship training.
                 </p>
                 <p className="mt-4">
-                  As an Internal Medicine provider, he focuses on adult preventive care, annual
-                  wellness visits, chronic condition management, and concerns such as high blood
-                  pressure, diabetes, cholesterol, fatigue, and overall wellness. As a
-                  Gastroenterology specialist, he evaluates and treats acid reflux, abdominal pain,
-                  bloating, constipation, diarrhea, liver concerns, stomach issues, and intestinal
-                  disorders. Patients can expect thoughtful, detailed, and compassionate care
-                  focused on finding the cause of symptoms.
+                  His clinical interests include colon cancer screening, gastroesophageal reflux
+                  disease (GERD), swallowing disorders, gastrointestinal bleeding, gastritis, liver
+                  disease, abdominal pain, and other digestive health conditions. He performs a
+                  variety of diagnostic and therapeutic procedures, including colonoscopy and upper
+                  endoscopy, with a focus on early detection, prevention, and patient education.
+                </p>
+                <p className="mt-4">
+                  Known for his compassionate and patient-focused approach, Dr. Amer takes the time
+                  to listen to his patients, explain treatment options clearly, and develop
+                  individualized care plans that address each patient’s unique needs. He is fluent
+                  in English and Arabic and is committed to delivering high-quality, accessible care
+                  to diverse patient populations.
+                </p>
+                <p className="mt-4">
+                  At Elevate Wellness and Health, Dr. Amer is dedicated to helping patients improve
+                  their digestive health, prevent disease, and achieve long-term wellness through
+                  comprehensive and coordinated care.
                 </p>
               </div>
 
@@ -125,7 +137,7 @@ export default function DrKamalAmerPage() {
               <div>
                 <h2 className="text-2xl font-bold tracking-tight text-neutral-900">Languages</h2>
                 <p className="mt-4">
-                  Dr. Amer cares for patients in English, Spanish, and Arabic.
+                  Dr. Amer is fluent in English and Arabic.
                 </p>
               </div>
             </article>
@@ -151,6 +163,14 @@ export default function DrKamalAmerPage() {
                       Internal Medicine,
                       <br />
                       Thomas Jefferson University Hospital
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-neutral-900">Medical School</dt>
+                    <dd className="mt-0.5 text-neutral-600">
+                      Doctor of Medicine,
+                      <br />
+                      Rutgers New Jersey Medical School
                     </dd>
                   </div>
                 </dl>
