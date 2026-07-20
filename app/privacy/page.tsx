@@ -7,10 +7,10 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/privacy', {
   title: 'Privacy Policy',
   description:
-    'How Elevate Wellness & Health collects, uses, and protects information about visitors to www.elevatewellnessnj.com.',
+    'How Elevate Wellness & Health collects, uses, and protects information about visitors to www.elevatewellnessnj.com, including our SMS/text messaging program.',
 })
 
-const EFFECTIVE_DATE = 'May 26, 2026'
+const EFFECTIVE_DATE = 'July 20, 2026'
 
 export default function PrivacyPolicyPage() {
   return (
@@ -55,6 +55,11 @@ export default function PrivacyPolicyPage() {
                 preferred date window and time of day, the service you&apos;re requesting, and an
                 optional non-medical reason for visit.
               </li>
+              <li>
+                <strong>Text messaging (SMS):</strong> if you opt in to text messages, we collect
+                your mobile number and a record of your consent (method and date). See the{' '}
+                <a href="#sms">Text messaging (SMS)</a> section below for details.
+              </li>
             </ul>
             <p>
               We ask you <em>not</em> to include diagnoses, medications, or other medical detail in
@@ -91,11 +96,59 @@ export default function PrivacyPolicyPage() {
               <li>To respond to your inquiry or schedule your visit</li>
               <li>To create tentative Calendar holds in our internal scheduling calendar</li>
               <li>To send appointment confirmations and reminders</li>
+              <li>
+                To send transactional text messages (appointment confirmations, reminders,
+                scheduling updates, and replies) to patients who have opted in
+              </li>
               <li>To improve the site (aggregate analytics, not individual tracking)</li>
               <li>To comply with legal obligations</li>
             </ul>
             <p>
               We do not sell your information. We do not share your information with advertisers.
+            </p>
+
+            <h2 id="sms">Text messaging (SMS)</h2>
+            <p>
+              <strong>Our SMS program.</strong> If you opt in, {siteConfig.legalName} may send you
+              transactional text messages about appointment confirmations, reminders, scheduling
+              updates, and replies to your inquiries. We do not use text messaging for marketing or
+              promotional offers.
+            </p>
+            <p>
+              <strong>Information we collect for SMS.</strong> When you opt in, we collect your
+              mobile phone number and may associate it with your name and the method and date of
+              your consent. We use this information solely to send the messages you agreed to
+              receive and to keep a record of your consent.
+            </p>
+            <p>
+              <strong>How you opt in.</strong> Consent may be provided verbally, on paper intake
+              forms at our office, or through another affirmative opt-in method we provide.
+              Providing a phone number on our website contact or appointment-request forms alone
+              does not enroll you in SMS unless you also give affirmative consent to texting.
+              Consent to receive text messages is not a condition of receiving care.
+            </p>
+            <p>
+              <strong>Frequency and rates.</strong> Message frequency varies. Message and data
+              rates may apply.
+            </p>
+            <p>
+              <strong>Opt-out and help.</strong> You may opt out at any time by replying{' '}
+              <strong>STOP</strong> to any message. You will receive a confirmation and will not
+              receive further SMS messages from us unless you opt in again. For help, reply{' '}
+              <strong>HELP</strong> or contact us at{' '}
+              <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a> or{' '}
+              <a href={`tel:${siteConfig.contact.phone.replace(/\D/g, '')}`}>
+                {formatPhone(siteConfig.contact.phone)}
+              </a>
+              .
+            </p>
+            <p>
+              <strong>No sharing of mobile opt-in data.</strong> No mobile information will be
+              shared with third parties/affiliates for marketing/promotional purposes. Information
+              sharing to subcontractors in support of services (for example, our messaging provider
+              that delivers texts) is permitted. All other use case categories exclude text
+              messaging originator opt-in data and consent; this information will not be shared with
+              any third parties.
             </p>
 
             <h2>Who we share information with</h2>
@@ -125,6 +178,12 @@ export default function PrivacyPolicyPage() {
               </li>
               <li>
                 <strong>Google Analytics</strong> (optional, site analytics) — same Google policy
+              </li>
+              <li>
+                <strong>SMS delivery provider</strong> (text-message carrier/aggregator) — used
+                only to deliver the text messages you have opted in to receive. Your mobile
+                opt-in data and consent are not shared for marketing purposes (see{' '}
+                <a href="#sms">Text messaging (SMS)</a> below).
               </li>
             </ul>
             <p>

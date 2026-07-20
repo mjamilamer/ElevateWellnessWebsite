@@ -7,10 +7,10 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata = pageMetadata('/terms', {
   title: 'Terms of Service',
   description:
-    'The terms governing your use of the Elevate Wellness & Health website. Informational only — not medical advice.',
+    'The terms governing your use of the Elevate Wellness & Health website, including our SMS/text messaging terms. Informational only — not medical advice.',
 })
 
-const EFFECTIVE_DATE = 'May 26, 2026'
+const EFFECTIVE_DATE = 'July 20, 2026'
 
 export default function TermsOfServicePage() {
   return (
@@ -160,6 +160,55 @@ export default function TermsOfServicePage() {
                 {siteConfig.contact.address.zip}
               </li>
             </ul>
+
+            <h2>15. SMS messaging terms</h2>
+            <p>
+              These SMS terms apply if you opt in to receive text messages from{' '}
+              {siteConfig.legalName}.
+            </p>
+            <p>
+              <strong>Program.</strong> By opting in, you agree to receive transactional text
+              messages from {siteConfig.legalName} — appointment confirmations, reminders,
+              scheduling updates, and replies to your inquiries. This program is not used for
+              marketing or promotional messages. Consent to receive text messages is not a
+              condition of receiving care.
+            </p>
+            <p>
+              <strong>Opt-out (STOP).</strong> You can cancel the SMS service at any time by
+              replying <strong>STOP</strong> to any message. After you send{' '}
+              <strong>STOP</strong>, we will send a confirmation message, and you will no longer
+              receive SMS messages from us. If you want to join again, simply opt in as you did the
+              first time.
+            </p>
+            <p>
+              <strong>Help (HELP).</strong> If you are experiencing issues with the messaging
+              program, reply <strong>HELP</strong> for assistance, or contact us at{' '}
+              <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a> or{' '}
+              <a href={`tel:${siteConfig.contact.phone.replace(/\D/g, '')}`}>
+                {formatPhone(siteConfig.contact.phone)}
+              </a>
+              .
+            </p>
+            <p>
+              <strong>Carrier liability.</strong> Carriers are not liable for delayed or
+              undelivered messages.
+            </p>
+            <p>
+              <strong>Message frequency and rates.</strong> Message frequency varies. Message and
+              data rates may apply. If you have questions about your text or data plan, contact your
+              wireless provider.
+            </p>
+            <p>
+              <strong>Privacy.</strong> If you have questions about how we handle mobile
+              information, please read our{' '}
+              <Link href="/privacy">Privacy Policy</Link>. We do not share mobile opt-in data or
+              consent with third parties for marketing or promotional purposes.
+            </p>
+            <p>
+              <strong>Age restriction.</strong> You must be 18 years of age or older to use this
+              SMS service. Parents or guardians may receive appointment-related texts for a minor
+              patient using their own opted-in mobile number.
+            </p>
 
             <p className="mt-12 text-xs text-neutral-500">
               This page is provided as general information. It does not constitute legal advice
